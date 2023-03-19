@@ -2,8 +2,31 @@ import Head from 'next/head'
 import Image from 'next/image'
 import { Inter } from 'next/font/google'
 import styles from '@/styles/Home.module.css'
+import DosenInfo from '@/components/DosenInfo'
 
-const inter = Inter({ subsets: ['latin'] })
+const dosenInfoDummy = [
+  {
+    'name': 'Fulan bin Fulan',
+    'teachingClass': 'X',
+    'photoUrl': '/teacher-img.png'
+  },
+  {
+    'name': 'Nobunaga Tonarigumi',
+    'teachingClass': 'Y',
+    'photoUrl': '/teacher-img.png'
+  },
+  {
+    'name': 'Mahmud bin Isnin',
+    'teachingClass': 'Z',
+    'photoUrl': '/teacher-img.png'
+  },
+];
+
+const courseName = 'Sistem Interaksi';
+
+const term = 'Gasal 2020/2021';
+
+const courseDescription = 'Pada mata kuliah ini, teman-teman akan belajar mengenai prinsip-prinsip desain interaksi dan penerapannya pada pengembangan produk digital.'
 
 export default function Home() {
   return (
@@ -17,34 +40,45 @@ export default function Home() {
       <main className={styles.main}>
       <div className="container pt-10">
         <div
-          className="block p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700"
+          className="block p-6 h-44 bg-cover bg-[url('/header.png')] bg-[#646E9E] border border-gray-200 rounded-lg text-white"
         >
-          <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-            Sistem Interaksi
+          <h5 className="mb-2 text-2xl font-bold tracking-tight">
+            {courseName}
           </h5>
-          <p className="font-normal text-gray-700 dark:text-gray-400">
-            (Gasal 2020/2021)
+          <p className="font-normal">
+            ({term})
           </p>
         </div>
         <div
           className="block p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700"
         >
-          <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-            Sistem Interaksi
-          </h5>
-          <p className="font-normal text-gray-700 dark:text-gray-400">
-            (Gasal 2020/2021)
-          </p>
-        </div>
-        <div
-          className="block p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700"
-        >
-          <h6 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-            Week 1
-          </h6>
-          <p className="font-normal text-gray-700 dark:text-gray-400">
-            Forum Diskusi
-          </p>
+          <div className='flex flex-row gap-2'>
+            <div className='basis-1/3 flex flex-col gap-5'>
+              <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+                Selamat Datang
+              </h5>
+              <p>
+                di mata kuliah {courseName} Semester {term}
+              </p>
+              <p>
+                {courseDescription}
+              </p>
+            </div>
+            <div className='basis-2/3'>
+              <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+                Tim Pengajar
+              </h5>
+              <div className='flex flex-row flex-wrap gap-2'>
+                {dosenInfoDummy.map((object, i) => 
+                  <DosenInfo
+                    photoUrl={object.photoUrl}
+                    name={object.name}
+                    teachingClass={object.teachingClass}
+                  />
+                )}
+              </div>
+            </div>
+          </div>
         </div>
       </div>
       </main>
