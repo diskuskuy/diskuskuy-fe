@@ -19,14 +19,17 @@ export default function Forum() {
       </Head>
       <Navbar />
       <main className={styles.main}>
-        <div className='flex flex-row'>
-          <div className="flex flex-col basis-3/4 gap-5">
-            <div className='flex flex-row items-center'>
-              <a className='cursor-pointer text-xs'>Sistem Interaksi - Gasal 2020/2021</a>
-              <ChevronRightIcon />
-              <a className='cursor-pointer text-xs'>Forum Diskusi Minggu ke-1</a>
-              <ChevronRightIcon />
-              <a className='cursor-pointer text-xs'>Thread: Mari kita berkenalan dan bercerita..... 😉</a>
+        <div className='flex flex-row items-center text-xs pb-10'>
+          <a className='cursor-pointer'>Sistem Interaksi - Gasal 2020/2021</a>
+          <ChevronRightIcon />
+          <a className='cursor-pointer'>Forum Diskusi Minggu ke-1</a>
+          <ChevronRightIcon />
+          <a className='cursor-pointer'>Thread: Mari kita berkenalan dan bercerita..... 😉</a>
+        </div>
+        <div className='flex flex-row gap-5'>
+          <div className='flex flex-col basis-3/4 gap-5'>
+            <div className="block p-6 bg-white border rounded-lg flex flex-col gap-2">
+              <p>test</p>
             </div>
           </div>
           <div className="flex flex-col basis-1/4 gap-5">
