@@ -58,7 +58,7 @@ export default function Home() {
           </p>
         </div>
         <div
-          className="block p-6 bg-white border rounded-lg shadow"
+          className="block p-6 bg-white border rounded-lg"
         >
           <div className='flex flex-row gap-2'>
             <div className='basis-1/2 flex flex-col gap-5'>
@@ -107,6 +107,7 @@ export default function Home() {
             <p className="font-normal text-gray-700 ">
               Forum Diskusi Minggu ke-1
             </p>
+            <div className="h-1 w-5 bg-[#C4C4C4]"></div>
             <div className='grid grid-cols-2 mt-2'>
               <div className={styles.card} style={{"border":"solid 0.5px grey"}}>
                 <div className='grid grid-cols-6'>

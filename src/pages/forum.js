@@ -5,7 +5,7 @@ import Navbar from '@/components/Navbar'
 import DiscussionAnalytics from '@/components/Forum/DiscussionAnalytics'
 import DiscussionSummary from '@/components/Forum/DiscussionSummary'
 import DiscussionGuide from '@/components/Forum/DiscussionGuide';
-import PostComponent from '@/components/Forum/postComponent';
+import PostComponent from '@/components/Forum/PostComponent';
 import References from '@/components/Forum/References';
 
 export default function Forum() {
