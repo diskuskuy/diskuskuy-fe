@@ -1,5 +1,6 @@
 import Head from 'next/head'
 import Image from 'next/image'
+import Link from 'next/link';
 import { Inter } from 'next/font/google'
 import styles from '@/styles/Home.module.css'
 import DosenInfo from '@/components/Home/DosenInfo'
@@ -124,9 +125,9 @@ export default function Home() {
                     </div>
                   </div>
                   <div className='col-end-7 col-span-1 p-2'>
-                    <button class="bg-transparent hover:bg-green-500 text-green-700 font-semibold hover:text-white py-2 px-4 border border-green-500 hover:border-transparent rounded">
+                    <Link href='/forum'><button class="bg-transparent hover:bg-green-500 text-green-700 font-semibold hover:text-white py-2 px-4 border border-green-500 hover:border-transparent rounded">
                       Lihat
-                    </button>
+                    </button></Link>
                   </div>
                 </div>
               </div>
