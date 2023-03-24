@@ -4,6 +4,7 @@ import styles from '@/styles/Forum.module.css'
 import Navbar from '@/components/Navbar'
 import DiscussionAnalytics from '@/components/Forum/DiscussionAnalytics'
 import DiscussionSummary from '@/components/Forum/DiscussionSummary'
+import PostComponent from '@/components/Forum/postComponent';
 
 export default function Forum() {
   return (
@@ -14,7 +15,7 @@ export default function Forum() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin />
         <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;700&display=swap" rel="stylesheet"></link>
       </Head>
       <Navbar />
@@ -29,7 +30,7 @@ export default function Forum() {
         <div className='flex flex-row gap-5'>
           <div className='flex flex-col basis-3/4 gap-5'>
             <div className="block p-6 bg-white border rounded-lg flex flex-col gap-2">
-              <p>test</p>
+            <PostComponent />
             </div>
           </div>
           <div className="flex flex-col basis-1/4 gap-5">
