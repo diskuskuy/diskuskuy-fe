@@ -4,6 +4,7 @@ import styles from '@/styles/Forum.module.css'
 import Navbar from '@/components/Navbar'
 import DiscussionAnalytics from '@/components/Forum/DiscussionAnalytics'
 import DiscussionSummary from '@/components/Forum/DiscussionSummary'
+import PostComponent from '@/components/Forum/postComponent';
 
 export default function Forum() {
   return (
@@ -14,12 +15,12 @@ export default function Forum() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin />
         <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;700&display=swap" rel="stylesheet"></link>
       </Head>
       <Navbar />
       <main className={styles.main}>
-        <div className='flex flex-row'>
+        <div className='flex flex-row gap-5'>
           <div className="flex flex-col basis-3/4 gap-5">
             <div className='flex flex-row items-center'>
               <a className='cursor-pointer text-xs'>Sistem Interaksi - Gasal 2020/2021</a>
@@ -28,6 +29,7 @@ export default function Forum() {
               <ChevronRightIcon />
               <a className='cursor-pointer text-xs'>Thread: Mari kita berkenalan dan bercerita..... 😉</a>
             </div>
+            <PostComponent></PostComponent>
           </div>
           <div className="flex flex-col basis-1/4 gap-5">
             <DiscussionAnalytics />
