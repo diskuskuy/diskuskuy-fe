@@ -30,13 +30,13 @@ export default function References() {
           <h5 className="font-bold text-[#6B6B6B]">Referensi Diskusi</h5>
           <div className="h-1 w-5 bg-[#C4C4C4]"></div>
           {references.map((object, i) => 
-            <div className='flex flex-row items-center gap-2 text-sm'>
-            {object.type == 'pdf' && <img src='/pdf-icon.png' width={'30px'}/>}
-            {object.type == 'url' && <img src='/url-icon.png' width={'30px'}/>}
-            <div className='flex flex-col'>
-              <p>{object.title}</p>
+            <div key={i} className='flex flex-row items-center gap-2 text-sm'>
+              {object.type == 'pdf' && <img src='/pdf-icon.png' width={'30px'}/>}
+              {object.type == 'url' && <img src='/url-icon.png' width={'30px'}/>}
+              <div className='flex flex-col'>
+                <p>{object.title}</p>
+              </div>
             </div>
-          </div>
           )}
       </div>
     )
