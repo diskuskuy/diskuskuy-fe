@@ -1,5 +1,5 @@
 import styles from "@/styles/Forum.module.css";
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 export default function PostComponent() {
   return (
@@ -23,25 +23,30 @@ export default function PostComponent() {
           <p>
             Halo teman-teman... Apa kabar semua? Semoga kita senantiasa sehat
             selalu ya \^-^/ Pertama-tama, saya ucapkan selamat datang di kelas
-            Sistem Informasi Semester Gasal 2020/2021... yeayy! 
-            <img src='/team.png'></img>
-            Perkenalkan saya Fulan bin Fulan, dosen yang akan mendampingi teman-teman belajar
-            selama 1 semester ke depan. Saya merupakan lulusan Fasilkom 2020 dan
-            memiliki minat riset di bidang Human Computer Interaction (HCI) dan
-            e-Learning. Saya pribadi merasa bidang HCI adalah bidang yang sangat
-            menarik, karena di sini kita tidak hanya membahas aspek2 teknis
-            saja, namun juga aspek-aspek bagaimana manusia memiliki persepsi
-            terhadap teknologi yang digunakannnya... Kita akan menemukan jawaban
-            bagaimana raksasa teknologi seperti Go Jek, Uber, dan Grab merancang
-            aplikasi yang dapat digunakan beragam pengguna, tua dan muda, untuk
-            berbagai keperluan.... Saya sangat berharap pengalaman belajar kita
-            di kelas ini akan membawa kebermanfaatan buat kita semua. Bagaimana
-            dengan teman-teman semua? Apa ekspektasi teman-teman terhadap kelas
-            ini? Silahkan memperkenalkan diri dengan membalas utas ini yaa 😁
+            Sistem Informasi Semester Gasal 2020/2021... yeayy!
+            <img src="/team.png"></img>
+            Perkenalkan saya Fulan bin Fulan, dosen yang akan mendampingi
+            teman-teman belajar selama 1 semester ke depan. Saya merupakan
+            lulusan Fasilkom 2020 dan memiliki minat riset di bidang Human
+            Computer Interaction (HCI) dan e-Learning. Saya pribadi merasa
+            bidang HCI adalah bidang yang sangat menarik, karena di sini kita
+            tidak hanya membahas aspek2 teknis saja, namun juga aspek-aspek
+            bagaimana manusia memiliki persepsi terhadap teknologi yang
+            digunakannnya... Kita akan menemukan jawaban bagaimana raksasa
+            teknologi seperti Go Jek, Uber, dan Grab merancang aplikasi yang
+            dapat digunakan beragam pengguna, tua dan muda, untuk berbagai
+            keperluan.... Saya sangat berharap pengalaman belajar kita di kelas
+            ini akan membawa kebermanfaatan buat kita semua. Bagaimana dengan
+            teman-teman semua? Apa ekspektasi teman-teman terhadap kelas ini?
+            Silahkan memperkenalkan diri dengan membalas utas ini yaa 😁
           </p>
-          <div className='flex flex-row gap-2'>
-                <a>Balas <ExpandMoreIcon /></a>
-                <div className="rounded-full shadow"><img src='like.png'></img></div>
+          <div className="flex flex-row gap-2">
+            <a>
+              Balas <ExpandMoreIcon />
+            </a>
+            <div className="rounded-full shadow">
+              <img src="like.png"></img>
+            </div>
           </div>
         </div>
       </div>
