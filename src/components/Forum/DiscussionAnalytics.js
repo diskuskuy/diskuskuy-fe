@@ -18,7 +18,6 @@ export default function DiscussionAnalytics() {
             "pendapat": 1,
             "pertanyaan": 2,
             "bingung": 3,
-            "lainnya": 1
         }
     }
     return (
@@ -59,14 +58,6 @@ export default function DiscussionAnalytics() {
                     </div>
                     <div className='flex flex-row justify-between text-[#FF5023]'>
                         <p>Bingung</p>
-                        <h1>{data["tags"]["bingung"]}</h1>
-                    </div>
-                    <div className='flex flex-row justify-between'>
-                        <p>Lainnya</p>
-                        <h1>{data["tags"]["lainnya"]}</h1>
-                    </div>
-                    <div className='flex flex-row justify-between'>
-                        <p>Tanpa Keterangan</p>
                         <h1>{data["tags"]["bingung"]}</h1>
                     </div>
                 </div>
