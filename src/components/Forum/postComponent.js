@@ -1,5 +1,5 @@
 import styles from "@/styles/Forum.module.css";
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 export default function PostComponent({post}) {
   const tags = ['Perkenalan', 'Cerita Pengalaman']
