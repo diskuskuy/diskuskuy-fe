@@ -4,8 +4,13 @@ import styles from '@/styles/Forum.module.css'
 import DiscussionAnalytics from '@/components/Forum/DiscussionAnalytics'
 import DiscussionSummary from '@/components/Forum/DiscussionSummary'
 import DiscussionGuide from '@/components/Forum/DiscussionGuide';
-import PostComponent from '@/components/Forum/PostComponent';
+import PostComponent from '@/components/Forum/postComponent';
 import References from '@/components/Forum/References';
+import Onboarding from '@/components/Forum/Onboarding';
+import dataObd1 from '@/constants/obd-1';
+import dataObd2 from '@/constants/obd-2';
+import dataObd3 from '@/constants/obd-3';
+import dataObd4 from '@/constants/obd-4';
 
 export default function Forum() {
 
@@ -24,6 +29,9 @@ export default function Forum() {
 
   const router = useRouter()
   const { pid } = router.query
+
+  const fase = 2
+  const inquiry = fase ==1 ? dataObd1 : fase==2? dataObd2 :fase == 3 ? dataObd3 : dataObd4; 
   
   return (
     <>
@@ -53,6 +61,9 @@ export default function Forum() {
             <DiscussionSummary />
           </div>
         </div>
+        <Onboarding
+        data = {inquiry}
+        ></Onboarding>
       </main>
     </>
   )
