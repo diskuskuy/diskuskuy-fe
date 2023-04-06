@@ -2,7 +2,7 @@ import { useRouter } from 'next/router'
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import CropSquareIcon from '@mui/icons-material/CropSquare';
-import styles from '@/styles/DiscussionGuide.module.css'
+import styles from '@/styles/DiscussionGuide.module.css';
 
 export default function DiscussionGuide() {
     const discussionGuide = [
@@ -46,13 +46,13 @@ export default function DiscussionGuide() {
     <>
       <main className={styles.main}>
         <div className='flex flex-row items-center text-xs pb-10'>
-            <a className='cursor-pointer'>Sistem Interaksi - Gasal 2020/2021</a>
+            <a className='cursor-pointer' href='/'>Sistem Interaksi - Gasal 2020/2021</a>
             <ChevronRightIcon />
-            <a className='cursor-pointer'>Forum Diskusi Minggu ke-1</a>
+            <a className='cursor-pointer' href='/'>Forum Diskusi Minggu ke-1</a>
             <ChevronRightIcon />
-            <a className='cursor-pointer'>Thread: Mari kita berkenalan dan bercerita..... 😉</a>
+            <a className='cursor-pointer' href={`/forum/${pid}`}>Thread: Mari kita berkenalan dan bercerita..... 😉</a>
             <ChevronRightIcon />
-            <a className='cursor-pointer'>Panduan Diskusi</a>
+            <a className='font-bold'>Panduan Diskusi</a>
         </div>
         <div className="block p-6 bg-white border rounded-lg flex flex-col gap-2">
             <a className='text-xs text-[#646E9E] cursor-pointer'><ChevronLeftIcon /> Kembali ke Thread</a>

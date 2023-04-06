@@ -80,9 +80,9 @@ export default function Home() {
             </div>
           </div>
         </div>
-
+        {/* TODO: tambahin id pake week keberapa*/}
         <div
-          className="block p-6 my-3 bg-white border border-gray-200 rounded-lg"
+          className="block p-6 my-3 bg-white border border-gray-200 rounded-lg" id='1'
         >
           <h6 className="mb-2 text-2xl font-bold tracking-tight text-gray-900">
             Week 1
