@@ -1,5 +1,5 @@
 import styles from "@/styles/Forum.module.css";
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 export default function PostComponent({post}) {
   const tags = ['Perkenalan', 'Cerita Pengalaman']
@@ -22,7 +22,7 @@ export default function PostComponent({post}) {
           </p>
           <div>
             <p>Tags: {tags.map((tag, i) => 
-                  <span className="text-[#2ECC71]">{tag}{i != tags.length-1 && <span> | </span>}</span>
+                  <span key={i} className="text-[#2ECC71]">{tag}{i != tags.length-1 && <span> | </span>}</span>
                 )
               }
             </p>
@@ -33,7 +33,7 @@ export default function PostComponent({post}) {
           <div className="h-[0.5px] bg-[#C4C4C4]"></div>
           <div className='flex flex-row gap-2 items-center'>
             <a className="cursor-pointer text-xs">Balas <ExpandMoreIcon /></a>
-            <div className="rounded-full shadow p-2 cursor-pointer"><img src='like.png'></img></div>
+            <div className="rounded-full shadow p-2 cursor-pointer"><img src='/like.png'></img></div>
           </div>
         </div>
       </div>
