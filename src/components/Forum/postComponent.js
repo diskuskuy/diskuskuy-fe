@@ -1,8 +1,13 @@
 import styles from "@/styles/Forum.module.css";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import { formatDate, formatTime } from '@/utils/util';
+import { useState } from "react";
 
 export default function PostComponent({post}) {
-  const tags = ['Perkenalan', 'Cerita Pengalaman']
+
+  console.log(post)
+  const [tags, setTags] = useState((post.tag && typeof post.tag === 'string') ? [post.tag] : post.tag ? [...post.tag] : []);
+  // const tags = ['Perkenalan', 'Cerita Pengalaman']
   return (
     <>
       <div className="container bg-white p-3 rounded flex flex-row space-between gap-5">
@@ -18,7 +23,7 @@ export default function PostComponent({post}) {
           <div className="flex flex-col gap-1">
           <h3 className="font-bold text-2xl">{post.title ? post.title : post.user}</h3>
           <p className="text-xs">
-            Thread dimulai oleh {post.title && <strong>{post.user}</strong>} pada 7 November 2020 (17:00 WIB)
+            Thread dimulai oleh {post.title && <strong>{post.user}</strong>} pada {formatDate(post.date)} ({formatTime(post.date)} WIB)
           </p>
           <div>
             <p>Tags: {tags.map((tag, i) => 
