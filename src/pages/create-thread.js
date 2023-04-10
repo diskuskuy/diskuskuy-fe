@@ -55,9 +55,16 @@ export default function CreateThread() {
     <>
       <main className={styles.main}>
         <div className="flex flex-row items-center text-xs pb-10">
-          <a className="cursor-pointer">Sistem Interaksi - Gasal 2020/2021</a>
+          <a className="cursor-pointer" href="/">
+            Sistem Interaksi - Gasal 2020/2021
+          </a>
           <ChevronRightIcon />
-          <a className="cursor-pointer">Forum Diskusi Minggu ke-1</a>
+          {/* TODO: replace #{num} pake week keberapa & nama week*/}
+          <a className="cursor-pointer" href="/#4">
+            Forum Diskusi Minggu ke-1
+          </a>
+          <ChevronRightIcon />
+          <a className="font-bold">Buat Thread</a>
         </div>
         <div className="container bg-white p-6 rounded-lg text-sm">
           <form onSubmit={handleSubmit} className="flex flex-col gap-5">

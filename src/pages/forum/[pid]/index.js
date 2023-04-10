@@ -39,7 +39,7 @@ export default function Forum() {
         <div className='flex flex-row items-center text-xs pb-10'>
           <a className='cursor-pointer' href='/'>Sistem Interaksi - Gasal 2020/2021</a>
           <ChevronRightIcon />
-          {/* TODO: replace #{num} pake week keberapa*/}
+          {/* TODO: replace #{num} pake week keberapa & nama week*/}
           <a className='cursor-pointer' href='/#4'>Forum Diskusi Minggu ke-1</a>
           <ChevronRightIcon />
           <a className='font-bold'>Thread: Mari kita berkenalan dan bercerita..... 😉</a>

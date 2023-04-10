@@ -19,8 +19,8 @@ export default function CreatePost() {
     if (editorRef.current) {
       console.log(editorRef.current.getContent());
     }
-    if(editorRef.current.getContent().length>0 && tags.length>0){
-      router.push('/forum/1')
+    if (editorRef.current.getContent().length > 0 && tags.length > 0) {
+      router.push("/forum/1");
     }
   };
   const handleChange = (event) => {
@@ -38,9 +38,16 @@ export default function CreatePost() {
     <>
       <main className={styles.main}>
         <div className="flex flex-row items-center text-xs pb-10">
-          <a className="cursor-pointer">Sistem Interaksi - Gasal 2020/2021</a>
+          <a className="cursor-pointer" href="/">
+            Sistem Interaksi - Gasal 2020/2021
+          </a>
           <ChevronRightIcon />
-          <a className="cursor-pointer">Forum Diskusi Minggu ke-1</a>
+          {/* TODO: replace #{num} pake week keberapa & nama week*/}
+          <a className="cursor-pointer" href="/#4">
+            Forum Diskusi Minggu ke-1
+          </a>
+          <ChevronRightIcon />
+          <a className="font-bold">Buat Postingan</a>
         </div>
         <div className="text-center text-2xl font-bold">
           <h2>Tulis Postingan</h2>
