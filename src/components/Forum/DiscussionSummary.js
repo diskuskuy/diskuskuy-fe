@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 
-export default function DiscussionSummary() {
-    const [summaryContent, setSummaryContent] = useState("");
+export default function DiscussionSummary({content}) {
+    const [summaryContent, setSummaryContent] = useState(content ? content : "");
 
     const handleChange = event => {
         setSummaryContent(event.target.value);
