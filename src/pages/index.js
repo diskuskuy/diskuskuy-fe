@@ -109,10 +109,11 @@ export default function Home() {
               <CircularProgress color="inherit" />
             </div>
           )}
+          {/* TODO: tambahin id pake week keberapa*/}
           {weeksData &&
             weeksData.length > 0 &&
             weeksData.map((week, i) => (
-              <div className="block p-6 my-3 bg-white border border-gray-200 rounded-lg">
+              <div className="block p-6 my-3 bg-white border border-gray-200 rounded-lg" id='1'>
                 <h6 className="mb-2 text-2xl font-bold tracking-tight text-gray-900">
                   {week.name}
                 </h6>
