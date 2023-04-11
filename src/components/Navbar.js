@@ -8,7 +8,7 @@ export default function Navbar() {
       <div className='flex flex-wrap justify-between items-center gap-2 bg-[#2ECC71] w-full p-2 text-white'>
         <div className='flex items-center'>
           <Link href="/">
-            <Image src='/diskuskuy-logo.png' width={130} height={25}/>
+            <Image src='/diskuskuy-logo.svg' width={130} height={25}/>
           </Link>
         </div>
         <div className='flex items-center mx-5'>
