@@ -69,6 +69,7 @@ export default function Home() {
             </div>
           </div>
         </div>
+        {/* TODO: tambahin id pake week keberapa*/}
         {!(weeksData && weeksData.length > 0) && 
           <div className='flex flex-row justify-center'>
             <CircularProgress color="inherit"/>
@@ -76,7 +77,7 @@ export default function Home() {
         }
         {weeksData && weeksData.length > 0 && weeksData.map((week, i) =>
         <div
-          className="block p-6 my-3 bg-white border border-gray-200 rounded-lg"
+          className="block p-6 my-3 bg-white border border-gray-200 rounded-lg" id='1'
         >
           <h6 className="mb-2 text-2xl font-bold tracking-tight text-gray-900">
             {week.name}

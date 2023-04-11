@@ -1,14 +1,15 @@
-import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
-import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import styles from "@/styles/DiscussionGuide.module.css";
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import styles from '@/styles/DiscussionGuide.module.css'
+import { discussionGuideConstants } from '@/constants/DiscussionGuide';
+import Checkbox from '@mui/material/Checkbox';
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
 import {
   fetchDiscussionGuideDataByThreadId,
   updateDiscussionGuideStateById,
 } from "@/api/discussion-guide";
-import { useEffect, useState } from "react";
 import { formatDate, formatTime } from "@/utils/util";
-import { Checkbox } from "@mui/material";
-import { discussionGuideConstants } from "@/constants/DiscussionGuide";
 import DiscussionGuideUpdateConfirmationPopUp from "@/components/Forum/DiscussionGuideUpdateConfirmationPopUp";
 
 export default function DiscussionGuide() {
@@ -18,6 +19,9 @@ export default function DiscussionGuide() {
     });
   }, []);
 
+  const router = useRouter()
+  const { pid } = router.query
+    
   const name = "Rei";
   const groupName = "Kelompok Sister Asik";
 
@@ -51,16 +55,14 @@ export default function DiscussionGuide() {
 
   return (
     <main className={styles.main}>
-      <div className="flex flex-row items-center text-xs pb-10">
-        <a className="cursor-pointer">Sistem Interaksi - Gasal 2020/2021</a>
+      <div className='flex flex-row items-center text-xs pb-10'>
+        <a className='cursor-pointer' href='/'>Sistem Interaksi - Gasal 2020/2021</a>
         <ChevronRightIcon />
-        <a className="cursor-pointer">Forum Diskusi Minggu ke-1</a>
+        <a className='cursor-pointer' href='/'>Forum Diskusi Minggu ke-1</a>
         <ChevronRightIcon />
-        <a className="cursor-pointer">
-          Thread: Mari kita berkenalan dan bercerita..... 😉
-        </a>
+        <a className='cursor-pointer' href={`/forum/${pid}`}>Thread: Mari kita berkenalan dan bercerita..... 😉</a>
         <ChevronRightIcon />
-        <a className="cursor-pointer">Panduan Diskusi</a>
+        <a className='font-bold'>Panduan Diskusi</a>
       </div>
       <div className="block p-6 bg-white border rounded-lg flex flex-col gap-2">
         <a className="text-xs text-[#646E9E] cursor-pointer">
