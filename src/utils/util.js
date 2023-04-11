@@ -1,13 +1,14 @@
-import defaultMoment from 'moment/min/moment-with-locales';
+import moment from "moment";
+import "moment/locale/id";
 
 export const isObjectEmpty = (objectName) => {
-    return Object.keys(objectName).length === 0
-  }
+  return Object.keys(objectName).length === 0;
+};
 
 export const formatDate = (date) => {
-    return defaultMoment(date).locale('id').format("DD MMMM YY");
-}
+  return moment(date).locale("id").format("DD MMMM YY");
+};
 
 export const formatTime = (date) => {
-    return defaultMoment(date).format("HH:mm");
-}
+  return moment(date).format("HH:mm");
+};
