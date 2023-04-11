@@ -12,7 +12,8 @@ import Link from '@mui/material/Link';
 export default function DiscussionGuide() {
 
     const router = useRouter()
-
+    const { pid } = router.query
+    
     const name = "Rei";
     const groupName = "Kelompok Sister Asik"
 
