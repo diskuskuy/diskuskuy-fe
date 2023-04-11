@@ -1,46 +1,64 @@
-import { useRouter } from 'next/router'
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import CropSquareIcon from '@mui/icons-material/CropSquare';
-import styles from '@/styles/DiscussionGuide.module.css';
+import styles from '@/styles/DiscussionGuide.module.css'
+import { discussionGuideConstants } from '@/constants/DiscussionGuide';
+import Checkbox from '@mui/material/Checkbox';
+import { useEffect, useState } from 'react';
+import DiscussionGuideUpdateConfirmation from '@/components/Forum/DiscussionGuideUpdateConfirmation';
+import { useRouter } from 'next/router';
+import Typography from '@mui/material/Typography';
+import Link from '@mui/material/Link';
 
 export default function DiscussionGuide() {
-    const discussionGuide = [
-        {
-            "id": 1,
-            "title": "Memahami Pemicu",
-            "description": "Pada tahap ini, kamu dan teman-temanmu perlu memahami pemicu secara tepat. Baca pemicu berulang kali, kaitkan dengan materi yang sudah dipelajari, dan buatlah reply untuk mengungkapkan persepsimu mengenai pemicu pada thread.",
-            "hints": "Jangan ragu untuk mengungkapkan kebingungan dan bertanya karena mengenali bahwa diri kita belum paham adalah bagian dari pembelajaran. Jangan terburu-buru untuk mengusulkan suatu solusi ya :), selalu awali dengan mengkonfirmasi pemahamanmu tentang pemicu.",
-            "active": true,
-        },
-        {
-            "id": 2,
-            "title": "Eksplorasi Materi dan Referensi",
-            "description": "Pada tahap ini, kamu dan teman-temanmu perlu melakukan brainstorming dengan mengutarakan berbagai pendapat yang didukung oleh berbagai referensi yang relevan. Buatlah reply pada thread untuk mengungkapkan pendapatmu mengenai jawaban pemicu.",
-            "hints": "Kamu dapat menyatakan setuju/tidak setuju terhadap pendapat temanmu. Jangan ragu untuk berpendapat dan jangan takut salah berpendapat. Jangan lupa juga untuk selalu membuat suasana diskusi nyaman ya 😃",
-            "active": false,
-        },
-        {
-            "id": 3,
-            "title": "Eksplorasi Materi dan Referensi",
-            "description": "Pada tahap ini, kamu dan teman-temanmu perlu memilah gagasan-gagasan yang relevan. Kamu dapat menilai pendapat mana saja yang relevan untuk menjawab pemicu dan mengelaborasinya menjadi sebuah kesatuan gagasan/kesimpulan yang bermakna.",
-            "hints": "Refleksikan gagasan-gagasan yang muncul di forum dengan pemahamanmu dan kaitkan dengan materi/referensi yang relevan.",
-            "active": false,
-        },
-        {
-            "id": 4,
-            "title": "Resolusi Diskusi",
-            "description": "Pada tahap ini, kamu dan teman-temanmu ditantang untuk berpikir kritis pada tingkat yang lebih tinggi, yakni menunjukkan bahwa solusi/jawaban terhadap pemicu dapat diterapkan pada konteks berbeda. Buatlah reply pada thread yang menjelaskan bagaimana solusi/jawaban kelompokmu dapat diterapkan pada konteks berbeda (misal: produk/sistem/konteks pengembangan, dll.)",
-            "hints": null,
-            "active": false,
-        }
-    ]
+
+    const router = useRouter()
 
     const name = "Rei";
     const groupName = "Kelompok Sister Asik"
 
-    const router = useRouter()
-    const { pid } = router.query
+    const [currentPhase, setCurrentPhase] = useState(0);
+    const [showDiscussionGuideUpdateConfirmation, setShowDiscussionGuideUpdateConfirmation] = useState(false)
+
+    useEffect(() => {
+        setCurrentPhase(2)
+    }, [])
+
+    const handleChange = (event) => {
+        setShowDiscussionGuideUpdateConfirmation(true)
+    };
+
+    const handleClose = value => {
+        setShowDiscussionGuideUpdateConfirmation(false);
+      };
+    
+    
+      const handleYesAction = () => {
+        // TODO
+        // send api request
+        // reload page dgn kondisi state yg barusan udh dicheck
+      }
+
+      function handleClick(event) {
+        event.preventDefault();
+        console.info('You clicked a breadcrumb.');
+      }
+      const breadcrumbs = [
+        <Link underline="hover" key="1" color="inherit" href="/" onClick={handleClick}>
+          MUI
+        </Link>,
+        <Link
+          underline="hover"
+          key="2"
+          color="inherit"
+          href="/material-ui/getting-started/installation/"
+          onClick={handleClick}
+        >
+          Core
+        </Link>,
+        <Typography key="3" color="text.primary">
+          Breadcrumb
+        </Typography>,
+      ];
 
   return (
     <>
@@ -55,7 +73,7 @@ export default function DiscussionGuide() {
             <a className='font-bold'>Panduan Diskusi</a>
         </div>
         <div className="block p-6 bg-white border rounded-lg flex flex-col gap-2">
-            <a className='text-xs text-[#646E9E] cursor-pointer'><ChevronLeftIcon /> Kembali ke Thread</a>
+            <a onClick={() => router.back()} className='text-xs text-[#646E9E] cursor-pointer'><ChevronLeftIcon /> Kembali ke Thread</a>
             <h1 className='font-bold text-3xl'>Panduan Diskusi</h1>
             <div className='flex flex-row gap-5'>
                 <div className='flex flex-col basis-2/3 gap-5'>
@@ -64,8 +82,8 @@ export default function DiscussionGuide() {
                     Pada diskusi ini, kamu dan teman-temanmu di kelompok <strong>{groupName}</strong> akan melakukan <strong>4 tahap inquiry</strong> dalam menjawab pertanyaan pemicu diskusi.
                     </p>
                     <p>Empat tahap tersebut dideskripsikan pada poin berikut ini.</p>
-                    {discussionGuide.map((object, i) => 
-                        <div key={i} className="block p-6 bg-white border rounded-lg flex flex-row gap-5 shadow" style={{borderBottom: object.active ? '5px solid #2ECC71' : null}}>
+                    {discussionGuideConstants.map((object, i) => 
+                        <div key={i} className="block p-6 bg-white border rounded-lg flex flex-row gap-5 shadow" style={{borderBottom: i == currentPhase ? '5px solid #2ECC71' : null}}>
                             <h1 className='font-bold text-4xl'>{object.id}</h1>
                             <div className='flex flex-col'>
                                 <p className='font-bold'>{object.title}</p>
@@ -75,7 +93,11 @@ export default function DiscussionGuide() {
                                     <p>{object.hints}</p>
                                 </>}
                             </div>
-                            <CropSquareIcon />
+                            <Checkbox 
+                                checked={i < currentPhase} 
+                                disabled={i < currentPhase || i > currentPhase}
+                                onChange={handleChange}
+                                />
                         </div>
                     )}
                 </div>
@@ -90,6 +112,13 @@ export default function DiscussionGuide() {
                 </div>
             </div>
         </div>
+        { showDiscussionGuideUpdateConfirmation && 
+            <DiscussionGuideUpdateConfirmation 
+                open={open}
+                onClose={handleClose}
+                onYesAction={handleYesAction}
+            />
+        }
       </main>
     </>
   )

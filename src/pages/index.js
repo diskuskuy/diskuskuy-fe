@@ -1,32 +1,21 @@
+import React, { useState, useEffect } from 'react'
+
 import Link from 'next/link';
 import styles from '@/styles/Home.module.css'
 import DosenInfo from '@/components/Home/DosenInfo'
-
-const dosenInfoDummy = [
-  {
-    'name': 'Fulan bin Fulan',
-    'teachingClass': 'X',
-    'photoUrl': '/teacher-img.png'
-  },
-  {
-    'name': 'Nobunaga Tonarigumi',
-    'teachingClass': 'Y',
-    'photoUrl': '/teacher-img.png'
-  },
-  {
-    'name': 'Mahmud bin Isnin',
-    'teachingClass': 'Z',
-    'photoUrl': '/teacher-img.png'
-  },
-];
-
-const courseName = 'Sistem Interaksi';
-
-const term = 'Gasal 2020/2021';
-
-const courseDescription = 'Pada mata kuliah ini, teman-teman akan belajar mengenai prinsip-prinsip desain interaksi dan penerapannya pada pengembangan produk digital.'
+import { courseName, courseDescription, term, dosenInfo } from '@/api/dummy/home';
+import { fetchWeeksData } from '@/api/home';
+import CircularProgress from '@mui/material/CircularProgress';
 
 export default function Home() {
+
+  const [weeksData, setWeeksData] = useState([]);
+
+  useEffect(() => {
+    fetchWeeksData()
+    .then(data => setWeeksData(data))
+  }, [])
+
   return (
     <>
       <main className={styles.main}>
@@ -68,7 +57,7 @@ export default function Home() {
                 Tim Pengajar
               </h5>
               <div className='flex flex-row flex-wrap gap-2'>
-                {dosenInfoDummy.map((object, i) => 
+                {dosenInfo.map((object, i) => 
                   <DosenInfo
                     key={i}
                     photoUrl={object.photoUrl}
@@ -81,19 +70,26 @@ export default function Home() {
           </div>
         </div>
         {/* TODO: tambahin id pake week keberapa*/}
+        {!(weeksData && weeksData.length > 0) && 
+          <div className='flex flex-row justify-center'>
+            <CircularProgress color="inherit"/>
+          </div>
+        }
+        {weeksData && weeksData.length > 0 && weeksData.map((week, i) =>
         <div
           className="block p-6 my-3 bg-white border border-gray-200 rounded-lg" id='1'
         >
           <h6 className="mb-2 text-2xl font-bold tracking-tight text-gray-900">
-            Week 1
+            {week.name}
           </h6>
           <div>
             <p className="font-normal text-gray-700 ">
-              Forum Diskusi Minggu ke-1
+              Forum Diskusi {week.name}
             </p>
             <div className="h-1 w-5 bg-[#C4C4C4]"></div>
+            {week.threads.map(thread =>
             <div className='grid grid-cols-2 mt-2'>
-              <div className={styles.card} style={{"border":"solid 0.5px grey"}}>
+              <div className={styles.threadCard}>
                 <div className='grid grid-cols-6'>
                   <div className='col-start-1 col-end-6 group flex items-center'>
                     <img className="shrink-0 h-12 w-12 rounded-full" src="/teacher-img.png" alt="" />
@@ -102,23 +98,25 @@ export default function Home() {
                         Thread
                       </p>
                       <h6 className='tracking-tight text-gray-900'>
-                        Mari kita berkenalan dan bercerita... ;)
+                        {thread.title}
                       </h6>
-                      <p className='' style={{"font-size":"10px", "width":"100%", "margin":"0", "padding":"0"}}>
+                      <p className='text-xs w-full m-0 p-0'>
                         Fulan bin Fulan | 7 Maret 2023 (17.00 WIB)
                       </p>
                     </div>
                   </div>
                   <div className='col-end-7 col-span-1 p-2'>
-                    <Link href='/forum'><button className="bg-transparent hover:bg-green-500 text-green-700 font-semibold hover:text-white py-2 px-4 border border-green-500 hover:border-transparent rounded">
+                    <Link href={'/forum/'+thread.id}><button className="bg-transparent hover:bg-green-500 text-green-700 font-semibold hover:text-white py-2 px-4 border border-green-500 hover:border-transparent rounded">
                       Lihat
                     </button></Link>
                   </div>
                 </div>
               </div>
               </div>
+            )}
             </div>
           </div>
+          )}
         </div>
       </main>
     </>
