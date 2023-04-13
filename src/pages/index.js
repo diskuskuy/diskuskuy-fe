@@ -14,8 +14,10 @@ import CircularProgress from "@mui/material/CircularProgress";
 import { Button } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import CreateWeekPopUp from "@/components/Home/CreateWeekPopUp";
+import { useRouter } from "next/router";
 
 export default function Home() {
+  const router = useRouter();
   const [weeksData, setWeeksData] = useState([]);
   const [showCreateWeekPopUp, setShowCreateWeekPopUp] = useState(false);
   const [weekNameInput, setWeekNameInput] = useState("");
@@ -113,10 +115,18 @@ export default function Home() {
           {weeksData &&
             weeksData.length > 0 &&
             weeksData.map((week, i) => (
-              <div className="block p-6 my-3 bg-white border border-gray-200 rounded-lg" id='1'>
+              <div className="block p-6 my-3 bg-white border border-gray-200 rounded-lg flex flex-col gap-2" id='1'>
                 <h6 className="mb-2 text-2xl font-bold tracking-tight text-gray-900">
                   {week.name}
                 </h6>
+                <Button
+                  startIcon={<AddIcon />}
+                  variant="contained"
+                  className="normal-case text-black bg-white w-40 rounded-lg"
+                  onClick={() => router.push(`week/${week.id}/create-thread`)}
+                >
+                  Buat Thread
+                </Button>
                 {week.threads.length > 0 && (
                   <div>
                     <p className="font-normal text-gray-700 ">

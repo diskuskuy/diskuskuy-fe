@@ -1,4 +1,4 @@
-export const createThread = async (weekId, requestBody) => {
+export const createThread = async (requestBody) => {
   try {
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_BE_URL}/forum/Thread/`,
