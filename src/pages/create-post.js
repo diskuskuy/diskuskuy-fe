@@ -7,6 +7,7 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import { useRouter } from "next/router";
+import Navbar from "@/components/Navbar";
 
 export default function CreatePost() {
   const editorRef = useRef(null);
@@ -36,6 +37,7 @@ export default function CreatePost() {
   const names = ["Pertanyaan", "Pendapat", "Bingung"];
   return (
     <>
+    <Navbar />
       <main className={styles.main}>
         <div className="flex flex-row items-center text-xs pb-10">
           <a className="cursor-pointer" href="/">

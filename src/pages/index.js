@@ -14,6 +14,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 import { Button } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import CreateWeekPopUp from "@/components/Home/CreateWeekPopUp";
+import Navbar from "@/components/Navbar";
 
 export default function Home() {
   const [weeksData, setWeeksData] = useState([]);
@@ -44,6 +45,7 @@ export default function Home() {
 
   return (
     <>
+      <Navbar/>
       <main className={styles.main}>
         <div className="flex flex-col gap-5">
           <div className="block p-6 h-44 bg-cover bg-[url('/header.png')] bg-[#646E9E] border rounded-lg text-white">

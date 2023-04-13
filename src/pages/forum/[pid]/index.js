@@ -17,6 +17,7 @@ import { initialPost, replyPost, fase } from '@/api/dummy/forum';
 import CircularProgress from '@mui/material/CircularProgress';
 import { isObjectEmpty } from '@/utils/util';
 import { useRouter } from "next/router";
+import Navbar from '@/components/Navbar';
 
 export default function Forum() {
 
@@ -36,6 +37,7 @@ export default function Forum() {
   
   return (
     <>
+    <Navbar />
       <main className={styles.main}>
         { isObjectEmpty(forumData) && 
           <div className='flex flex-row justify-center'>

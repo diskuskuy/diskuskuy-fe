@@ -7,6 +7,7 @@ import { createThread } from "@/api/create-thread-api";
 import { CircularProgress, MenuItem, Select } from "@mui/material";
 import { useRouter } from "next/router";
 import ErrorIcon from "@mui/icons-material/Error";
+import Navbar from "@/components/Navbar";
 
 export default function CreateThread() {
   const router = useRouter();
@@ -83,6 +84,7 @@ export default function CreateThread() {
 
   return (
     <>
+    <Navbar />
       <main className={styles.main}>
         {isRequesting && (
           <div className="flex flex-row justify-center">
