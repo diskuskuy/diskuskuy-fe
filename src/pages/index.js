@@ -126,7 +126,7 @@ export default function Home() {
                     </p>
                     <div className="h-1 w-5 bg-[#C4C4C4]"></div>
                     {week.threads.map((thread) => (
-                      <div className="grid grid-cols-2 mt-2">
+                      <div className="mt-2">
                         <div className={styles.threadCard}>
                           <div className="grid grid-cols-6">
                             <div className="col-start-1 col-end-6 group flex items-center">
@@ -147,10 +147,15 @@ export default function Home() {
                                 </p>
                               </div>
                             </div>
-                            <div className="col-end-7 col-span-1 p-2">
+                            <div className="col-end-7 col-span-1 p-2 flex flex-row gap-2">
                               <Link href={"/forum/" + thread.id}>
                                 <button className="bg-transparent hover:bg-green-500 text-green-700 font-semibold hover:text-white py-2 px-4 border border-green-500 hover:border-transparent rounded">
                                   Lihat
+                                </button>
+                              </Link>
+                              <Link href={`/forum/${thread.id}/edit`}>
+                                <button className="bg-transparent hover:bg-green-500 text-green-700 font-semibold hover:text-white py-2 px-4 border border-green-500 hover:border-transparent rounded">
+                                  Edit
                                 </button>
                               </Link>
                             </div>

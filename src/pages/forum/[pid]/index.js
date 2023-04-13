@@ -28,7 +28,10 @@ export default function Forum() {
   const [forumData, setForumData] = useState({});
 
   useEffect(() => {
-    fetchThreadDataById()
+    const path = location.pathname;
+    const pathArray = path.split('/');
+    const threadId = pathArray[pathArray.length - 1];
+    fetchThreadDataById(threadId)
     .then(data => {
       console.log(data)
       setForumData(data)})

@@ -1,8 +1,5 @@
-export const fetchThreadDataById = async () => {
+export const fetchThreadDataById = async (threadId) => {
     try {
-        const path = location.pathname;
-        const pathArray = path.split('/');
-        const threadId = pathArray[pathArray.length - 1];
       const response = await fetch(
         'http://localhost:8000/forum/Thread/' + threadId,
         {
