@@ -42,7 +42,7 @@ export default function Onboarding({ data }) {
             className="mySwiper"
           >
             {data.map((obj, i) => (
-              <SwiperSlide>
+              <SwiperSlide key={i}>
                 <div className="flex flex-col justify-center mb-12">
                   {/* {" "} */}
                   {/* <img
@@ -57,13 +57,14 @@ export default function Onboarding({ data }) {
                   <Dialog.Description className="text-center text-[17px] font-medium mt-4 mx-16">
                     {obj.description}
                   </Dialog.Description>
-                  {i == data.length-1 &&
-                  <Dialog.Description
-                  className="text-black underline text-center text-[16px] font-medium font-bold mt-12 mx-14 cursor-pointer"
-                  onClick={() => setIsOpen(false)}
-                >
-                  Close
-                </Dialog.Description>}
+                  {i == data.length - 1 && (
+                    <Dialog.Description
+                      className="text-black underline text-center text-[16px] font-medium font-bold mt-12 mx-14 cursor-pointer"
+                      onClick={() => setIsOpen(false)}
+                    >
+                      Close
+                    </Dialog.Description>
+                  )}
                 </div>
               </SwiperSlide>
             ))}
