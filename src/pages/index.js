@@ -14,6 +14,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 import CreateWeekPopUp from "@/components/Home/CreateWeekPopUp";
 import { Button } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
+import Navbar from "@/components/Navbar";
 
 export default function Home() {
   const [weeksData, setWeeksData] = useState([]);
@@ -44,6 +45,7 @@ export default function Home() {
 
   return (
     <>
+      <Navbar/>
       <main className={styles.main}>
         <div className="flex flex-col gap-5">
           <div className="block p-6 h-44 bg-cover bg-[url('/header.png')] bg-purple rounded-lg text-white">
@@ -142,6 +144,11 @@ export default function Home() {
                         <Link href={"/forum/" + thread.id}>
                           <button className="bg-transparent hover:bg-green text-green font-semibold hover:text-white py-2 px-4 border border-green hover:border-transparent rounded">
                             Lihat
+                          </button>
+                        </Link>
+                        <Link href={`/forum/${thread.id}/edit`}>
+                          <button className="bg-transparent hover:bg-green-500 text-green-700 font-semibold hover:text-white py-2 px-4 border border-green-500 hover:border-transparent rounded">
+                            Edit
                           </button>
                         </Link>
                       </div>

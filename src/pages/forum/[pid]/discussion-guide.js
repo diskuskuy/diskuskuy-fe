@@ -11,6 +11,7 @@ import {
 } from "@/api/discussion-guide";
 import { formatDate, formatTime } from "@/utils/util";
 import DiscussionGuideUpdateConfirmationPopUp from "@/components/Forum/DiscussionGuideUpdateConfirmationPopUp";
+import Navbar from '@/components/Navbar';
 
 export default function DiscussionGuide() {
   useEffect(() => {
@@ -54,6 +55,8 @@ export default function DiscussionGuide() {
   };
 
   return (
+    <>
+    <Navbar />
     <main className={styles.main}>
       <div className='flex flex-row items-center text-xs pb-10'>
         <a className='cursor-pointer' href='/'>Sistem Interaksi - Gasal 2020/2021</a>
@@ -133,5 +136,6 @@ export default function DiscussionGuide() {
         onYesAction={handleUpdateState}
       />
     </main>
+    </>
   );
 }

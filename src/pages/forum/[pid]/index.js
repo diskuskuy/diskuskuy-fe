@@ -17,6 +17,7 @@ import { initialPost, replyPost, fase } from "@/api/dummy/forum";
 import CircularProgress from "@mui/material/CircularProgress";
 import { isObjectEmpty } from "@/utils/util";
 import { useRouter } from "next/router";
+import Navbar from '@/components/Navbar';
 
 export default function Forum() {
   const router = useRouter();
@@ -33,13 +34,17 @@ export default function Forum() {
   const [forumData, setForumData] = useState({});
 
   useEffect(() => {
-    fetchThreadDataById().then((data) => {
-      setForumData(data);
-    });
-  }, []);
+    const path = location.pathname;
+    const pathArray = path.split('/');
+    const threadId = pathArray[pathArray.length - 1];
+    fetchThreadDataById(threadId)
+    .then(data => {
+      setForumData(data)})
+  }, [])
 
   return (
     <>
+    <Navbar />
       <main className={styles.main}>
         {isObjectEmpty(forumData) && (
           <div className="flex flex-row justify-center">
