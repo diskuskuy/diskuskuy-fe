@@ -46,41 +46,40 @@ export default function Forum() {
             <CircularProgress color="inherit" />
           </div>
         )}
-        {!isObjectEmpty(forumData) && (
-          <>
-            <div className="flex flex-row items-center text-xs pb-10">
-              <a className="cursor-pointer">
-                Sistem Interaksi - Gasal 2020/2021
-              </a>
-              <ChevronRightIcon />
-              <a className="cursor-pointer">Forum Diskusi Minggu ke-1</a>
-              <ChevronRightIcon />
-              <a className="cursor-pointer">Thread: {forumData.title}</a>
-            </div>
-            <div className="flex flex-row gap-5">
-              <div className="flex flex-col basis-2/3 gap-5">
-                <PostComponent post={forumData.initial_post} type="initial" />
-                {replyPost.map((object, i) => (
-                  <PostComponent post={object} key={i} type="reply" />
-                ))}
-              </div>
-              <div className="flex flex-col basis-1/3 gap-5">
-                <DiscussionGuide
-                  data={forumData.discussion_guide}
-                  onSeeDiscussionGuide={() =>
-                    router.push(forumData.id + "/discussion-guide")
-                  }
-                />
-                <References />
-                <DiscussionAnalytics />
-                <DiscussionSummary
-                  content={forumData.summary ? forumData.summary.content : null}
-                />
-              </div>
-            </div>
-            <Onboarding data={inquiry} />
+        { !isObjectEmpty(forumData) &&
+        <>
+        <div className='flex flex-row items-center text-xs pb-10'>
+          <a className='cursor-pointer' href='/'>Sistem Interaksi - Gasal 2020/2021</a>
+          <ChevronRightIcon />
+          {/* TODO: replace #{num} pake week keberapa & nama week*/}
+          <a className='cursor-pointer' href='/#4'>Forum Diskusi Minggu ke-1</a>
+          <ChevronRightIcon />
+          <a className='font-bold'>Thread: {forumData.title}</a>
+        </div>
+        <div className="flex flex-row gap-5">
+          <div className="flex flex-col basis-2/3 gap-5">
+            <PostComponent post={forumData.initial_post} type="initial" />
+            {replyPost.map((object, i) => (
+              <PostComponent post={object} key={i} type="reply" />
+            ))}
+          </div>
+          <div className="flex flex-col basis-1/3 gap-5">
+            <DiscussionGuide
+              data={forumData.discussion_guide}
+              onSeeDiscussionGuide={() =>
+                router.push(forumData.id + "/discussion-guide")
+              }
+            />
+            <References />
+            <DiscussionAnalytics />
+            <DiscussionSummary
+              content={forumData.summary ? forumData.summary.content : null}
+            />
+          </div>
+        </div>
+        <Onboarding data={inquiry} />
           </>
-        )}
+        }
       </main>
     </>
   );

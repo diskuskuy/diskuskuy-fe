@@ -1,7 +1,10 @@
-export const fetchWeeksData = async () => {
+export const fetchDiscussionGuideDataByThreadId = async () => {
   try {
+    const path = location.pathname;
+    const pathArray = path.split("/");
+    const threadId = pathArray[pathArray.length - 2];
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_BE_URL}/forum/Week`,
+      `${process.env.NEXT_PUBLIC_BE_URL}/forum/${threadId}/discussion-guide/`,
       {
         method: "GET",
       }
@@ -20,17 +23,18 @@ export const fetchWeeksData = async () => {
   }
 };
 
-export const createWeek = async (nameRequest) => {
+export const updateDiscussionGuideStateById = async (id, stateRequest) => {
   try {
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_BE_URL}/forum/Week/`,
+      `${process.env.NEXT_PUBLIC_BE_URL}/forum/DiscussionGuide/${id}/`,
       {
-        method: "POST",
+        method: "PATCH",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          name: nameRequest,
+          id: id,
+          state: stateRequest,
         }),
       }
     );

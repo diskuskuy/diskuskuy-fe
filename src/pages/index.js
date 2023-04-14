@@ -9,15 +9,38 @@ import {
   term,
   dosenInfo,
 } from "@/api/dummy/home";
-import { fetchWeeksData } from "@/api/home";
+import { createWeek, fetchWeeksData } from "@/api/home";
 import CircularProgress from "@mui/material/CircularProgress";
+import CreateWeekPopUp from "@/components/Home/CreateWeekPopUp";
+import { Button } from "@mui/material";
+import AddIcon from "@mui/icons-material/Add";
 
 export default function Home() {
   const [weeksData, setWeeksData] = useState([]);
+  const [showCreateWeekPopUp, setShowCreateWeekPopUp] = useState(false);
+  const [weekNameInput, setWeekNameInput] = useState("");
 
   useEffect(() => {
     fetchWeeksData().then((data) => setWeeksData(data));
   }, []);
+
+  const handleShowCreateWeekPopUp = () => {
+    setShowCreateWeekPopUp(true);
+  };
+
+  const handleCloseCreateWeekPopUp = () => {
+    setShowCreateWeekPopUp(false);
+  };
+
+  const handleSaveActionPopUp = () => {
+    createWeek(weekNameInput).then((data) => {
+      if (data) window.location.reload();
+    });
+  };
+
+  const handleWeekNameInputChange = (event) => {
+    setWeekNameInput(event.target.value);
+  };
 
   return (
     <>
@@ -64,48 +87,68 @@ export default function Home() {
               </div>
             </div>
           </div>
+          <Button
+            startIcon={<AddIcon />}
+            variant="filled"
+            className="normal-case text-black bg-white w-40 rounded-lg"
+            onClick={handleShowCreateWeekPopUp}
+          >
+            Tambah Week
+          </Button>
+          <CreateWeekPopUp
+            open={showCreateWeekPopUp}
+            onClose={handleCloseCreateWeekPopUp}
+            onSaveAction={handleSaveActionPopUp}
+            inputValue={weekNameInput}
+            handleInputChange={handleWeekNameInputChange}
+          />
           {!(weeksData && weeksData.length > 0) && (
             <div className="flex flex-row justify-center">
               <CircularProgress color="inherit" />
             </div>
           )}
+          {/* TODO: tambahin id pake week keberapa*/}
           {weeksData &&
             weeksData.length > 0 &&
             weeksData.map((week, i) => (
-              <div className="section" key={week.id}>
+              <div className="section" key={week.id} id={week.id}>
                 <h1 className="mb-2 font-bold tracking-tight text-gray-900">
                   {week.name}
                 </h1>
-                <p className="font-bold text-gray-700">
-                  Forum Diskusi {week.name}
-                </p>
-                <div className="h-1 w-5 bg-grey"></div>
-                {week.threads.map((thread, i) => (
-                  <div className={styles.threadCard} key={i}>
-                    <div className="group flex items-center">
-                      <img
-                        className="shrink-0 h-12 w-12 rounded-full"
-                        src="/teacher-img.png"
-                        alt=""
-                      />
-                      <div className="rtl:mr-3 ml-3">
-                        <p className="font-normal text-green">Thread</p>
-                        <h6 className="tracking-tight text-gray-900">
-                          {thread.title}
-                        </h6>
-                        <p className="text-xs w-full m-0 p-0">
-                          Fulan bin Fulan | 7 Maret 2023 (17.00 WIB)
-                        </p>
+                {week.threads.length > 0 && (
+                  <>
+                    <p className="font-bold text-gray-700">
+                      Forum Diskusi {week.name}
+                    </p>
+                    <div className="h-1 w-5 bg-grey"></div>
+                    {week.threads.map((thread, i) => (
+                      <div className={styles.threadCard} key={i}>
+                        <div className="group flex items-center">
+                          <img
+                            className="shrink-0 h-12 w-12 rounded-full"
+                            src="/teacher-img.png"
+                            alt=""
+                          />
+                          <div className="rtl:mr-3 ml-3">
+                            <p className="font-normal text-green">Thread</p>
+                            <h6 className="tracking-tight text-gray-900">
+                              {thread.title}
+                            </h6>
+                            <p className="text-xs w-full m-0 p-0">
+                              Fulan bin Fulan | 7 Maret 2023 (17.00 WIB)
+                            </p>
+                          </div>
+                        </div>
+                        <Link href={"/forum/" + thread.id}>
+                          <button className="bg-transparent hover:bg-green text-green font-semibold hover:text-white py-2 px-4 border border-green hover:border-transparent rounded">
+                            Lihat
+                          </button>
+                        </Link>
                       </div>
-                    </div>
-                    <Link href={"/forum/" + thread.id}>
-                      <button className="bg-transparent hover:bg-green text-green font-semibold hover:text-white py-2 px-4 border border-green hover:border-transparent rounded">
-                        Lihat
-                      </button>
-                    </Link>
-                  </div>
-                ))}
-              </div>
+                    ))}
+                  </>
+                )}
+                </div>
             ))}
         </div>
       </main>
