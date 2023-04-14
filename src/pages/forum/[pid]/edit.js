@@ -1,15 +1,16 @@
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styles from "@/styles/CreateForum.module.css";
 import moment from "moment/moment";
 import TextEditor from "@/components/Forum/TextEditor";
-import { createThread } from "@/api/create-thread-api";
 import { CircularProgress, MenuItem, Select } from "@mui/material";
 import { useRouter } from "next/router";
 import ErrorIcon from "@mui/icons-material/Error";
 import Navbar from "@/components/Navbar";
+import { fetchThreadDataById } from "@/api/forum";
+import { editThread } from "@/api/edit-thread-api";
 
-export default function CreateThread() {
+export default function EditThread() {
   const router = useRouter();
   const editorRef = useRef(null);
   const [isRequesting, setIsRequesting] = useState(false);
@@ -22,9 +23,27 @@ export default function CreateThread() {
   const [isInitialPostEmpty, setIsInitialPostEmpty] = useState(false);
   const minDate = moment(new Date()).format("YYYY-MM-DDTMM:SS");
 
-  const tagOptions = ["Pertanyaan", "Pendapat", "Bingung"];
+  const tagOptions = ["pertanyaan", "pendapat", "bingung"];
 
-  const { pid } = router.query
+  const [forumData, setForumData] = useState({});
+
+  useEffect(() => {
+    const path = location.pathname;
+    const pathArray = path.split('/');
+    const threadId = pathArray[pathArray.length - 2];
+    fetchThreadDataById(threadId)
+    .then(data => {
+      setForumData(data)
+      setTitle(data.title)
+      const deadlineData = data.discussion_guide.deadline
+      setDeadline(moment(deadlineData).format("YYYY-MM-DDTMM:SS"))
+      setDescription(data.discussion_guide.description)
+      setMechAndExp(data.discussion_guide.mechanism_expectation)
+      editorRef.current.setContent(data.initial_post.content)
+      const tagData = data.initial_post.tag.toLowerCase()
+      setTags(tagData.split(","))
+    })
+  }, [])
 
   const handleChangeTitle = (event) => {
     setTitle(event.target.value);
@@ -71,9 +90,9 @@ export default function CreateThread() {
           mechanism_expectation: mechAndExp,
         },
         title: title,
-        week: pid,
+        week: forumData.week,
       });
-      createThread(1, requestBody).then((data) => {
+      editThread(forumData.id, requestBody).then((data) => {
         if (data) router.push(`/forum/${data.id}`);
       });
       setIsRequesting(false);
@@ -105,14 +124,14 @@ export default function CreateThread() {
                 Forum Diskusi Minggu ke-1
               </a>
               <ChevronRightIcon />
-              <a className="font-bold">Buat Thread</a>
+              <a className="font-bold">Edit Thread</a>
             </div>
-            <div className="section">
+            <div className="container bg-white p-6 rounded-lg text-sm">
               <form onSubmit={handleSubmit} className="flex flex-col gap-5">
                 <div className="flex flex-row gap-5">
                   <div className=" basis-1/2 flex flex-col gap-2">
-                    <h3 className="font-bold">Judul Thread</h3>
-                    <div className="h-1 w-5 bg-grey"></div>
+                    <h3 className="font-bold text-">Judul Thread</h3>
+                    <div className="h-1 w-5 bg-[#C4C4C4]"></div>
                     <input
                       value={title}
                       onChange={handleChangeTitle}
@@ -122,7 +141,7 @@ export default function CreateThread() {
                       id="grid-first-name"
                     />
                     <h3 className="font-bold">Panduan Diskusi</h3>
-                    <div className="h-1 w-5 bg-grey"></div>
+                    <div className="h-1 w-5 bg-[#C4C4C4]"></div>
                     <label>Deadline</label>
                     <input
                       value={deadline}
@@ -148,7 +167,7 @@ export default function CreateThread() {
                       className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline min-h-[100px]"
                     />
                     <h3 className="font-bold">Referensi Diskusi</h3>
-                    <div className="h-1 w-5 bg-grey"></div>
+                    <div className="h-1 w-5 bg-[#C4C4C4]"></div>
                     <div className="flex flex-col gap-2">
                       <input
                         type="file"
@@ -180,7 +199,7 @@ export default function CreateThread() {
                   </div>
                   <div className="basis-1/2 flex flex-col gap-2">
                     <h3 className="font-bold">Initial Post</h3>
-                    <div className="h-1 w-5 bg-grey"></div>
+                    <div className="h-1 w-5 bg-[#C4C4C4]"></div>
                     <label>Konten</label>
                     {isInitialPostEmpty && (
                       <p className="text-amber-500 text-xs">
@@ -200,24 +219,24 @@ export default function CreateThread() {
                         value={tags}
                         onChange={handleChangeTag}
                       >
-                        {tagOptions.map((name) => (
-                          <MenuItem key={name} value={name} className="text-sm">
-                            {name}
+                        {tagOptions.map((tag) => (
+                          <MenuItem key={tag} value={tag} className="text-sm" selected={tags.includes(tag)}>
+                            {tag}
                           </MenuItem>
                         ))}
                       </Select>
                     </div>
                   </div>
                 </div>
-                <div className="flex flex-row gap-5 mt-5">
+                <div className="flex flex-row gap-5 mt-10 justify-end">
                   <input
                     value="Batal"
-                    className="bg-white text-black p-2 rounded cursor-pointer w-1/2 text-center border"
+                    className="bg-[#FFFFFF] text-black p-2 rounded cursor-pointer w-1/4 text-center border"
                   />
                   <input
                     type="submit"
                     value="Simpan"
-                    className="bg-green text-white p-2 rounded cursor-pointer w-1/2"
+                    className="bg-[#2ECC71] text-white p-2 rounded cursor-pointer w-1/4"
                   />
                 </div>
               </form>
