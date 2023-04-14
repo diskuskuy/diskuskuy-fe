@@ -24,6 +24,8 @@ export default function CreateThread() {
 
   const tagOptions = ["Pertanyaan", "Pendapat", "Bingung"];
 
+  const { pid } = router.query
+
   const handleChangeTitle = (event) => {
     setTitle(event.target.value);
   };
@@ -56,7 +58,7 @@ export default function CreateThread() {
       editorRef.current.getContent().length > 0
     ) {
       setIsRequesting(true);
-      // TODO: ganti week
+      // TODO: reference file
       const requestBody = JSON.stringify({
         initial_post: {
           tag: tags.join(),
@@ -69,7 +71,7 @@ export default function CreateThread() {
           mechanism_expectation: mechAndExp,
         },
         title: title,
-        week: 1,
+        week: pid,
       });
       createThread(1, requestBody).then((data) => {
         if (data) router.push(`/forum/${data.id}`);

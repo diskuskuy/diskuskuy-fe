@@ -14,9 +14,11 @@ import CircularProgress from "@mui/material/CircularProgress";
 import CreateWeekPopUp from "@/components/Home/CreateWeekPopUp";
 import { Button } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
+import { useRouter } from "next/router";
 import Navbar from "@/components/Navbar";
 
 export default function Home() {
+  const router = useRouter();
   const [weeksData, setWeeksData] = useState([]);
   const [showCreateWeekPopUp, setShowCreateWeekPopUp] = useState(false);
   const [weekNameInput, setWeekNameInput] = useState("");
@@ -117,6 +119,14 @@ export default function Home() {
                 <h1 className="mb-2 font-bold tracking-tight text-gray-900">
                   {week.name}
                 </h1>
+                <Button
+                  startIcon={<AddIcon />}
+                  variant="contained"
+                  className="normal-case text-black bg-white w-40 rounded-lg"
+                  onClick={() => router.push(`week/${week.id}/create-thread`)}
+                >
+                  Buat Thread
+                </Button>
                 {week.threads.length > 0 && (
                   <>
                     <p className="font-bold text-gray-700">
@@ -141,16 +151,18 @@ export default function Home() {
                             </p>
                           </div>
                         </div>
+                        <dev className="flex flex-row gap-2">
                         <Link href={"/forum/" + thread.id}>
                           <button className="bg-transparent hover:bg-green text-green font-semibold hover:text-white py-2 px-4 border border-green hover:border-transparent rounded">
                             Lihat
                           </button>
                         </Link>
                         <Link href={`/forum/${thread.id}/edit`}>
-                          <button className="bg-transparent hover:bg-green-500 text-green-700 font-semibold hover:text-white py-2 px-4 border border-green-500 hover:border-transparent rounded">
+                          <button className="bg-transparent hover:bg-green text-green font-semibold hover:text-white py-2 px-4 border border-green hover:border-transparent rounded">
                             Edit
                           </button>
                         </Link>
+                        </dev>
                       </div>
                     ))}
                   </>
