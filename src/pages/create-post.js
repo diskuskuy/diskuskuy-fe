@@ -23,7 +23,7 @@ export default function CreatePost() {
       router.push("/forum/1");
     }
   };
-  const handleChange = (event) => {
+  const handleChangeTag = (event) => {
     const {
       target: { value },
     } = event;
@@ -33,7 +33,8 @@ export default function CreatePost() {
     );
     console.log(event);
   };
-  const names = ["Pertanyaan", "Pendapat", "Bingung"];
+  const tagOptions = ["Pertanyaan", "Pendapat", "Bingung"];
+
   return (
     <>
       <main className={styles.main}>
@@ -49,41 +50,34 @@ export default function CreatePost() {
           <ChevronRightIcon />
           <a className="font-bold">Buat Postingan</a>
         </div>
-        <div className="text-center text-2xl font-bold">
-          <h2>Tulis Postingan</h2>
+        <div className="text-center font-bold">
+          <h1>Tulis Postingan</h1>
         </div>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} className="flex flex-col gap-2">
           <TextEditor editorRef={editorRef}></TextEditor>
-
-          <div className="mt-5">
-            {/* <FormControl sx={{ m: 1, width: 300 }}> */}
-            <InputLabel id="demo-multiple-name-label">Tags</InputLabel>
-            <Select
-              className="bg-white"
-              labelId="demo-multiple-name-label"
-              id="demo-multiple-name"
-              multiple
-              value={tags}
-              onChange={handleChange}
-            >
-              {names.map((name) => (
-                <MenuItem key={name} value={name}>
-                  {name}
-                </MenuItem>
-              ))}
-            </Select>
-            {/* </FormControl> */}
-            <div className="flex flex-row-reverse gap-2">
-              <input
-                type="submit"
-                value="Simpan"
-                className="bg-[#2ECC71] text-white p-2 rounded cursor-pointer"
-              />
-              <input
-                value="Batal"
-                className="bg-[#FFFFFF] text-black p-2 rounded cursor-pointer w-16"
-              />
-            </div>
+          <InputLabel id="demo-multiple-name-label">Tags</InputLabel>
+          <Select
+            className="bg-white w-1/2 text-sm"
+            multiple
+            required
+            value={tags}
+            onChange={handleChangeTag}
+          >
+            {tagOptions.map((name) => (
+              <MenuItem key={name} value={name} className="text-sm">
+                {name}
+              </MenuItem>
+            ))}
+          </Select>
+          <div className="flex flex-row-reverse gap-2">
+            <input
+              type="submit"
+              value="Simpan"
+              className="bg-green text-white p-2 rounded cursor-pointer"
+            />
+            <button className="bg-white text-black p-2 rounded cursor-pointer w-16">
+              Batal
+            </button>
           </div>
         </form>
       </main>

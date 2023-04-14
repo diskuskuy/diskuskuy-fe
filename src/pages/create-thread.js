@@ -103,12 +103,12 @@ export default function CreateThread() {
               <ChevronRightIcon />
               <a className="font-bold">Buat Thread</a>
             </div>
-            <div className="container bg-white p-6 rounded-lg text-sm">
+            <div className="section">
               <form onSubmit={handleSubmit} className="flex flex-col gap-5">
                 <div className="flex flex-row gap-5">
                   <div className=" basis-1/2 flex flex-col gap-2">
-                    <h3 className="font-bold text-">Judul Thread</h3>
-                    <div className="h-1 w-5 bg-[#C4C4C4]"></div>
+                    <h3 className="font-bold">Judul Thread</h3>
+                    <div className="h-1 w-5 bg-grey"></div>
                     <input
                       value={title}
                       onChange={handleChangeTitle}
@@ -118,7 +118,7 @@ export default function CreateThread() {
                       id="grid-first-name"
                     />
                     <h3 className="font-bold">Panduan Diskusi</h3>
-                    <div className="h-1 w-5 bg-[#C4C4C4]"></div>
+                    <div className="h-1 w-5 bg-grey"></div>
                     <label>Deadline</label>
                     <input
                       value={deadline}
@@ -144,7 +144,7 @@ export default function CreateThread() {
                       className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline min-h-[100px]"
                     />
                     <h3 className="font-bold">Referensi Diskusi</h3>
-                    <div className="h-1 w-5 bg-[#C4C4C4]"></div>
+                    <div className="h-1 w-5 bg-grey"></div>
                     <div className="flex flex-col gap-2">
                       <input
                         type="file"
@@ -176,7 +176,7 @@ export default function CreateThread() {
                   </div>
                   <div className="basis-1/2 flex flex-col gap-2">
                     <h3 className="font-bold">Initial Post</h3>
-                    <div className="h-1 w-5 bg-[#C4C4C4]"></div>
+                    <div className="h-1 w-5 bg-grey"></div>
                     <label>Konten</label>
                     {isInitialPostEmpty && (
                       <p className="text-amber-500 text-xs">
@@ -208,12 +208,12 @@ export default function CreateThread() {
                 <div className="flex flex-row gap-5 mt-5">
                   <input
                     value="Batal"
-                    className="bg-[#FFFFFF] text-black p-2 rounded cursor-pointer w-1/2 text-center border"
+                    className="bg-white text-black p-2 rounded cursor-pointer w-1/2 text-center border"
                   />
                   <input
                     type="submit"
                     value="Simpan"
-                    className="bg-[#2ECC71] text-white p-2 rounded cursor-pointer w-1/2"
+                    className="bg-green text-white p-2 rounded cursor-pointer w-1/2"
                   />
                 </div>
               </form>
