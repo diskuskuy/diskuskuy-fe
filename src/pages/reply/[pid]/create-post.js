@@ -8,11 +8,13 @@ import FormControl from "@mui/material/FormControl";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import { useRouter } from "next/router";
 import Navbar from "@/components/Navbar";
+import { replyPost } from "@/api/reply-post-api";
 
 export default function CreatePost() {
   const editorRef = useRef(null);
   const router = useRouter();
   const [tags, setTags] = React.useState([]);
+  const { pid } = router.query;
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -21,7 +23,24 @@ export default function CreatePost() {
       console.log(editorRef.current.getContent());
     }
     if (editorRef.current.getContent().length > 0 && tags.length > 0) {
-      router.push("/forum/1");
+      const path = location.pathname;
+      const pathArray = path.split("/");
+      const initialPostId = pathArray[pathArray.length - 2];
+      console.log(tags)
+      console.log(editorRef.current.getContent())
+      const requestBody = JSON.stringify({
+        tag: tags.join(),
+        content: editorRef.current.getContent(),
+        initial_post: initialPostId
+      })
+      console.log(requestBody)
+      replyPost(requestBody)
+      .then(data => {
+        window.alert("Sipp boss")
+        router.push(`/forum/${pid}`);
+      })
+    } else {
+      window.alert("Gak boleh kosong bos")
     }
   };
   const handleChangeTag = (event) => {
@@ -77,7 +96,7 @@ export default function CreatePost() {
               value="Simpan"
               className="bg-green text-white p-2 rounded cursor-pointer"
             />
-            <button className="bg-white text-black p-2 rounded cursor-pointer w-16">
+            <button className="bg-white text-black p-2 rounded cursor-pointer w-16" onClick={() => router.push(`/forum/${pid}`)}>
               Batal
             </button>
           </div>

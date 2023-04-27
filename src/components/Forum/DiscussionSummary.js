@@ -1,6 +1,10 @@
 import React, { useState } from "react";
+import { addReplyDataById } from "@/api/forum";
+import { useRouter } from 'next/router';
 
 export default function DiscussionSummary({ content }) {
+  const router = useRouter();
+  const { pid } = router.query
   const [summaryContent, setSummaryContent] = useState(content ? content : "");
 
   const handleChange = (event) => {
@@ -9,7 +13,8 @@ export default function DiscussionSummary({ content }) {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log(summaryContent);
+
+    addReplyDataById({content: summaryContent, thread: pid }).then(() => window.alert("sip"))
   };
 
   return (

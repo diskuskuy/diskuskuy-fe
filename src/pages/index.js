@@ -94,7 +94,7 @@ export default function Home() {
           <Button
             startIcon={<AddIcon />}
             variant="filled"
-            className="normal-case text-black bg-white w-40 rounded-lg"
+            className="normal-case text-black font-bold bg-white w-40 rounded-lg"
             onClick={handleShowCreateWeekPopUp}
           >
             Tambah Week
@@ -122,7 +122,7 @@ export default function Home() {
                 <Button
                   startIcon={<AddIcon />}
                   variant="contained"
-                  className="normal-case text-black bg-white w-40 rounded-lg"
+                  className="normal-case text-black font-bold bg-white w-40 rounded-lg"
                   onClick={() => router.push(`week/${week.id}/create-thread`)}
                 >
                   Buat Thread
@@ -151,7 +151,7 @@ export default function Home() {
                             </p>
                           </div>
                         </div>
-                        <dev className="flex flex-row gap-2">
+                        <div className="flex flex-row gap-2">
                         <Link href={"/forum/" + thread.id}>
                           <button className="bg-transparent hover:bg-green text-green font-semibold hover:text-white py-2 px-4 border border-green hover:border-transparent rounded">
                             Lihat
@@ -162,7 +162,7 @@ export default function Home() {
                             Edit
                           </button>
                         </Link>
-                        </dev>
+                        </div>
                       </div>
                     ))}
                   </>

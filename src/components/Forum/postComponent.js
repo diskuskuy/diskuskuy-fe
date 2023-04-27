@@ -2,8 +2,11 @@ import styles from "@/styles/Forum.module.css";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { formatDate, formatTime } from "@/utils/util";
 import { useState } from "react";
+import { useRouter } from "next/router";
 
-export default function PostComponent({ post, type }) {
+export default function PostComponent({ post, type, parentId, parent }) {
+  const router = useRouter();
+
   const marginLeft =
     type == "reply" ? "50px" : type == "nestedReply" ? "100px" : "0px";
   const [tags, setTags] = useState(
@@ -13,6 +16,16 @@ export default function PostComponent({ post, type }) {
       ? [...post.tag]
       : []
   );
+
+  const handleReply = () => {
+    if (type == "initial") {
+      router.push(`/reply/${post.id}/create-post`)
+    }
+  }
+
+  const handleParentReply = () => {
+    router.push(`/reply/${parentId}/create-post`)
+  }
 
   return (
     <div className={styles.postSection} style={{ marginLeft: marginLeft }}>
@@ -42,10 +55,10 @@ export default function PostComponent({ post, type }) {
           </div>
         </div>
         <div className="h-1 w-5 bg-grey"></div>
-        <p className="text-sm">{post.content}</p>
+        <p className="text-sm" dangerouslySetInnerHTML={{ __html: post.content }}></p>
         <div className="h-[0.5px] bg-grey"></div>
         <div className="flex flex-row gap-2 items-center">
-          <a className="cursor-pointer text-xs">
+          <a className="cursor-pointer text-xs" onClick={parent ? handleParentReply : handleReply}>
             Balas <ExpandMoreIcon />
           </a>
           <div className="rounded-full shadow p-2 cursor-pointer">

@@ -2,7 +2,7 @@ import moment from "moment";
 import "moment/locale/id";
 
 export const isObjectEmpty = (objectName) => {
-  return Object.keys(objectName).length === 0;
+  return Object.keys(objectName ?? {}).length === 0;
 };
 
 export const formatDate = (date) => {
