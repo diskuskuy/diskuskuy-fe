@@ -4,7 +4,7 @@ import { formatDate, formatTime } from "@/utils/util";
 import { useState } from "react";
 import { useRouter } from "next/router";
 
-export default function PostComponent({ post, type, parentId, parent }) {
+export default function PostComponent({ post, type, parentId, parent, threadId }) {
   const router = useRouter();
 
   const marginLeft =
@@ -25,6 +25,10 @@ export default function PostComponent({ post, type, parentId, parent }) {
 
   const handleParentReply = () => {
     router.push(`/reply/${parentId}/create-post`)
+  }
+
+  const handleNestedParentReply = () => {
+    router.push(`/reply/${threadId}/create-post?parent=${parentId}&type=nested`)
   }
 
   return (
@@ -58,9 +62,11 @@ export default function PostComponent({ post, type, parentId, parent }) {
         <p className="text-sm" dangerouslySetInnerHTML={{ __html: post.content }}></p>
         <div className="h-[0.5px] bg-grey"></div>
         <div className="flex flex-row gap-2 items-center">
-          <a className="cursor-pointer text-xs" onClick={parent ? handleParentReply : handleReply}>
-            Balas <ExpandMoreIcon />
-          </a>
+          {type !== "nestedReply" && (
+            <a className="cursor-pointer text-xs" onClick={parent ? type === "reply" ? handleNestedParentReply : handleParentReply : handleReply}>
+              Balas <ExpandMoreIcon />
+            </a>
+          )}
           <div className="rounded-full shadow p-2 cursor-pointer">
             <img src="/like.png"></img>
           </div>

@@ -12,7 +12,7 @@ import dataObd1 from "@/constants/obd-1";
 import dataObd2 from "@/constants/obd-2";
 import dataObd3 from "@/constants/obd-3";
 import dataObd4 from "@/constants/obd-4";
-import { fetchThreadDataById, fetchReplyDataById, fetchSummary } from "@/api/forum";
+import { fetchThreadDataById, fetchReplyDataById, fetchSummary, fetchNestedReply } from "@/api/forum";
 import { initialPost, replyPost, fase } from "@/api/dummy/forum";
 import CircularProgress from "@mui/material/CircularProgress";
 import { isObjectEmpty } from "@/utils/util";
@@ -35,6 +35,7 @@ export default function Forum() {
   const [forumData, setForumData] = useState({});
   const [initialPost, setInitialPost] = useState({});
   const [initialSummary, setInitialSummary] = useState([]);
+  const [initialNested, setInitialNested] = useState([]);
 
   const handleNestedReply = () => {
     router.push('/create-post')
@@ -47,15 +48,18 @@ export default function Forum() {
     fetchThreadDataById(threadId)
     .then(data => {
       setForumData(data)})
-
     fetchReplyDataById(threadId).then(data => {
       setInitialPost(data)
     })
-
     fetchSummary().then(data => {
       setInitialSummary(data)
     })
+    fetchNestedReply().then(data => {
+      setInitialNested(data)
+    })
   }, [])
+
+  console.log("initialNested", initialNested)
 
   return (
     <>
@@ -80,7 +84,13 @@ export default function Forum() {
           <div className="flex flex-col basis-2/3 gap-5">
             <PostComponent parent parentId={pid} post={forumData.initial_post} type="initial" />
             {initialPost?.reply_post?.sort((prev, next) => next?.id - prev?.id).map((object, i) => (
-              <PostComponent post={object} parent parentId={object?.id} key={i} type="reply"/>
+              <React.Fragment key={i}>
+                <PostComponent post={object} parent parentId={object?.id} threadId={pid} type="reply" />
+
+                {initialNested?.filter((_res) => _res?.reply_post === object?.id )?.map((_res) => (
+                  <PostComponent post={{...object, ..._res}} parent parentId={_res?.id} type="nestedReply" />
+                ))}
+              </React.Fragment>
             ))}
           </div>
           <div className="flex flex-col basis-1/3 gap-5">

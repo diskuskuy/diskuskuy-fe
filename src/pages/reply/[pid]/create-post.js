@@ -8,13 +8,13 @@ import FormControl from "@mui/material/FormControl";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import { useRouter } from "next/router";
 import Navbar from "@/components/Navbar";
-import { replyPost } from "@/api/reply-post-api";
+import { replyPost, replyNestedPost } from "@/api/reply-post-api";
 
 export default function CreatePost() {
   const editorRef = useRef(null);
   const router = useRouter();
   const [tags, setTags] = React.useState([]);
-  const { pid } = router.query;
+  const { pid, parent, type } = router.query;
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -26,19 +26,26 @@ export default function CreatePost() {
       const path = location.pathname;
       const pathArray = path.split("/");
       const initialPostId = pathArray[pathArray.length - 2];
-      console.log(tags)
-      console.log(editorRef.current.getContent())
       const requestBody = JSON.stringify({
         tag: tags.join(),
         content: editorRef.current.getContent(),
-        initial_post: initialPostId
+        initial_post: parseInt(initialPostId),
+        reply_post: parseInt(parent)
       })
-      console.log(requestBody)
-      replyPost(requestBody)
-      .then(data => {
-        window.alert("Sipp boss")
-        router.push(`/forum/${pid}`);
-      })
+
+      if(type === "nested") {
+        replyNestedPost(requestBody)
+        .then(data => {
+          window.alert("Sipp boss")
+          router.push(`/forum/${pid}`);
+        })
+      } else {
+        replyPost(requestBody)
+        .then(data => {
+          window.alert("Sipp boss")
+          router.push(`/forum/${pid}`);
+        })
+      }
     } else {
       window.alert("Gak boleh kosong bos")
     }
