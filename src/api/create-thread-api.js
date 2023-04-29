@@ -1,22 +1,13 @@
+import axios from "axios";
+
 export const createThread = async (requestBody) => {
   try {
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_BE_URL}/forum/Thread/`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: requestBody,
-      }
+    const response = await axios.post(
+      `http://localhost:8000/forum/Thread/`,
+      requestBody
     );
 
-    if (!response.ok) {
-      const responseError = await response.json();
-      const message = `${responseError.errors.error_message}`;
-      throw new Error(message);
-    }
-    const responseData = await response.json();
+    const responseData = response;
     return responseData;
   } catch (error) {
     // toast.error(error.message)

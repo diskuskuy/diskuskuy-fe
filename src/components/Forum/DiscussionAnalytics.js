@@ -10,8 +10,6 @@ export default function DiscussionAnalytics({ reply, nestedReply }) {
     setShowExpansion((prevShowExpansion) => !prevShowExpansion);
   };
 
-  console.log(reply.reply_post)
-
   const data = {
     replies: 7,
     participants: 5,

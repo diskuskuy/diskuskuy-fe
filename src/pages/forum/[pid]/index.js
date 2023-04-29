@@ -12,7 +12,7 @@ import dataObd1 from "@/constants/obd-1";
 import dataObd2 from "@/constants/obd-2";
 import dataObd3 from "@/constants/obd-3";
 import dataObd4 from "@/constants/obd-4";
-import { fetchThreadDataById, fetchReplyDataById, fetchSummary, fetchNestedReply } from "@/api/forum";
+import { fetchThreadDataById, fetchReplyDataById, fetchSummary, fetchNestedReply, fetchReferences } from "@/api/forum";
 import { initialPost, replyPost, fase } from "@/api/dummy/forum";
 import CircularProgress from "@mui/material/CircularProgress";
 import { isObjectEmpty } from "@/utils/util";
@@ -36,6 +36,7 @@ export default function Forum() {
   const [initialPost, setInitialPost] = useState({});
   const [initialSummary, setInitialSummary] = useState([]);
   const [initialNested, setInitialNested] = useState([]);
+  const [references, setReferences] = useState([]);
 
   const handleNestedReply = () => {
     router.push('/create-post')
@@ -57,9 +58,10 @@ export default function Forum() {
     fetchNestedReply().then(data => {
       setInitialNested(data)
     })
+    fetchReferences().then(data => {
+      setReferences((data ?? [])?.filter((res) => res.thread == pid))
+    })
   }, [])
-
-  console.log("initialNested", initialNested)
 
   return (
     <>
@@ -100,7 +102,11 @@ export default function Forum() {
                 router.push(forumData.id + "/discussion-guide")
               }
             />
-            <References />
+            <References references={references} pid={pid} refresh={() => {
+                fetchReferences().then(data => {
+                  setReferences((data ?? [])?.filter((res) => res.thread == pid))
+                })
+              }} />
             <DiscussionAnalytics reply={initialPost} nestedReply={initialNested} />
             <DiscussionSummary
               content={initialSummary?.find((item) => item?.thread == pid)?.content ?? null}

@@ -8,6 +8,8 @@ import { CircularProgress, MenuItem, Select } from "@mui/material";
 import { useRouter } from "next/router";
 import ErrorIcon from "@mui/icons-material/Error";
 import Navbar from "@/components/Navbar";
+import firebase from "@/utils/firebase";
+import axios from "axios";
 
 export default function CreateThread() {
   const router = useRouter();
@@ -24,7 +26,7 @@ export default function CreateThread() {
 
   const tagOptions = ["Pendapat", "Pertanyaan", "Bingung"];
 
-  const { pid } = router.query
+  const { pid } = router.query;
 
   const handleChangeTitle = (event) => {
     setTitle(event.target.value);
@@ -59,7 +61,7 @@ export default function CreateThread() {
     ) {
       setIsRequesting(true);
       // TODO: reference file
-      const requestBody = JSON.stringify({
+      const requestBody = {
         initial_post: {
           tag: tags.join(),
           content: editorRef.current.getContent(),
@@ -72,9 +74,27 @@ export default function CreateThread() {
         },
         title: title,
         week: pid,
-      });
-      createThread(1, requestBody).then((data) => {
-        if (data) router.push(`/forum/${data.id}`);
+      };
+
+      createThread(requestBody).then((data) => {
+        if (data.status === 201) {
+          var file = referenceFileList[0];
+          const upload = firebase.storage().ref("/").child(file.name).put(file);
+
+          upload.then((res) => {
+            upload.snapshot.ref.getDownloadURL().then((url) => {
+              axios
+                .post("http://localhost:8000/forum/ReferenceFile/", {
+                  title: res?._delegate.metadata.name,
+                  url: url,
+                  thread: pid,
+                })
+                .then(() => {
+                  router.push(`/forum/${data.data.id}`);
+                });
+            });
+          });
+        }
       });
       setIsRequesting(false);
     } else {
@@ -86,7 +106,7 @@ export default function CreateThread() {
 
   return (
     <>
-    <Navbar />
+      <Navbar />
       <main className={styles.main}>
         {isRequesting && (
           <div className="flex flex-row justify-center">
