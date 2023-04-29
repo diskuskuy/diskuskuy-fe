@@ -22,7 +22,7 @@ export default function CreateThread() {
   const [isInitialPostEmpty, setIsInitialPostEmpty] = useState(false);
   const minDate = moment(new Date()).format("YYYY-MM-DDTMM:SS");
 
-  const tagOptions = ["Pertanyaan", "Pendapat", "Bingung"];
+  const tagOptions = ["Pendapat", "Pertanyaan", "Bingung"];
 
   const { pid } = router.query
 

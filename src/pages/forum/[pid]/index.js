@@ -101,7 +101,7 @@ export default function Forum() {
               }
             />
             <References />
-            <DiscussionAnalytics />
+            <DiscussionAnalytics reply={initialPost} nestedReply={initialNested} />
             <DiscussionSummary
               content={initialSummary?.find((item) => item?.thread == pid)?.content ?? null}
             />
