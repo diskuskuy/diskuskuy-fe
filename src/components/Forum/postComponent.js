@@ -24,7 +24,7 @@ export default function PostComponent({ post, type, parentId, parent, threadId }
   }
 
   const handleParentReply = () => {
-    router.push(`/reply/${parentId}/create-post`)
+    router.push(`/reply/${threadId}/create-post?parent=${parentId}`)
   }
 
   const handleNestedParentReply = () => {
@@ -37,7 +37,7 @@ export default function PostComponent({ post, type, parentId, parent, threadId }
         <div className="rounded-full">
           <img src="/teacher-img.png" />
         </div>
-        <div className="bg-blue px-2">Dosen</div>
+        <div className="bg-blue px-2">Dosen </div>
       </div>
       <div className="flex flex-col basis-11/12 gap-2">
         <div className="flex flex-col gap-1">

@@ -43,7 +43,7 @@ export default function CreatePost() {
         replyPost(requestBody)
         .then(data => {
           window.alert("Sipp boss")
-          router.push(`/forum/${pid}`);
+          router.push(`/forum/${parent}`);
         })
       }
     } else {
