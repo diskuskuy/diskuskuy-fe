@@ -12,7 +12,7 @@ import dataObd1 from "@/constants/obd-1";
 import dataObd2 from "@/constants/obd-2";
 import dataObd3 from "@/constants/obd-3";
 import dataObd4 from "@/constants/obd-4";
-import { fetchThreadDataById } from "@/api/forum";
+import { fetchThreadDataById, fetchReplyDataById, fetchSummary, fetchNestedReply, fetchReferences } from "@/api/forum";
 import { initialPost, replyPost, fase } from "@/api/dummy/forum";
 import CircularProgress from "@mui/material/CircularProgress";
 import { isObjectEmpty } from "@/utils/util";
@@ -21,6 +21,7 @@ import Navbar from '@/components/Navbar';
 
 export default function Forum() {
   const router = useRouter();
+  const { pid } = router.query;
 
   const inquiry =
     fase == 1
@@ -32,6 +33,14 @@ export default function Forum() {
       : dataObd4;
 
   const [forumData, setForumData] = useState({});
+  const [initialPost, setInitialPost] = useState({});
+  const [initialSummary, setInitialSummary] = useState([]);
+  const [initialNested, setInitialNested] = useState([]);
+  const [references, setReferences] = useState([]);
+
+  const handleNestedReply = () => {
+    router.push('/create-post')
+  }
 
   useEffect(() => {
     const path = location.pathname;
@@ -40,6 +49,18 @@ export default function Forum() {
     fetchThreadDataById(threadId)
     .then(data => {
       setForumData(data)})
+    fetchReplyDataById(threadId).then(data => {
+      setInitialPost(data)
+    })
+    fetchSummary().then(data => {
+      setInitialSummary(data)
+    })
+    fetchNestedReply().then(data => {
+      setInitialNested(data)
+    })
+    fetchReferences().then(data => {
+      setReferences((data ?? [])?.filter((res) => res.thread == pid))
+    })
   }, [])
 
   return (
@@ -63,9 +84,15 @@ export default function Forum() {
         </div>
         <div className="flex flex-row gap-5">
           <div className="flex flex-col basis-2/3 gap-5">
-            <PostComponent post={forumData.initial_post} type="initial" />
-            {replyPost.map((object, i) => (
-              <PostComponent post={object} key={i} type="reply" />
+            <PostComponent parent parentId={pid} post={forumData.initial_post} type="initial" />
+            {initialPost?.reply_post?.sort((prev, next) => next?.id - prev?.id).map((object, i) => (
+              <React.Fragment key={i}>
+                <PostComponent post={object} parent parentId={object?.id} threadId={pid} type="reply" />
+
+                {initialNested?.filter((_res) => _res?.reply_post === object?.id )?.map((_res) => (
+                  <PostComponent post={{...object, ..._res}} parent parentId={_res?.id} type="nestedReply" />
+                ))}
+              </React.Fragment>
             ))}
           </div>
           <div className="flex flex-col basis-1/3 gap-5">
@@ -75,10 +102,14 @@ export default function Forum() {
                 router.push(forumData.id + "/discussion-guide")
               }
             />
-            <References />
-            <DiscussionAnalytics />
+            <References references={references} pid={pid} refresh={() => {
+                fetchReferences().then(data => {
+                  setReferences((data ?? [])?.filter((res) => res.thread == pid))
+                })
+              }} />
+            <DiscussionAnalytics reply={initialPost} nestedReply={initialNested} />
             <DiscussionSummary
-              content={forumData.summary ? forumData.summary.content : null}
+              content={initialSummary?.find((item) => item?.thread == pid)?.content ?? null}
             />
           </div>
         </div>
