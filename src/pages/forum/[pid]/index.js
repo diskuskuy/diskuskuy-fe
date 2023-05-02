@@ -40,7 +40,7 @@ export default function Forum() {
 
   const [forumData, setForumData] = useState({});
   const [initialPost, setInitialPost] = useState({});
-  const [initialSummary, setInitialSummary] = useState([]);
+  const [initialSummary, setInitialSummary] = useState({});
   const [initialNested, setInitialNested] = useState([]);
   const [references, setReferences] = useState([]);
 
@@ -55,8 +55,8 @@ export default function Forum() {
 
     fetchThreadDataById(threadId).then((data) => {
       setForumData(data);
-      setReferences(data?.reference_file ?? [])
-      setInitialSummary(data?.summary?.content ?? "");
+      setReferences(data?.reference_file ?? []);
+      setInitialSummary(data?.summary ?? {});
 
       fetchReplyDataById(data?.initial_post?.id).then((data) => {
         setInitialPost(data);
@@ -148,9 +148,8 @@ export default function Forum() {
                   nestedReply={initialNested}
                 />
                 <DiscussionSummary
-                  content={
-                    initialSummary
-                  }
+                  content={initialSummary?.content ?? ""}
+                  id={initialSummary?.id ?? ""}
                 />
               </div>
             </div>
