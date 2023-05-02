@@ -23,6 +23,7 @@ export default function CreateThread() {
   const [tags, setTags] = useState([]);
   const [isInitialPostEmpty, setIsInitialPostEmpty] = useState(false);
   const minDate = moment(new Date()).format("YYYY-MM-DDTMM:SS");
+  const [isLoading, setLoading] = useState(false)
 
   const tagOptions = ["Pendapat", "Pertanyaan", "Bingung"];
 
@@ -54,6 +55,7 @@ export default function CreateThread() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    setLoading(true)
     if (
       editorRef.current &&
       editorRef.current.getContent() &&
@@ -87,15 +89,17 @@ export default function CreateThread() {
                 .post("http://localhost:8000/forum/ReferenceFile/", {
                   title: res?._delegate.metadata.name,
                   url: url,
-                  thread: pid,
+                  thread: data.data.id,
                 })
                 .then(() => {
-                  router.push(`/forum/${data.data.id}`);
+                  setTimeout(() => {
+                    router.push(`/forum/${data.data.id}`);
+                  }, 10000)
                 });
             });
           });
         }
-      });
+      })
       setIsRequesting(false);
     } else {
       setIsInitialPostEmpty(true);
@@ -236,8 +240,9 @@ export default function CreateThread() {
                   />
                   <input
                     type="submit"
-                    value="Simpan"
+                    value={isLoading ? "Loading..." :"Simpan"}
                     className="bg-green text-white p-2 rounded cursor-pointer w-1/2"
+                    disabled={isLoading}
                   />
                 </div>
               </form>
