@@ -1,4 +1,11 @@
+import { fetchProfileData } from "@/api/auth";
+import { useEffect } from "react";
+
 export default function Profile() {
+    useEffect(() => {
+        fetchProfileData().then((data) => console.log(data));
+      }, []);
+
     return (
         <div className="block p-6 bg-white border rounded-lg flex flex-col gap-2" style={{
             width: '300px',

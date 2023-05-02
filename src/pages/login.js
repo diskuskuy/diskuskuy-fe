@@ -1,8 +1,35 @@
 import Head from 'next/head'
 import styles from '@/styles/Home.module.css'
 import Navbar from '@/components/Navbar'
+import { login } from '@/api/auth'
+import { useRouter } from 'next/router';
+import { useState } from 'react';
 
 export default function Login() {
+    const router = useRouter();
+
+    const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
+
+    const handleChangeUsername = (event) => {
+        setUsername(event.target.value);
+      };
+
+    const handleChangePassword = (event) => {
+        setPassword(event.target.value);
+    };
+
+    const handleLogin = (event) => {
+        event.preventDefault();
+        const requestBody = JSON.stringify({
+            username: username,
+            password: password,
+          });
+        login(requestBody).then((data) => {
+            if (data) router.push(`/`);
+        });
+    }
+
     return (
         <>
         <Head>
@@ -21,16 +48,19 @@ export default function Login() {
                 <h1 className="text-3xl font-semibold text-center text-green-700 underline uppercase ">
                    Login
                 </h1>
-                <form className="mt-6">
+                <form onSubmit={handleLogin} className="mt-6">
                     <div className="mb-2">
                         <label
-                            for="email"
+                            for="username"
                             className="block text-sm font-semibold text-gray-800"
                         >
-                            Email
+                            Username
                         </label>
                         <input
-                            type="email"
+                            value={username}
+                            onChange={handleChangeUsername}
+                            required
+                            type="text"
                             className="block w-full px-4 py-2 mt-2 text-green-700 bg-white border rounded-md focus:border-green-400 focus:ring-green-300 focus:outline-none focus:ring focus:ring-opacity-40"
                         />
                     </div>
@@ -42,6 +72,9 @@ export default function Login() {
                             Password
                         </label>
                         <input
+                            value={password}
+                            onChange={handleChangePassword}
+                            required
                             type="password"
                             className="block w-full px-4 py-2 mt-2 text-green-700 bg-white border rounded-md focus:border-green-400 focus:ring-green-300 focus:outline-none focus:ring focus:ring-opacity-40"
                         />
@@ -53,9 +86,14 @@ export default function Login() {
                         Forget Password?
                     </a>
                     <div className="mt-6">
-                        <button className="w-full px-4 py-2 tracking-wide text-white transition-colors duration-200 transform bg-green-700 rounded-md hover:bg-green-600 focus:outline-none focus:bg-green-600">
+                        {/* <button className="w-full px-4 py-2 tracking-wide text-white transition-colors duration-200 transform bg-green-700 rounded-md hover:bg-green-600 focus:outline-none focus:bg-green-600">
                             Login
-                        </button>
+                        </button> */}
+                        <input
+                            type="submit"
+                            value="Login"
+                            className="w-full px-4 py-2 tracking-wide text-white transition-colors duration-200 transform bg-green-700 rounded-md hover:bg-green-600 focus:outline-none focus:bg-green-600"
+                        />
                     </div>
                 </form>
 
