@@ -8,10 +8,7 @@ import DiscussionGuide from "@/components/Forum/DiscussionGuide";
 import PostComponent from "@/components/Forum/postComponent";
 import References from "@/components/Forum/References";
 import Onboarding from "@/components/Forum/Onboarding";
-import dataObd1 from "@/constants/obd-1";
-import dataObd2 from "@/constants/obd-2";
-import dataObd3 from "@/constants/obd-3";
-import dataObd4 from "@/constants/obd-4";
+import { dataObd1, dataObd2, dataObd3, dataObd4 } from "@/constants/OnboardingConstants";
 import {
   fetchThreadDataById,
   fetchReplyDataById,
@@ -29,20 +26,13 @@ export default function Forum() {
   const router = useRouter();
   const { pid } = router.query;
 
-  const inquiry =
-    fase == 1
-      ? dataObd1
-      : fase == 2
-      ? dataObd2
-      : fase == 3
-      ? dataObd3
-      : dataObd4;
-
   const [forumData, setForumData] = useState({});
   const [initialPost, setInitialPost] = useState({});
   const [initialSummary, setInitialSummary] = useState([]);
   const [initialNested, setInitialNested] = useState([]);
   const [references, setReferences] = useState([]);
+  const [phase, setPhase] = useState(1);
+  const [inquiry, setInquiry] = useState([]);
 
   const handleNestedReply = () => {
     router.push("/create-post");
@@ -55,7 +45,17 @@ export default function Forum() {
 
     fetchThreadDataById(threadId).then((data) => {
       setForumData(data);
-      setReferences(data?.reference_file ?? [])
+      setPhase(data?.discussion_guide?.state ?? 1);
+      setInquiry(
+        phase == 1
+          ? dataObd1
+          : phase == 2
+          ? dataObd2
+          : phase == 3
+          ? dataObd3
+          : dataObd4
+      );
+      setReferences(data?.reference_file ?? []);
       setInitialSummary(data?.summary?.content ?? "");
 
       fetchReplyDataById(data?.initial_post?.id).then((data) => {
@@ -147,11 +147,7 @@ export default function Forum() {
                   reply={initialPost}
                   nestedReply={initialNested}
                 />
-                <DiscussionSummary
-                  content={
-                    initialSummary
-                  }
-                />
+                <DiscussionSummary content={initialSummary} />
               </div>
             </div>
             <Onboarding data={inquiry} />

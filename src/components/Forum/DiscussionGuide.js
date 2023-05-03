@@ -3,6 +3,7 @@ import defaultMoment from "moment/min/moment-with-locales";
 import { formatDate, formatTime } from "@/utils/util";
 
 export default function DiscussionGuide({ data, onSeeDiscussionGuide }) {
+  console.log(data)
   const deadline =
     formatDate(data.deadline) + " | " + formatTime(data.deadline);
 
