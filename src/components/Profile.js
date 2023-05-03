@@ -1,4 +1,10 @@
+import { fetchProfileData } from "@/api/auth";
+import { useEffect } from "react";
+
 export default function Profile() {
+  useEffect(() => {
+    fetchProfileData().then((data) => console.log(data));
+  }, []);
   return (
     <div
       className="section"

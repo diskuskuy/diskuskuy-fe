@@ -1,9 +1,12 @@
 export const fetchWeeksData = async () => {
   try {
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_BE_URL}/forum/Week`,
+      `${process.env.NEXT_PUBLIC_BE_URL}/forum/Week/`,
       {
         method: "GET",
+        headers: {
+          "Authorization": `Token ${localStorage.getItem("token")}`,
+        },
       }
     );
 

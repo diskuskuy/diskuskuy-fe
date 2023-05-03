@@ -11,9 +11,9 @@ import {
 } from "@/api/dummy/home";
 import { createWeek, fetchWeeksData } from "@/api/home";
 import CircularProgress from "@mui/material/CircularProgress";
-import CreateWeekPopUp from "@/components/Home/CreateWeekPopUp";
 import { Button } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
+import CreateWeekPopUp from "@/components/Home/CreateWeekPopUp";
 import { useRouter } from "next/router";
 import Navbar from "@/components/Navbar";
 
