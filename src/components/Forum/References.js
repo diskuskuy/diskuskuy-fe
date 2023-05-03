@@ -1,44 +1,55 @@
-import React, { useState } from 'react'
+import React, { useState } from "react";
+import firebase from "@/utils/firebase";
+import axios from "axios";
 
-export default function References() {
+export default function References({pid, references, refresh}) {
+  return (
+    <div className="section">
+      <div className="flex justify-between items-center">
+        <h5 className="font-bold text-gray">Referensi Diskusi</h5>
+        <button
+          onClick={() => {
+            var input = document.createElement("input");
+            input.setAttribute("type", "file");
 
-  const references = [
-    {
-      "id": 1,
-      "title": "[Salindia] Materi Kuliah ke-1: Pengantar Sistem Interaksi",
-      "type": "pdf",
-    },
-    {
-      "id": 2,
-      "title": "[Buku] Interaction Design: Beyond Human Computer Interaction",
-      "type": "pdf",
-    },
-    {
-      "id": 3,
-      "title": "[Buku] Don’t Make Me Think",
-      "type": "pdf",
-    },
-    {
-      "id": 4,
-      "title": "[Tautan] Interaction-Design.org",
-      "type": "url",
-    },
-  ]
+            input.onchange = function () {
+              var file = this.files[0];
+              const upload = firebase
+              .storage()
+              .ref("/")
+              .child(file.name)
+              .put(file)
 
-    return (
-      <div className="block p-6 bg-white border rounded-lg flex flex-col gap-2">
-          <h5 className="font-bold text-[#6B6B6B]">Referensi Diskusi</h5>
-          <div className="h-1 w-5 bg-[#C4C4C4]"></div>
-          {references.map((object, i) => 
-            <div key={i} className='flex flex-row items-center gap-2 text-sm'>
-              {object.type == 'pdf' && <img src='/pdf-icon.png' width={'30px'}/>}
-              {object.type == 'url' && <img src='/url-icon.png' width={'30px'}/>}
-              <div className='flex flex-col'>
-                <p>{object.title}</p>
-              </div>
-            </div>
-          )}
+              upload.then((res) => {
+                upload.snapshot.ref.getDownloadURL().then((url) => {
+                  axios.post("http://localhost:8000/forum/ReferenceFile/", {
+                    title: res?._delegate.metadata.name,
+                    url: url,
+                    thread: pid
+                  }).then(() => {
+                    window.alert("sip")
+                    refresh()
+                  })
+                })
+                })
+            };
+
+            input.click();
+          }}
+        >
+          add
+        </button>
       </div>
-    )
-  }
-  
+      <div className="h-1 w-5 bg-grey"></div>
+      {references.map((object, i) => (
+        <div key={i} className="flex flex-row items-center gap-2 text-sm cursor-pointer" onClick={() => window.open(object.url, "_blank")}>
+          {object.url.includes(".pdf") && <img src="/pdf-icon.png" width={"30px"} />}
+          {!object.url.includes(".pdf") && <img src="/url-icon.png" width={"30px"} />}
+          <div className="flex flex-col">
+            <p>{object.title}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}

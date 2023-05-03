@@ -1,7 +1,7 @@
-export const login = async (requestBody) => {
+export const replyPost = async (requestBody) => {
     try {
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_BE_URL}/auth/login`,
+        `${process.env.NEXT_PUBLIC_BE_URL}/post/replypost/`,
         {
           method: "POST",
           headers: {
@@ -17,9 +17,6 @@ export const login = async (requestBody) => {
         throw new Error(message);
       }
       const responseData = await response.json();
-      localStorage.setItem('token', responseData.token)
-      localStorage.setItem('userId', responseData.user_id)
-      localStorage.setItem('role', responseData.role);
       return responseData;
     } catch (error) {
       // toast.error(error.message)
@@ -27,12 +24,16 @@ export const login = async (requestBody) => {
     }
   };
 
-  export const fetchProfileData = async () => {
+  export const replyNestedPost = async (requestBody) => {
     try {
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_BE_URL}/auth/profile`,
+        `${process.env.NEXT_PUBLIC_BE_URL}/post/nestedreplypost/`,
         {
-          method: "GET",
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: requestBody,
         }
       );
   
@@ -48,3 +49,4 @@ export const login = async (requestBody) => {
       console.log(error.message);
     }
   };
+  

@@ -15,7 +15,7 @@ export default function Document() {
         ></link>
       </Head>
       <body>
-        <Navbar />
+        {/* <Navbar /> */}
         <Main />
         <NextScript />
       </body>

@@ -11,6 +11,7 @@ import {
 } from "@/api/discussion-guide";
 import { formatDate, formatTime } from "@/utils/util";
 import DiscussionGuideUpdateConfirmationPopUp from "@/components/Forum/DiscussionGuideUpdateConfirmationPopUp";
+import Navbar from '@/components/Navbar';
 
 export default function DiscussionGuide() {
   useEffect(() => {
@@ -54,6 +55,8 @@ export default function DiscussionGuide() {
   };
 
   return (
+    <>
+    <Navbar />
     <main className={styles.main}>
       <div className='flex flex-row items-center text-xs pb-10'>
         <a className='cursor-pointer' href='/'>Sistem Interaksi - Gasal 2020/2021</a>
@@ -64,11 +67,11 @@ export default function DiscussionGuide() {
         <ChevronRightIcon />
         <a className='font-bold'>Panduan Diskusi</a>
       </div>
-      <div className="block p-6 bg-white border rounded-lg flex flex-col gap-2">
-        <a className="text-xs text-[#646E9E] cursor-pointer">
+      <div className="section">
+        <a onClick={() => router.back()} className="text-xs text-purple cursor-pointer">
           <ChevronLeftIcon /> Kembali ke Thread
         </a>
-        <h1 className="font-bold text-3xl">Panduan Diskusi</h1>
+        <h1 className="font-bold">Panduan Diskusi</h1>
         <div className="flex flex-row gap-5">
           <div className="flex flex-col basis-2/3 gap-5">
             <p>
@@ -84,7 +87,7 @@ export default function DiscussionGuide() {
             {discussionGuideConstants.map((object, i) => (
               <div
                 key={i}
-                className="block p-6 bg-white border rounded-lg flex flex-row gap-5 shadow"
+                className="block p-6 bg-white rounded-lg flex flex-row gap-5 shadow-lg"
                 style={{
                   borderBottom:
                     discussionGuideData.state == i + 1
@@ -92,7 +95,7 @@ export default function DiscussionGuide() {
                       : null,
                 }}
               >
-                <h1 className="font-bold text-4xl">{object.id}</h1>
+                <h1 className="font-bold">{object.id}</h1>
                 <div className="flex flex-col">
                   <p className="font-bold">{object.title}</p>
                   <p>{object.description}</p>
@@ -115,7 +118,7 @@ export default function DiscussionGuide() {
             ))}
           </div>
           <div className="basis-1/3">
-            <div className="border-dashed border-2 border-[#C4C4C4] rounded-lg flex flex-col p-5">
+            <div className="border-dashed border-2 border-grey rounded-lg flex flex-col p-5">
               <p>
                 <strong>Deadline:</strong> {deadline}
               </p>
@@ -133,5 +136,6 @@ export default function DiscussionGuide() {
         onYesAction={handleUpdateState}
       />
     </main>
+    </>
   );
 }

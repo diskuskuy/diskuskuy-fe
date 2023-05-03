@@ -92,24 +92,21 @@ export default function Login() {
                         <input
                             type="submit"
                             value="Login"
-                            className="w-full px-4 py-2 tracking-wide text-white transition-colors duration-200 transform bg-green-700 rounded-md hover:bg-green-600 focus:outline-none focus:bg-green-600"
+                            className="w-full px-4 py-2 tracking-wide text-white transition-colors duration-200 transform bg-green rounded-md hover:bg-green-600 focus:outline-none focus:bg-green-600"
                         />
                     </div>
                 </form>
 
-                <p className="mt-8 text-xs font-light text-center text-gray-700">
-                    {" "}
-                    Don't have an account?{" "}
-                    <a
-                        href="#"
-                        className="font-medium text-green-600 hover:underline"
-                    >
-                        Sign up
-                    </a>
-                </p>
-            </div>
+            <p className="mt-8 text-xs font-light text-center text-gray-700">
+              {" "}
+              Don't have an account?{" "}
+              <a href="#" className="font-medium text-green hover:underline">
+                Sign up
+              </a>
+            </p>
+          </div>
         </div>
       </main>
-        </>
-    )
+    </>
+  );
 }
