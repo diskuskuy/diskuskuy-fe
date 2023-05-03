@@ -3,9 +3,12 @@ import axios from "axios";
 export const fetchThreadDataById = async (threadId) => {
   try {
     const response = await fetch(
-      "http://localhost:8000/forum/Thread/" + threadId,
+      `${process.env.NEXT_PUBLIC_BE_URL}/forum/Thread/` + threadId,
       {
         method: "GET",
+        headers: {
+          "Authorization": `Token ${localStorage.getItem("token")}`,
+        }
       }
     );
 
@@ -25,9 +28,12 @@ export const fetchThreadDataById = async (threadId) => {
 export const fetchReplyDataById = async (threadId) => {
   try {
     const response = await fetch(
-      "http://localhost:8000/post/initialpost/" + threadId,
+      `${process.env.NEXT_PUBLIC_BE_URL}/post/initialpost/` + threadId,
       {
         method: "GET",
+        headers: {
+          "Authorization": `Token ${localStorage.getItem("token")}`,
+        }
       }
     );
 
@@ -46,8 +52,11 @@ export const fetchReplyDataById = async (threadId) => {
 
 export const fetchSummary = async () => {
   try {
-    const response = await fetch("http://localhost:8000/forum/Summary", {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_BE_URL}/forum/Summary`, {
       method: "GET",
+      headers: {
+        "Authorization": `Token ${localStorage.getItem("token")}`,
+      }
     });
 
     if (!response.ok) {
@@ -63,9 +72,33 @@ export const fetchSummary = async () => {
   }
 };
 
+
+
 export const updateSummaryById = async (id, requestBody) => {
+  const headers = {
+    "Authorization": `Token ${localStorage.getItem("token")}`,
+  }
   axios
-    .put(`http://localhost:8000/forum/Summary/${id}/`, requestBody)
+    .put(`${process.env.NEXT_PUBLIC_BE_URL}/forum/Summary/${id}/`, requestBody, {
+      headers : headers
+    })
+    .then((response) => {
+      if (response) window.location.reload();
+    })
+    .catch((error) => {
+      // toast.error(error.message)
+      console.log(error.message);
+    });
+};
+
+export const createSummary = async (requestBody) => {
+  const headers = {
+    "Authorization": `Token ${localStorage.getItem("token")}`,
+  }
+  axios
+    .post(`${process.env.NEXT_PUBLIC_BE_URL}/forum/Summary/`, requestBody, {
+      headers : headers
+    })
     .then((response) => {
       if (response) window.location.reload();
     })
@@ -78,9 +111,12 @@ export const updateSummaryById = async (id, requestBody) => {
 export const fetchNestedReply = async () => {
   try {
     const response = await fetch(
-      "http://localhost:8000/post/nestedreplypost/",
+      `${process.env.NEXT_PUBLIC_BE_URL}/post/nestedreplypost/`,
       {
         method: "GET",
+        headers: {
+          "Authorization": `Token ${localStorage.getItem("token")}`,
+        }
       }
     );
 
@@ -99,8 +135,11 @@ export const fetchNestedReply = async () => {
 
 export const fetchReferences = async () => {
   try {
-    const response = await fetch("http://localhost:8000/forum/ReferenceFile", {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_BE_URL}/forum/ReferenceFile`, {
       method: "GET",
+      headers: {
+        "Authorization": `Token ${localStorage.getItem("token")}`,
+      }
     });
 
     if (!response.ok) {

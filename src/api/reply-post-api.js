@@ -5,6 +5,7 @@ export const replyPost = async (requestBody) => {
         {
           method: "POST",
           headers: {
+            "Authorization": `Token ${localStorage.getItem("token")}`,
             "Content-Type": "application/json",
           },
           body: requestBody,
@@ -31,8 +32,10 @@ export const replyPost = async (requestBody) => {
         {
           method: "POST",
           headers: {
+            "Authorization": `Token ${localStorage.getItem("token")}`,
             "Content-Type": "application/json",
           },
+          
           body: requestBody,
         }
       );

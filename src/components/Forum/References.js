@@ -22,11 +22,14 @@ export default function References({pid, references, refresh}) {
 
               upload.then((res) => {
                 upload.snapshot.ref.getDownloadURL().then((url) => {
-                  axios.post("http://localhost:8000/forum/ReferenceFile/", {
+                  axios.post(`${process.env.NEXT_PUBLIC_BE_URL}/forum/ReferenceFile/`, {
                     title: res?._delegate.metadata.name,
                     url: url,
                     thread: pid
-                  }).then(() => {
+                  }, {headers: {
+                    "Authorization": `Token ${localStorage.getItem("token")}`,
+                  }},
+                  ).then(() => {
                     window.alert("sip")
                     refresh()
                   })
@@ -44,7 +47,8 @@ export default function References({pid, references, refresh}) {
       {references.map((object, i) => (
         <div key={i} className="flex flex-row items-center gap-2 text-sm cursor-pointer" onClick={() => window.open(object.url, "_blank")}>
           {object.url.includes(".pdf") && <img src="/pdf-icon.png" width={"30px"} />}
-          {!object.url.includes(".pdf") && <img src="/url-icon.png" width={"30px"} />}
+          {object.url.includes(".png") && <img src="/png-icon.png" width={"30px"} />}
+          {!object.url.includes(".pdf") && !object.url.includes(".png") && <img src="/url-icon.png" width={"30px"} />}
           <div className="flex flex-col">
             <p>{object.title}</p>
           </div>

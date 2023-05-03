@@ -39,9 +39,13 @@ export default function EditThread() {
       setDeadline(moment(deadlineData).format("YYYY-MM-DDTMM:SS"))
       setDescription(data.discussion_guide.description)
       setMechAndExp(data.discussion_guide.mechanism_expectation)
+      console.log(editorRef)
+      console.log(editorRef.current)
       editorRef.current.setContent(data.initial_post.content)
       const tagData = data.initial_post.tag.toLowerCase()
       setTags(tagData.split(","))
+      console.log(data)
+      setReferenceFileList(data?.reference_file ?? [])
     })
   }, [])
 
@@ -62,7 +66,7 @@ export default function EditThread() {
   };
 
   const handleReferenceFileChange = (e) => {
-    setReferenceFileList(e.target.files);
+    setReferenceFileList([...e.target.files]);
   };
 
   const handleChangeTag = (event) => {
@@ -180,18 +184,18 @@ export default function EditThread() {
                           className="flex flex-row items-center gap-2"
                           key={i}
                         >
-                          {file.type == "application/pdf" && (
+                          {file.url.includes(".pdf") && (
                             <img src="/pdf-icon.png" width={"30px"} />
                           )}
-                          {file.type == "image/png" && (
+                          {file.url.includes(".png") && (
                             <img src="/png-icon.png" width={"30px"} />
                           )}
-                          {file.type != "application/pdf" &&
-                            file.type != "image/png" && (
+                          {!file.url.includes(".pdf") &&
+                            !file.url.includes(".png") && (
                               <img src="/url-icon.png" width={"30px"} />
                             )}
                           <div className="flex flex-col">
-                            <p>{file.name}</p>
+                            <p>{file.name || file.title}</p>
                           </div>
                         </div>
                       ))}
