@@ -79,6 +79,7 @@ export default function CreateThread() {
       };
 
       createThread(requestBody).then((data) => {
+        console.log(data)
         if (data.status === 201) {
           var file = referenceFileList[0];
           const upload = firebase.storage().ref("/").child(file.name).put(file);
@@ -86,11 +87,14 @@ export default function CreateThread() {
           upload.then((res) => {
             upload.snapshot.ref.getDownloadURL().then((url) => {
               axios
-                .post("http://localhost:8000/forum/ReferenceFile/", {
+                .post(`${process.env.NEXT_PUBLIC_BE_URL}/forum/ReferenceFile/`, {
                   title: res?._delegate.metadata.name,
                   url: url,
                   thread: data.data.id,
-                })
+                }, { headers: {
+                  "Authorization": `Token ${localStorage.getItem("token")}`,
+                },}
+                )
                 .then(() => {
                   setTimeout(() => {
                     router.push(`/forum/${data.data.id}`);

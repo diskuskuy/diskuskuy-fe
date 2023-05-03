@@ -7,6 +7,9 @@ export const fetchDiscussionGuideDataByThreadId = async () => {
       `${process.env.NEXT_PUBLIC_BE_URL}/forum/${threadId}/discussion-guide/`,
       {
         method: "GET",
+        headers: {
+          "Authorization": `Token ${localStorage.getItem("token")}`, 
+        }
       }
     );
 
@@ -30,6 +33,7 @@ export const updateDiscussionGuideStateById = async (id, stateRequest) => {
       {
         method: "PATCH",
         headers: {
+          "Authorization": `Token ${localStorage.getItem("token")}`,
           "Content-Type": "application/json",
         },
         body: JSON.stringify({

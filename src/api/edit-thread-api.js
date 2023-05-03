@@ -5,6 +5,7 @@ export const editThread = async (threadId, requestBody) => {
       {
         method: "PUT",
         headers: {
+          "Authorization": `Token ${localStorage.getItem("token")}`,
           "Content-Type": "application/json",
         },
         body: requestBody,

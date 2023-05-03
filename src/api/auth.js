@@ -33,6 +33,9 @@ export const login = async (requestBody) => {
         `${process.env.NEXT_PUBLIC_BE_URL}/auth/profile`,
         {
           method: "GET",
+          headers: {
+            "Authorization": `Token ${localStorage.getItem("token")}`,
+          }
         }
       );
   

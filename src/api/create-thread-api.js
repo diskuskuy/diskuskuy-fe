@@ -1,10 +1,15 @@
 import axios from "axios";
 
 export const createThread = async (requestBody) => {
+  const headers = {
+    "Authorization": `Token ${localStorage.getItem("token")}`,
+  }
   try {
     const response = await axios.post(
-      `http://localhost:8000/forum/Thread/`,
-      requestBody
+      `${process.env.NEXT_PUBLIC_BE_URL}/forum/Thread/`,
+      requestBody, {
+        headers : headers
+      }
     );
 
     const responseData = response;

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { updateSummaryById } from "@/api/forum";
+import { createSummary, updateSummaryById } from "@/api/forum";
 import { useRouter } from "next/router";
 
 export default function DiscussionSummary({ content, id }) {
@@ -14,7 +14,12 @@ export default function DiscussionSummary({ content, id }) {
   const handleSubmit = (event) => {
     event.preventDefault();
     const requestBody = { id: id, content: summaryContent, thread: pid };
-    updateSummaryById(id, requestBody);
+    if (id == null || id == ''){
+      createSummary(requestBody)
+    }
+    else {
+      updateSummaryById(id, requestBody);
+    }
   };
 
   return (
