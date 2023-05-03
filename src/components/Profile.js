@@ -1,4 +1,4 @@
-export default function Profile() {
+export default function ProfileComponent() {
     return (
         <div className="block p-6 bg-white border rounded-lg flex flex-col gap-2" style={{
             width: '300px',

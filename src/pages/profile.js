@@ -5,7 +5,7 @@ import styles from '@/styles/Home.module.css'
 export default function Profile() {
     return (
         <>
-        <Navbar/>
+        {/* <Navbar/> */}
         <main className={styles.main}>
             <ProfileComponent/>
         </main>

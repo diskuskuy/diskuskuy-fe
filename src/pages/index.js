@@ -6,6 +6,7 @@ import DosenInfo from '@/components/Home/DosenInfo'
 import { courseName, courseDescription, term, dosenInfo } from '@/api/dummy/home';
 import { fetchWeeksData } from '@/api/home';
 import CircularProgress from '@mui/material/CircularProgress';
+import Navbar from '@/components/Navbar';
 
 export default function Home() {
 
@@ -18,6 +19,7 @@ export default function Home() {
 
   return (
     <>
+    <Navbar/>
       <main className={styles.main}>
         <div className="flex flex-col gap-5">
         <div

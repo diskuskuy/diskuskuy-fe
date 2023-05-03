@@ -12,7 +12,7 @@ import dataObd1 from '@/constants/obd-1';
 import dataObd2 from '@/constants/obd-2';
 import dataObd3 from '@/constants/obd-3';
 import dataObd4 from '@/constants/obd-4';
-import { fetchThreadDataById } from '@/api/forum';
+import { fetchThreadDataById, fetchInitialPostDataById, fetchReplyPostDataById } from '@/api/forum';
 import { initialPost, replyPost, fase } from '@/api/dummy/forum';
 import CircularProgress from '@mui/material/CircularProgress';
 import { isObjectEmpty } from '@/utils/util';
@@ -26,12 +26,30 @@ export default function Forum() {
 
   const [forumData, setForumData] = useState({});
 
+  const [initialPostData, setInitialPostData] = useState({});
+  
+  // const [replyPostData, setReplyPostData] = useState({});
+
   useEffect(() => {
     fetchThreadDataById()
     .then(data => {
       console.log(data)
       setForumData(data)})
   }, [])
+
+  useEffect(() => {
+    fetchInitialPostDataById()
+    .then(data => {
+      console.log(data)
+      setInitialPostData(data)})
+  }, [])
+
+  // useEffect(() => {
+  //   fetchReplyPostDataById()
+  //   .then(data => {
+  //     console.log(data)
+  //     setReplyPostData(data)})
+  // }, [])
 
   
   return (
@@ -56,11 +74,30 @@ export default function Forum() {
             <div className="block p-6 bg-white border rounded-lg flex flex-col gap-2">
             <PostComponent post={forumData.initial_post}/>
             </div>
-            <div className="block p-6 bg-white border rounded-lg flex flex-col gap-2 ml-10">
-              {replyPost.map((object, i) => 
-                <PostComponent post={object} key={i}/>
-              )}
-            </div>
+            console.log(initialPostData)
+
+            {initialPostData.reply_post.map((object, i) => { 
+              // {list_initialpost.reply_post.map((object, i) => { 
+                // let replyPostData = {}
+                // fetchReplyPostDataById(object.id)
+                //   .then(data => {
+                //     console.log(data)
+                //     replyPostData = data
+                //     console.log(replyPostData["nested_reply_post"])
+                //   })
+                return(
+                  <div className="block p-6 bg-white border rounded-lg flex flex-col gap-2 ml-10">
+                    <PostComponent post={object} key={i}/>
+                    <div>
+                      {/* console.log(replyPostData)
+                      {replyPostData.nested_reply_post.map((object, i) => 
+                        <div className="block p-6 bg-white border rounded-lg flex flex-col gap-2 ml-10">
+                          <PostComponent post={object} key={i}/>
+                        </div>
+                      )} */}
+                    </div>
+                  </div>
+              )})}
           </div>
           <div className="flex flex-col basis-1/3 gap-5">
             <DiscussionGuide data={forumData.discussion_guide} onSeeDiscussionGuide={() => router.push(forumData.id+'/discussion-guide')}/>
@@ -76,3 +113,18 @@ export default function Forum() {
     </>
   )
 }
+
+// export async function getStaticProps() {
+//   const list_initialpost = await fetch('http://localhost:8000/post/initialpostall/')
+//   // const list_reply = await fetchReplyPostDataById();
+
+//   console.log(list_initialpost)
+//   // console.log(list_reply)
+
+//   return {
+//     props: {
+//       list_initialpost,
+//     },
+//     // revalidate: 10,
+//   };
+// }
