@@ -23,6 +23,9 @@ export default function Home() {
   const [showCreateWeekPopUp, setShowCreateWeekPopUp] = useState(false);
   const [weekNameInput, setWeekNameInput] = useState("");
 
+  const role = typeof window !== 'undefined' ? localStorage.getItem('role') : null
+  const isLecturer = role == 'lecturer' ? true : false;
+
   useEffect(() => {
     fetchWeeksData().then((data) => setWeeksData(data));
   }, []);
@@ -47,7 +50,7 @@ export default function Home() {
 
   return (
     <>
-      <Navbar/>
+      <Navbar />
       <main className={styles.main}>
         <div className="flex flex-col gap-5">
           <div className="block p-6 h-44 bg-cover bg-[url('/header.png')] bg-purple rounded-lg text-white">
@@ -91,21 +94,25 @@ export default function Home() {
               </div>
             </div>
           </div>
-          <Button
-            startIcon={<AddIcon />}
-            variant="filled"
-            className="normal-case text-black font-bold bg-white w-40 rounded-lg"
-            onClick={handleShowCreateWeekPopUp}
-          >
-            Tambah Week
-          </Button>
-          <CreateWeekPopUp
-            open={showCreateWeekPopUp}
-            onClose={handleCloseCreateWeekPopUp}
-            onSaveAction={handleSaveActionPopUp}
-            inputValue={weekNameInput}
-            handleInputChange={handleWeekNameInputChange}
-          />
+          {isLecturer && (
+            <>
+              <Button
+                startIcon={<AddIcon />}
+                variant="filled"
+                className="normal-case text-black font-bold bg-white w-40 rounded-lg"
+                onClick={handleShowCreateWeekPopUp}
+              >
+                Tambah Week
+              </Button>
+              <CreateWeekPopUp
+                open={showCreateWeekPopUp}
+                onClose={handleCloseCreateWeekPopUp}
+                onSaveAction={handleSaveActionPopUp}
+                inputValue={weekNameInput}
+                handleInputChange={handleWeekNameInputChange}
+              />
+            </>
+          )}
           {!(weeksData && weeksData.length > 0) && (
             <div className="flex flex-row justify-center">
               <CircularProgress color="inherit" />
@@ -119,14 +126,16 @@ export default function Home() {
                 <h1 className="mb-2 font-bold tracking-tight text-gray-900">
                   {week.name}
                 </h1>
-                <Button
-                  startIcon={<AddIcon />}
-                  variant="contained"
-                  className="normal-case text-black font-bold bg-white w-40 rounded-lg"
-                  onClick={() => router.push(`week/${week.id}/create-thread`)}
-                >
-                  Buat Thread
-                </Button>
+                {isLecturer && (
+                  <Button
+                    startIcon={<AddIcon />}
+                    variant="contained"
+                    className="normal-case text-black font-bold bg-white w-40 rounded-lg"
+                    onClick={() => router.push(`week/${week.id}/create-thread`)}
+                  >
+                    Buat Thread
+                  </Button>
+                )}
                 {week.threads.length > 0 && (
                   <>
                     <p className="font-bold text-gray-700">
@@ -152,22 +161,24 @@ export default function Home() {
                           </div>
                         </div>
                         <div className="flex flex-row gap-2">
-                        <Link href={"/forum/" + thread.id}>
-                          <button className="bg-transparent hover:bg-green text-green font-semibold hover:text-white py-2 px-4 border border-green hover:border-transparent rounded">
-                            Lihat
-                          </button>
-                        </Link>
-                        <Link href={`/forum/${thread.id}/edit`}>
-                          <button className="bg-transparent hover:bg-green text-green font-semibold hover:text-white py-2 px-4 border border-green hover:border-transparent rounded">
-                            Edit
-                          </button>
-                        </Link>
+                          <Link href={"/forum/" + thread.id}>
+                            <button className="bg-transparent hover:bg-green text-green font-semibold hover:text-white py-2 px-4 border border-green hover:border-transparent rounded">
+                              Lihat
+                            </button>
+                          </Link>
+                          {isLecturer && (
+                            <Link href={`/forum/${thread.id}/edit`}>
+                              <button className="bg-transparent hover:bg-green text-green font-semibold hover:text-white py-2 px-4 border border-green hover:border-transparent rounded">
+                                Edit
+                              </button>
+                            </Link>
+                          )}
                         </div>
                       </div>
                     ))}
                   </>
                 )}
-                </div>
+              </div>
             ))}
         </div>
       </main>
