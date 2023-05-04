@@ -3,9 +3,14 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { formatDate, formatTime } from "@/utils/util";
 import { useState } from "react";
 import { useRouter } from "next/router";
+import { addOrRemoveLikePost } from "@/api/forum";
 
 export default function PostComponent({ post, type, parentId, parent, threadId }) {
+  const userId = parseInt(localStorage.getItem("userId"))
   const router = useRouter();
+  const [numOfLikes, setNumOfLikes] = useState(post?.number_of_likes ?? 0);
+  const [isLiked, setIsLiked] = useState(post.likes.includes(userId) ? true : false)
+  const [isLoading, setisLoading] = useState(false)
 
   const marginLeft =
     type == "reply" ? "50px" : type == "nestedReply" ? "100px" : "0px";
@@ -29,6 +34,19 @@ export default function PostComponent({ post, type, parentId, parent, threadId }
 
   const handleNestedParentReply = () => {
     router.push(`/reply/${threadId}/create-post?parent=${parentId}&type=nested`)
+  }
+
+  const handleLikePost = () => {
+    setisLoading(true)
+    if (isLiked) {
+      setNumOfLikes(numOfLikes - 1)
+      setIsLiked(false)
+    } else {
+      setNumOfLikes(numOfLikes + 1)
+      setIsLiked(true)
+  }
+    addOrRemoveLikePost(post.id)
+    setisLoading(false)
   }
 
   return (
@@ -67,9 +85,12 @@ export default function PostComponent({ post, type, parentId, parent, threadId }
               Balas <ExpandMoreIcon />
             </a>
           )}
-          <div className="rounded-full shadow p-2 cursor-pointer">
+          <button onClick={handleLikePost} className="rounded-full border border-grey p-2 cursor-pointer flex flex-row gap-2 justify-center" style={{
+            background: isLiked ? '#ef4444': 'white',
+          }} disabled={isLoading}>
             <img src="/like.png"></img>
-          </div>
+          </button>
+          {numOfLikes > 0 && <span>{numOfLikes}</span>}
         </div>
       </div>
     </div>
