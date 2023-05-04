@@ -59,11 +59,11 @@ export default function DiscussionGuide() {
     <Navbar />
     <main className={styles.main}>
       <div className='flex flex-row items-center text-xs pb-10'>
-        <a className='cursor-pointer' href='/'>Sistem Interaksi - Gasal 2020/2021</a>
+        <a className='cursor-pointer' href='/'>Home</a>
         <ChevronRightIcon />
-        <a className='cursor-pointer' href='/'>Forum Diskusi Minggu ke-1</a>
+        <a className='cursor-pointer' href='/'>Forum Diskusi {discussionGuideData.week_name}</a>
         <ChevronRightIcon />
-        <a className='cursor-pointer' href={`/forum/${pid}`}>Thread: Mari kita berkenalan dan bercerita..... 😉</a>
+        <a className='cursor-pointer' href={`/forum/${pid}`}>Thread: {discussionGuideData.thread_title}</a>
         <ChevronRightIcon />
         <a className='font-bold'>Panduan Diskusi</a>
       </div>

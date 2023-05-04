@@ -1,15 +1,14 @@
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styles from "@/styles/CreateForum.module.css";
 import moment from "moment/moment";
 import TextEditor from "@/components/Forum/TextEditor";
-import { createThread } from "@/api/create-thread-api";
+import { createReferenceFile, createThread } from "@/api/create-thread-api";
 import { CircularProgress, MenuItem, Select } from "@mui/material";
 import { useRouter } from "next/router";
 import ErrorIcon from "@mui/icons-material/Error";
 import Navbar from "@/components/Navbar";
-import firebase from "@/utils/firebase";
-import axios from "axios";
+import { fetchWeekDataById } from "@/api/home-api";
 
 export default function CreateThread() {
   const router = useRouter();
@@ -23,11 +22,20 @@ export default function CreateThread() {
   const [tags, setTags] = useState([]);
   const [isInitialPostEmpty, setIsInitialPostEmpty] = useState(false);
   const minDate = moment(new Date()).format("YYYY-MM-DDTMM:SS");
-  const [isLoading, setLoading] = useState(false)
+  const [isLoading, setLoading] = useState(false);
+  const [weekName, setWeekName] = useState("");
 
   const tagOptions = ["Pendapat", "Pertanyaan", "Bingung"];
 
   const { pid } = router.query;
+
+  useEffect(() => {
+    const path = location.pathname;
+    const pathArray = path.split("/");
+    const weekId = pathArray[pathArray.length - 2];
+
+    fetchWeekDataById(weekId).then((data) => setWeekName(data.name));
+  }, []);
 
   const handleChangeTitle = (event) => {
     setTitle(event.target.value);
@@ -46,7 +54,14 @@ export default function CreateThread() {
   };
 
   const handleReferenceFileChange = (e) => {
-    setReferenceFileList(e.target.files);
+    const chosenFiles = Array.prototype.slice.call(e.target.files);
+    const uploaded = [...referenceFileList];
+    chosenFiles.some((file) => {
+      if (uploaded.findIndex((f) => f.name === file.name) === -1) {
+        uploaded.push(file);
+      }
+    });
+    setReferenceFileList(uploaded);
   };
 
   const handleChangeTag = (event) => {
@@ -55,18 +70,20 @@ export default function CreateThread() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    setLoading(true)
+    setLoading(true);
     if (
       editorRef.current &&
       editorRef.current.getContent() &&
       editorRef.current.getContent().length > 0
     ) {
       setIsRequesting(true);
-      // TODO: reference file
       const requestBody = {
         initial_post: {
-          tag: tags.join(),
-          content: editorRef.current.getContent(),
+          post: {
+            tag: tags.join(),
+            content: editorRef.current.getContent(),
+            creator: localStorage.getItem("userId"),
+          },
         },
         reference_file: [],
         discussion_guide: {
@@ -79,31 +96,12 @@ export default function CreateThread() {
       };
 
       createThread(requestBody).then((data) => {
-        console.log(data)
         if (data.status === 201) {
-          var file = referenceFileList[0];
-          const upload = firebase.storage().ref("/").child(file.name).put(file);
-
-          upload.then((res) => {
-            upload.snapshot.ref.getDownloadURL().then((url) => {
-              axios
-                .post(`${process.env.NEXT_PUBLIC_BE_URL}/forum/ReferenceFile/`, {
-                  title: res?._delegate.metadata.name,
-                  url: url,
-                  thread: data.data.id,
-                }, { headers: {
-                  "Authorization": `Token ${localStorage.getItem("token")}`,
-                },}
-                )
-                .then(() => {
-                  setTimeout(() => {
-                    router.push(`/forum/${data.data.id}`);
-                  }, 10000)
-                });
-            });
+          referenceFileList.forEach((file) => {
+            createReferenceFile(file, data.data.id);
           });
         }
-      })
+      });
       setIsRequesting(false);
     } else {
       setIsInitialPostEmpty(true);
@@ -125,18 +123,21 @@ export default function CreateThread() {
           <>
             <div className="flex flex-row items-center text-xs pb-10">
               <a className="cursor-pointer" href="/">
-                Sistem Interaksi - Gasal 2020/2021
+                Home
               </a>
               <ChevronRightIcon />
               {/* TODO: replace #{num} pake week keberapa & nama week*/}
               <a className="cursor-pointer" href="/#4">
-                Forum Diskusi Minggu ke-1
+                Forum Diskusi {weekName}
               </a>
               <ChevronRightIcon />
               <a className="font-bold">Buat Thread</a>
             </div>
             <div className="section">
-              <form onSubmit={handleSubmit} className="flex flex-col gap-5">
+              <form
+                onSubmit={handleSubmit}
+                className="flex flex-col gap-5 text-sm"
+              >
                 <div className="flex flex-row gap-5">
                   <div className=" basis-1/2 flex flex-col gap-2">
                     <h3 className="font-bold">Judul Thread</h3>
@@ -237,15 +238,15 @@ export default function CreateThread() {
                     </div>
                   </div>
                 </div>
-                <div className="flex flex-row gap-5 mt-5">
+                <div className="flex flex-row gap-5 mt-10 justify-end">
                   <input
                     value="Batal"
-                    className="bg-white text-black p-2 rounded cursor-pointer w-1/2 text-center border"
+                    className="bg-white text-black p-2 rounded cursor-pointer w-1/4 text-center border"
                   />
                   <input
                     type="submit"
-                    value={isLoading ? "Loading..." :"Simpan"}
-                    className="bg-green text-white p-2 rounded cursor-pointer w-1/2"
+                    value={isLoading ? "Loading..." : "Simpan"}
+                    className="bg-green text-white p-2 rounded cursor-pointer w-1/4"
                     disabled={isLoading}
                   />
                 </div>

@@ -9,7 +9,7 @@ import {
   term,
   dosenInfo,
 } from "@/api/dummy/home";
-import { createWeek, fetchWeeksData } from "@/api/home";
+import { createWeek, fetchWeeksData } from "@/api/home-api";
 import CircularProgress from "@mui/material/CircularProgress";
 import { Button } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
@@ -93,8 +93,8 @@ export default function Home() {
           </div>
           <Button
             startIcon={<AddIcon />}
-            variant="filled"
-            className="normal-case text-black font-bold bg-white w-40 rounded-lg"
+            variant="outlined"
+            className="normal-case text-black font-bold bg-white w-40 rounded-lg border-grey2"
             onClick={handleShowCreateWeekPopUp}
           >
             Tambah Week
@@ -116,17 +116,19 @@ export default function Home() {
             weeksData.length > 0 &&
             weeksData.map((week, i) => (
               <div className="section" key={week.id} id={week.id}>
+                <div className="flex flex-row justify-between items-center">
                 <h1 className="mb-2 font-bold tracking-tight text-gray-900">
                   {week.name}
                 </h1>
                 <Button
                   startIcon={<AddIcon />}
-                  variant="contained"
-                  className="normal-case text-black font-bold bg-white w-40 rounded-lg"
+                  variant="outlined"
+                  className="normal-case text-black font-bold bg-white w-40 rounded-lg border-grey"
                   onClick={() => router.push(`week/${week.id}/create-thread`)}
                 >
                   Buat Thread
                 </Button>
+                </div>
                 {week.threads.length > 0 && (
                   <>
                     <p className="font-bold text-gray-700">

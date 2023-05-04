@@ -9,7 +9,7 @@ export default function PostComponent({ post, type, parentId, parent, threadId }
   const userId = parseInt(localStorage.getItem("userId"))
   const router = useRouter();
   const [numOfLikes, setNumOfLikes] = useState(post?.number_of_likes ?? 0);
-  const [isLiked, setIsLiked] = useState(post.likes.includes(userId) ? true : false)
+  const [isLiked, setIsLiked] = useState(post?.likes?.includes(userId) ? true : false)
   const [isLoading, setisLoading] = useState(false)
 
   const marginLeft =

@@ -27,8 +27,11 @@ export default function CreatePost() {
       const pathArray = path.split("/");
       const initialPostId = pathArray[pathArray.length - 2];
       const requestBody = JSON.stringify({
-        tag: tags.join(),
-        content: editorRef.current.getContent(),
+        post: {
+          tag: tags.join(),
+          content: editorRef.current.getContent(),
+          creator: localStorage.getItem("userId")
+        },
         initial_post: parseInt(initialPostId),
         reply_post: parseInt(parent)
       })
@@ -68,7 +71,7 @@ export default function CreatePost() {
       <main className={styles.main}>
         <div className="flex flex-row items-center text-xs pb-10">
           <a className="cursor-pointer" href="/">
-            Sistem Interaksi - Gasal 2020/2021
+            Home
           </a>
           <ChevronRightIcon />
           {/* TODO: replace #{num} pake week keberapa & nama week*/}
