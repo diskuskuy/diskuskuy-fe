@@ -120,12 +120,12 @@ export default function EditThread() {
           <>
             <div className="flex flex-row items-center text-xs pb-10">
               <a className="cursor-pointer" href="/">
-                Sistem Interaksi - Gasal 2020/2021
+                Home
               </a>
               <ChevronRightIcon />
               {/* TODO: replace #{num} pake week keberapa & nama week*/}
               <a className="cursor-pointer" href="/#4">
-                Forum Diskusi Minggu ke-1
+                Forum Diskusi {forumData.week_name}
               </a>
               <ChevronRightIcon />
               <a className="font-bold">Edit Thread</a>
@@ -235,12 +235,12 @@ export default function EditThread() {
                 <div className="flex flex-row gap-5 mt-10 justify-end">
                   <input
                     value="Batal"
-                    className="bg-[#FFFFFF] text-black p-2 rounded cursor-pointer w-1/4 text-center border"
+                    className="bg-white text-black p-2 rounded cursor-pointer w-1/4 text-center border"
                   />
                   <input
                     type="submit"
                     value="Simpan"
-                    className="bg-[#2ECC71] text-white p-2 rounded cursor-pointer w-1/4"
+                    className="bg-green text-white p-2 rounded cursor-pointer w-1/4"
                   />
                 </div>
               </form>

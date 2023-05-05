@@ -154,3 +154,29 @@ export const fetchReferences = async () => {
     console.log(error.message);
   }
 };
+
+export const addOrRemoveLikePost = async (postId) => {
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_BE_URL}/post/reaction/${postId}/`,
+      {
+        method: "POST",
+        headers: {
+          "Authorization": `Token ${localStorage.getItem("token")}`,
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    if (!response.ok) {
+      const responseError = await response.json();
+      const message = `${responseError.errors.error_message}`;
+      throw new Error(message);
+    }
+    const responseData = await response.json();
+    return responseData;
+  } catch (error) {
+    // toast.error(error.message)
+    console.log(error.message);
+  }
+};

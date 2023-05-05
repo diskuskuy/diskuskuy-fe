@@ -80,12 +80,12 @@ export default function Forum() {
           <>
             <div className="flex flex-row items-center text-xs pb-10">
               <a className="cursor-pointer" href="/">
-                Sistem Interaksi - Gasal 2020/2021
+                Home
               </a>
               <ChevronRightIcon />
               {/* TODO: replace #{num} pake week keberapa & nama week*/}
-              <a className="cursor-pointer" href="/#4">
-                Forum Diskusi Minggu ke-1
+              <a className="cursor-pointer" href={"/#"+forumData.week}>
+                Forum Diskusi {forumData.week_name}
               </a>
               <ChevronRightIcon />
               <a className="font-bold">Thread: {forumData.title}</a>
@@ -95,7 +95,7 @@ export default function Forum() {
                 <PostComponent
                   parent
                   parentId={pid}
-                  post={forumData.initial_post}
+                  post={forumData.initial_post?.post}
                   threadId={forumData?.initial_post?.id}
                   type="initial"
                 />
@@ -104,7 +104,7 @@ export default function Forum() {
                   .map((object, i) => (
                     <React.Fragment key={i}>
                       <PostComponent
-                        post={object}
+                        post={object.post}
                         parent
                         parentId={object?.id}
                         threadId={pid}
@@ -116,7 +116,7 @@ export default function Forum() {
                         ?.map((_res, key) => (
                           <PostComponent
                             key={key}
-                            post={{ ...object, ..._res }}
+                            post={{ ...object.post, ..._res.post }}
                             parent
                             parentId={_res?.id}
                             type="nestedReply"
@@ -126,12 +126,14 @@ export default function Forum() {
                   ))}
               </div>
               <div className="flex flex-col basis-1/3 gap-5">
-                <DiscussionGuide
-                  data={forumData.discussion_guide}
-                  onSeeDiscussionGuide={() =>
-                    router.push(forumData.id + "/discussion-guide")
-                  }
-                />
+                {forumData.discussion_guide &&
+                  <DiscussionGuide
+                    data={forumData.discussion_guide}
+                    onSeeDiscussionGuide={() =>
+                      router.push(forumData.id + "/discussion-guide")
+                    }
+                  />
+                }
                 <References
                   references={references}
                   pid={pid}
