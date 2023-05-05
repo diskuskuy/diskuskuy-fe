@@ -15,10 +15,10 @@ export default function DiscussionSummary({ content, id }) {
     event.preventDefault();
     const requestBody = { id: id, content: summaryContent, thread: pid };
     if (id == null || id == ''){
-      createSummary(requestBody)
+      createSummary(requestBody).then(() => window.alert("Berhasil Menyimpan Ringkasan Diskusi"))
     }
     else {
-      updateSummaryById(id, requestBody);
+      updateSummaryById(id, requestBody).then(() => window.alert('Berhasil Menambahkan Ringkasan Diskusi'));
     }
   };
 

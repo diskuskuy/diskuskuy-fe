@@ -1,12 +1,18 @@
 import { fetchProfileData } from "@/api/auth";
 import { useEffect, useState } from "react";
+import {
+  deleteCookie,
+} from 'cookies-next'
+import { useRouter } from "next/router";
 
 export default function Profile() {
+  const router = useRouter()
   const [profileData, setProfileData] = useState({});
 
   useEffect(() => {
     fetchProfileData().then((data) => setProfileData(data));
   }, []);
+
   return (
     <div
       className="section"
@@ -58,7 +64,10 @@ export default function Profile() {
         </div>
       </div>
       <div className="h-[0.5px] bg-grey"></div>
-      <a onClick={() => {}} className="text-xs cursor-pointer">
+      <a onClick={() => {
+        deleteCookie('auth');
+        router.replace("/login");
+      }} className="text-xs cursor-pointer">
         Logout
       </a>
     </div>
