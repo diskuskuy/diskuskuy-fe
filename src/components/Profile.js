@@ -1,9 +1,11 @@
 import { fetchProfileData } from "@/api/auth";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 export default function Profile() {
+  const [profileData, setProfileData] = useState({});
+
   useEffect(() => {
-    fetchProfileData().then((data) => console.log(data));
+    fetchProfileData().then((data) => setProfileData(data));
   }, []);
   return (
     <div
@@ -23,9 +25,7 @@ export default function Profile() {
             height: "50px",
           }}
         >
-          <div className="rounded-full">
-            <img src="/teacher-img.png" alt="profile-picture" />
-          </div>
+          <img src="/default-prof-pic.png" alt="prof-pic" className="rounded-full"/>
           <img
             src="/edit-profile-pic.png"
             alt="edit-profile-picture"
@@ -38,9 +38,21 @@ export default function Profile() {
           />
         </a>
         <div className="flex flex-col">
-          <p className="font-bold text-lg">Rei Hoshiko</p>
-          <p className="text-xs">1906437951</p>
-          <a onClick={() => {}} className="text-xs text-blue cursor-pointer">
+          <p className="font-bold text-lg">{profileData.name}</p>
+          <p className="text-xs">{profileData.nim}</p>
+          <a className="text-xs text-blue cursor-pointer"
+          onClick={() => {
+            var input = document.createElement("input");
+            input.setAttribute("type", "file");
+            input.setAttribute("accept", "image/png, image/jpeg")
+
+            input.onchange = function () {
+              var file = this.files[0];
+              console.log(file)
+              // TODO: integrate with be
+            };
+            input.click();
+          }}>
             Ubah foto profil
           </a>
         </div>
