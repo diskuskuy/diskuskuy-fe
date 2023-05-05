@@ -23,8 +23,8 @@ export default function Home() {
   const [showCreateWeekPopUp, setShowCreateWeekPopUp] = useState(false);
   const [weekNameInput, setWeekNameInput] = useState("");
 
-  const role = typeof window !== 'undefined' ? localStorage.getItem('role') : null
-  const isLecturer = role == 'lecturer' ? true : false;
+  // const role = typeof window !== 'undefined' ? localStorage.getItem('role') : null
+  // const isLecturer = role == 'lecturer' ? true : false;
 
   useEffect(() => {
     fetchWeeksData().then((data) => setWeeksData(data));
@@ -94,7 +94,7 @@ export default function Home() {
               </div>
             </div>
           </div>
-          {isLecturer && (
+          {/* {isLecturer && ( */}
             <>
               <Button
                 startIcon={<AddIcon />}
@@ -112,7 +112,7 @@ export default function Home() {
                 handleInputChange={handleWeekNameInputChange}
               />
             </>
-          )}
+          {/* )} */}
           {!(weeksData && weeksData.length > 0) && (
             <div className="flex flex-row justify-center">
               <CircularProgress color="inherit" />
@@ -127,7 +127,7 @@ export default function Home() {
                 <h1 className="mb-2 font-bold tracking-tight text-gray-900">
                   {week.name}
                 </h1>
-                {isLecturer && (
+                {/* {isLecturer && ( */}
                   <Button
                     startIcon={<AddIcon />}
                     variant="contained"
@@ -136,7 +136,8 @@ export default function Home() {
                   >
                     Buat Thread
                   </Button>
-                )}
+                {/* )} */}
+                </div>
                 {week.threads.length > 0 && (
                   <>
                     <p className="font-bold text-gray-700">
@@ -167,19 +168,18 @@ export default function Home() {
                               Lihat
                             </button>
                           </Link>
-                          {isLecturer && (
+                          {/* {isLecturer && ( */}
                             <Link href={`/forum/${thread.id}/edit`}>
                               <button className="bg-transparent hover:bg-green text-green font-semibold hover:text-white py-2 px-4 border border-green hover:border-transparent rounded">
                                 Edit
                               </button>
                             </Link>
-                          )}
+                          {/* )} */}
                         </div>
                       </div>
                     ))}
                   </>
                 )}
-                </div>
               </div>
             ))}
         </div>

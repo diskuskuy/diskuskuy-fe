@@ -21,7 +21,8 @@ export default function Navbar() {
           <Dropdown.Button light>
             <div className="rounded-full ml-2">
               <img
-                src="/teacher-img.png"
+                className="rounded-full"
+                src="/default-prof-pic.png"
                 alt="profile-picture"
                 width={"35px"}
               />
