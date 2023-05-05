@@ -32,6 +32,10 @@ export default function DiscussionGuide() {
     setShowDiscussionGuideUpdateConfirmationPopUp,
   ] = useState(false);
 
+  // TODO: masih ga sesuai expectation
+  const role = typeof window !== 'undefined' ? localStorage.getItem('role') : null
+  const isLecturer = role == 'lecturer' ? true : false;
+
   const deadline =
     formatDate(discussionGuideData.deadline) +
     " | " +
@@ -108,7 +112,8 @@ export default function DiscussionGuide() {
                 </div>
                 <Checkbox
                   checked={i + 1 < discussionGuideData.state}
-                  disabled={
+                  disabled={ 
+                    !isLecturer ||
                     i + 1 < discussionGuideData.state ||
                     i + 1 > discussionGuideData.state
                   }
