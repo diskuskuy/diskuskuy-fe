@@ -5,7 +5,32 @@ export const fetchWeeksData = async () => {
       {
         method: "GET",
         headers: {
-          "Authorization": `Token ${localStorage.getItem("token")}`,
+          Authorization: `Token ${localStorage.getItem("token")}`,
+        },
+      }
+    );
+
+    if (!response.ok) {
+      const responseError = await response.json();
+      const message = `${responseError.errors.error_message}`;
+      throw new Error(message);
+    }
+    const responseData = await response.json();
+    return responseData;
+  } catch (error) {
+    // toast.error(error.message)
+    console.log(error.message);
+  }
+};
+
+export const fetchWeekDataById = async (weekId) => {
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_BE_URL}/forum/Week/${weekId}`,
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Token ${localStorage.getItem("token")}`,
         },
       }
     );
@@ -30,7 +55,7 @@ export const createWeek = async (nameRequest) => {
       {
         method: "POST",
         headers: {
-          "Authorization": `Token ${localStorage.getItem("token")}`,
+          Authorization: `Token ${localStorage.getItem("token")}`,
           "Content-Type": "application/json",
         },
         body: JSON.stringify({

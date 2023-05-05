@@ -16,29 +16,29 @@ export default function DiscussionAnalytics({ reply, nestedReply }) {
     not_particapated: 3,
     tags: {
       pendapat:
-        (reply?.reply_post?.filter((res) => res.tag === "Pendapat" || res.tag.includes("Pendapat"))?.length ??
+        (reply?.reply_post?.filter((res) => res.post.tag === "Pendapat" || res.post.tag.includes("Pendapat"))?.length ??
           0) +
         (nestedReply
           ?.filter((res) =>
             reply?.reply_post?.find((_res) => _res.id === res?.reply_post)
           )
-          ?.filter((res) => res.tag === "Pendapat" || res.tag.includes("Pendapat"))?.length ?? 0),
+          ?.filter((res) => res.post === "Pendapat" || res.post.tag.includes("Pendapat"))?.length ?? 0),
       pertanyaan:
-        (reply?.reply_post?.filter((res) => res.tag === "Pertanyaan" || res.tag.includes("Pertanyaan"))?.length ??
+        (reply?.reply_post?.filter((res) => res.post === "Pertanyaan" || res.post.tag.includes("Pertanyaan"))?.length ??
           0) +
         (nestedReply
           ?.filter((res) =>
             reply?.reply_post?.find((_res) => _res.id === res?.reply_post)
           )
-          ?.filter((res) => res.tag === "Pertanyaan" || res.tag.includes("Pertanyaan"))?.length ?? 0),
+          ?.filter((res) => res.post.tag === "Pertanyaan" || res.post.tag.includes("Pertanyaan"))?.length ?? 0),
       bingung:
-        (reply?.reply_post?.filter((res) => res.tag === "Bingung" || res.tag.includes("Bingung"))?.length ??
+        (reply?.reply_post?.filter((res) => res.post.tag === "Bingung" || res.post.tag.includes("Bingung"))?.length ??
           0) +
         (nestedReply
           ?.filter((res) =>
             reply?.reply_post?.find((_res) => _res.id === res?.reply_post)
           )
-          ?.filter((res) => res.tag === "Bingung" || res.tag.includes("Bingung"))?.length ?? 0),
+          ?.filter((res) => res.post.tag === "Bingung" || res.post.tag.includes("Bingung"))?.length ?? 0),
     },
   };
 
