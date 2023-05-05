@@ -49,19 +49,21 @@ export default function PostComponent({ post, type, parentId, parent, threadId }
     setisLoading(false)
   }
 
+  console.log(post)
+
   return (
     <div className={styles.postSection} style={{ marginLeft: marginLeft }}>
       <div className="flex flex-col basis-1/12 gap-2 items-center">
         <div className="rounded-full">
           <img src="/teacher-img.png" />
         </div>
-        <div className="bg-blue px-2">Dosen </div>
+        <div className="bg-blue px-2">{post.creator_role}</div>
       </div>
       <div className="flex flex-col basis-11/12 gap-2">
         <div className="flex flex-col gap-1">
           <h1 className="font-bold">{post.title ? post.title : post.user}</h1>
           <p className="text-xs">
-            Thread dimulai oleh {post.title && <strong>{post.user}</strong>}{" "}
+            Thread dimulai oleh {<strong>{post.creator_name}</strong>}{" "}
             pada {formatDate(post.date)} ({formatTime(post.date)} WIB)
           </p>
           <div>

@@ -36,7 +36,7 @@ export default function References({pid, references, refresh}) {
                       "Authorization": `Token ${localStorage.getItem("token")}`,
                     }},
                     ).then(() => {
-                      window.alert("sip")
+                      window.alert("Berhasil Menambahkan Referensi Diskusi")
                       refresh()
                     })
                   })

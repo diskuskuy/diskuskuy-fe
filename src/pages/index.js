@@ -16,6 +16,7 @@ import AddIcon from "@mui/icons-material/Add";
 import CreateWeekPopUp from "@/components/Home/CreateWeekPopUp";
 import { useRouter } from "next/router";
 import Navbar from "@/components/Navbar";
+import moment from "moment";
 
 export default function Home() {
   const router = useRouter();
@@ -112,7 +113,7 @@ export default function Home() {
                 handleInputChange={handleWeekNameInputChange}
               />
             </>
-          {/* )} */}
+          {/* )}  */}
           {!(weeksData && weeksData.length > 0) && (
             <div className="flex flex-row justify-center">
               <CircularProgress color="inherit" />
@@ -157,8 +158,9 @@ export default function Home() {
                             <h6 className="tracking-tight text-gray-900">
                               {thread.title}
                             </h6>
+                            {console.log(thread)}
                             <p className="text-xs w-full m-0 p-0">
-                              Fulan bin Fulan | 7 Maret 2023 (17.00 WIB)
+                              {thread?.initial_post?.post?.creator_name} | {moment(thread?.discussion_guide?.deadline)?.format("LLL")}
                             </p>
                           </div>
                         </div>

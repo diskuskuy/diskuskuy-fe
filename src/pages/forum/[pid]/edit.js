@@ -21,6 +21,7 @@ export default function EditThread() {
   const [referenceFileList, setReferenceFileList] = useState([]);
   const [tags, setTags] = useState([]);
   const [isInitialPostEmpty, setIsInitialPostEmpty] = useState(false);
+  const [content, setContent] = useState("")
   const minDate = moment(new Date()).format("YYYY-MM-DDTMM:SS");
 
   const tagOptions = ["pertanyaan", "pendapat", "bingung"];
@@ -39,15 +40,12 @@ export default function EditThread() {
       setDeadline(moment(deadlineData).format("YYYY-MM-DDTMM:SS"))
       setDescription(data.discussion_guide.description)
       setMechAndExp(data.discussion_guide.mechanism_expectation)
-      console.log(editorRef)
-      console.log(editorRef.current)
-      editorRef.current.setContent(data.initial_post.content)
-      const tagData = data.initial_post.tag.toLowerCase()
+      setContent(data?.initial_post?.post?.content ?? "")
+      const tagData = data.initial_post.post.tag.toLowerCase()
       setTags(tagData.split(","))
-      console.log(data)
       setReferenceFileList(data?.reference_file ?? [])
     })
-  }, [])
+  }, [editorRef])
 
   const handleChangeTitle = (event) => {
     setTitle(event.target.value);
@@ -66,7 +64,7 @@ export default function EditThread() {
   };
 
   const handleReferenceFileChange = (e) => {
-    setReferenceFileList([...e.target.files]);
+    setReferenceFileList([...e.target.files, ...referenceFileList]);
   };
 
   const handleChangeTag = (event) => {
@@ -86,6 +84,10 @@ export default function EditThread() {
         initial_post: {
           tag: tags.join(),
           content: editorRef.current.getContent(),
+          post: {
+            tag: tags.join(),
+            content: editorRef.current.getContent(),
+          }
         },
         reference_file: [],
         discussion_guide: {
@@ -177,21 +179,20 @@ export default function EditThread() {
                         type="file"
                         onChange={handleReferenceFileChange}
                         multiple
-                        required
                       />
                       {files.map((file, i) => (
                         <div
                           className="flex flex-row items-center gap-2"
                           key={i}
                         >
-                          {file.url.includes(".pdf") && (
+                          {(file.url ?? file.name).includes(".pdf") && (
                             <img src="/pdf-icon.png" width={"30px"} />
                           )}
-                          {file.url.includes(".png") && (
+                          {(file.url ?? file.name).includes(".png") && (
                             <img src="/png-icon.png" width={"30px"} />
                           )}
-                          {!file.url.includes(".pdf") &&
-                            !file.url.includes(".png") && (
+                          {!(file.url ?? file.name).includes(".pdf") &&
+                            !(file.url ?? file.name).includes(".png") && (
                               <img src="/url-icon.png" width={"30px"} />
                             )}
                           <div className="flex flex-col">
@@ -213,7 +214,7 @@ export default function EditThread() {
                         </span>
                       </p>
                     )}
-                    <TextEditor editorRef={editorRef} />
+                    <TextEditor editorRef={editorRef} defaultValue={content} />
                     <label>Tag</label>
                     <div>
                       <Select
@@ -234,8 +235,10 @@ export default function EditThread() {
                 </div>
                 <div className="flex flex-row gap-5 mt-10 justify-end">
                   <input
+                    type="button"
                     value="Batal"
                     className="bg-white text-black p-2 rounded cursor-pointer w-1/4 text-center border"
+                    onClick={() => router.push("/")}
                   />
                   <input
                     type="submit"

@@ -39,13 +39,13 @@ export default function CreatePost() {
       if(type === "nested") {
         replyNestedPost(requestBody)
         .then(data => {
-          window.alert("Sipp boss")
+          window.alert("Berhasil Membuat Nested Reply Post")
           router.push(`/forum/${pid}`);
         })
       } else {
         replyPost(requestBody)
         .then(data => {
-          window.alert("Sipp boss")
+          window.alert("Berhasil Membuat Reply Post")
           router.push(`/forum/${parent}`);
         })
       }
