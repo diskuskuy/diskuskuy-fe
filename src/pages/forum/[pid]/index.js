@@ -24,6 +24,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 import { isObjectEmpty } from "@/utils/util";
 import { useRouter } from "next/router";
 import Navbar from "@/components/Navbar";
+import { getCookie } from 'cookies-next'
 
 export default function Forum() {
   const router = useRouter();
@@ -43,6 +44,7 @@ export default function Forum() {
   const [initialSummary, setInitialSummary] = useState({});
   const [initialNested, setInitialNested] = useState([]);
   const [references, setReferences] = useState([]);
+  const [isLecturer, setIsLecture] = useState(false)
 
   const handleNestedReply = () => {
     router.push("/create-post");
@@ -52,6 +54,9 @@ export default function Forum() {
     const path = location.pathname;
     const pathArray = path.split("/");
     const threadId = pathArray[pathArray.length - 1];
+
+    
+    setIsLecture(getCookie("auth") ? JSON.parse(getCookie("auth"))?.role === "lecturer" : false)
 
     fetchThreadDataById(threadId).then((data) => {
       setForumData(data);
@@ -132,6 +137,7 @@ export default function Forum() {
                     onSeeDiscussionGuide={() =>
                       router.push(forumData.id + "/discussion-guide")
                     }
+                    isLecturer={isLecturer}
                   />
                 }
                 <References
