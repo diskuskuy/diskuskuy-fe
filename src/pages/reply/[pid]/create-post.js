@@ -1,28 +1,26 @@
 import TextEditor from "@/components/Forum/TextEditor";
-import React, { useRef, useState, ChangeEvent } from "react";
+import React, { useRef, useState } from "react";
 import styles from "@/styles/CreateForum.module.css";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
-import Select, { SelectChangeEvent } from "@mui/material/Select";
+import Select from "@mui/material/Select";
 import { useRouter } from "next/router";
 import Navbar from "@/components/Navbar";
 import { replyPost, replyNestedPost } from "@/api/reply-post-api";
+import { toast } from "react-hot-toast";
+import ErrorIcon from "@mui/icons-material/Error";
 
 export default function CreatePost() {
   const editorRef = useRef(null);
   const router = useRouter();
-  const [tags, setTags] = React.useState([]);
+  const [tags, setTags] = useState([]);
+  const [isContentEmpty, setIsContentEmpty] = useState(false);
   const { pid, parent, type } = router.query;
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log(tags);
-    if (editorRef.current) {
-      console.log(editorRef.current.getContent());
-    }
     if (editorRef.current.getContent().length > 0 && tags.length > 0) {
+      setIsContentEmpty(false)
       const path = location.pathname;
       const pathArray = path.split("/");
       const initialPostId = pathArray[pathArray.length - 2];
@@ -39,18 +37,18 @@ export default function CreatePost() {
       if(type === "nested") {
         replyNestedPost(requestBody)
         .then(data => {
-          window.alert("Berhasil Membuat Nested Reply Post")
+          toast.success("Berhasil membuat nested reply post")
           router.push(`/forum/${pid}`);
         })
       } else {
         replyPost(requestBody)
-        .then(data => {
-          window.alert("Berhasil Membuat Reply Post")
+        .then(() => {
+          toast.success("Berhasil membuat reply post")
           router.push(`/forum/${parent}`);
         })
       }
     } else {
-      window.alert("Gak boleh kosong bos")
+      setIsContentEmpty(true)
     }
   };
   const handleChangeTag = (event) => {
@@ -61,7 +59,6 @@ export default function CreatePost() {
       // On autofill we get a stringified value.
       typeof value === "string" ? value.split(",") : value
     );
-    console.log(event);
   };
   const tagOptions = ["Pertanyaan", "Pendapat", "Bingung"];
 
@@ -79,14 +76,24 @@ export default function CreatePost() {
             Forum Diskusi Minggu ke-1
           </a>
           <ChevronRightIcon />
-          <a className="font-bold">Buat Postingan</a>
+          <a className="font-bold">Balas Postingan</a>
         </div>
-        <div className="text-center font-bold">
-          <h1>Tulis Postingan</h1>
-        </div>
-        <form onSubmit={handleSubmit} className="flex flex-col gap-2">
+        <div className="section">
+        <h2 className="font-bold text-center">Balas Postingan</h2>
+        <form onSubmit={handleSubmit} className="flex flex-col gap-2 text-sm">
+          <label className="font-bold">Konten</label>
+          <div className="h-1 w-5 bg-grey"></div>
           <TextEditor editorRef={editorRef}></TextEditor>
-          <InputLabel id="demo-multiple-name-label">Tags</InputLabel>
+          {isContentEmpty && (
+            <p className="text-amber text-xs">
+              <ErrorIcon />{" "}
+              <span className="text-black">
+                Please fill out this field.
+              </span>
+            </p>
+          )}
+          <label className="font-bold">Tag</label>
+          <div className="h-1 w-5 bg-grey"></div>
           <Select
             className="bg-white w-1/2 text-sm"
             multiple
@@ -100,17 +107,18 @@ export default function CreatePost() {
               </MenuItem>
             ))}
           </Select>
-          <div className="flex flex-row-reverse gap-2">
+          <div className="flex flex-row gap-5 mt-10 justify-end">
+            <button className="w-1/4 bg-white border text-black p-2 rounded cursor-pointer" onClick={() => router.push(`/forum/${pid}`)}>
+              Batal
+            </button>
             <input
               type="submit"
               value="Simpan"
-              className="bg-green text-white p-2 rounded cursor-pointer"
+              className="w-1/4 bg-green text-white p-2 rounded cursor-pointer"
             />
-            <button className="bg-white text-black p-2 rounded cursor-pointer w-16" onClick={() => router.push(`/forum/${pid}`)}>
-              Batal
-            </button>
           </div>
         </form>
+        </div>
       </main>
     </>
   );
