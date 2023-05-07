@@ -7,8 +7,9 @@ import { CircularProgress, MenuItem, Select } from "@mui/material";
 import { useRouter } from "next/router";
 import ErrorIcon from "@mui/icons-material/Error";
 import Navbar from "@/components/Navbar";
-import { fetchThreadDataById } from "@/api/forum";
+import { fetchThreadDataById } from "@/api/forum-api";
 import { editThread } from "@/api/edit-thread-api";
+import { toast } from "react-hot-toast";
 
 export default function EditThread() {
   const router = useRouter();
@@ -82,8 +83,6 @@ export default function EditThread() {
       // TODO: reference file
       const requestBody = JSON.stringify({
         initial_post: {
-          tag: tags.join(),
-          content: editorRef.current.getContent(),
           post: {
             tag: tags.join(),
             content: editorRef.current.getContent(),
@@ -207,7 +206,7 @@ export default function EditThread() {
                     <div className="h-1 w-5 bg-[#C4C4C4]"></div>
                     <label>Konten</label>
                     {isInitialPostEmpty && (
-                      <p className="text-amber-500 text-xs">
+                      <p className="text-amber text-xs">
                         <ErrorIcon />{" "}
                         <span className="text-black">
                           Please fill out this field.

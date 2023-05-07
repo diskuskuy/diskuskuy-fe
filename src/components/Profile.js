@@ -6,6 +6,7 @@ import {
 import { useRouter } from "next/router";
 import firebase from "@/utils/firebase";
 import axios from "axios";
+import { toast } from "react-hot-toast";
 
 export default function Profile() {
   const router = useRouter()
@@ -67,7 +68,7 @@ export default function Profile() {
                   }},
                   ).then(() => {
                     localStorage.setItem('photoUrl', url)
-                    window.alert("Berhasil Mengubah Foto Profil")
+                    toast.success("Berhasil mengubah foto profil")
                     window.location.reload()
                   })
                 })

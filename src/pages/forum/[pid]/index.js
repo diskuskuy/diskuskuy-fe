@@ -19,7 +19,7 @@ import {
   fetchNestedReply,
   fetchReferences,
   fetchAnalytics,
-} from "@/api/forum";
+} from "@/api/forum-api";
 import { initialPost, replyPost, fase } from "@/api/dummy/forum";
 import CircularProgress from "@mui/material/CircularProgress";
 import { isObjectEmpty } from "@/utils/util";
@@ -59,7 +59,6 @@ export default function Forum() {
 
     fetchAnalytics(threadId).then((data) => {
       setAnalytics(data);
-      console.log(data)
     }); 
 
 

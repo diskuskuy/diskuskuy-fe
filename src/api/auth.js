@@ -23,8 +23,7 @@ export const login = async (requestBody) => {
       localStorage.setItem('photoUrl', responseData.photo_url)
       return responseData;
     } catch (error) {
-      // toast.error(error.message)
-      console.log(error.message);
+      toast.error(error.message)
     }
   };
 
@@ -48,7 +47,6 @@ export const fetchProfileData = async () => {
     const responseData = await response.json();
     return responseData;
   } catch (error) {
-    // toast.error(error.message)
-    console.log(error.message);
+    toast.error(error.message)
   }
 };

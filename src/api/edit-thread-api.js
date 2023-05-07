@@ -20,7 +20,6 @@ export const editThread = async (threadId, requestBody) => {
     const responseData = await response.json();
     return responseData;
   } catch (error) {
-    // toast.error(error.message)
-    console.log(error.message);
+    toast.error(error.message)
   }
 };

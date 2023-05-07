@@ -18,8 +18,7 @@ export const fetchWeeksData = async () => {
     const responseData = await response.json();
     return responseData;
   } catch (error) {
-    // toast.error(error.message)
-    console.log(error.message);
+    toast.error(error.message)
   }
 };
 
@@ -43,8 +42,7 @@ export const fetchWeekDataById = async (weekId) => {
     const responseData = await response.json();
     return responseData;
   } catch (error) {
-    // toast.error(error.message)
-    console.log(error.message);
+    toast.error(error.message)
   }
 };
 
@@ -72,7 +70,6 @@ export const createWeek = async (nameRequest) => {
     const responseData = await response.json();
     return responseData;
   } catch (error) {
-    // toast.error(error.message)
-    console.log(error.message);
+    toast.error(error.message)
   }
 };

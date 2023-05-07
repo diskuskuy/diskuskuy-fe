@@ -21,8 +21,7 @@ export const fetchDiscussionGuideDataByThreadId = async () => {
     const responseData = await response.json();
     return responseData;
   } catch (error) {
-    // toast.error(error.message)
-    console.log(error.message);
+    toast.error(error.message)
   }
 };
 
@@ -51,7 +50,6 @@ export const updateDiscussionGuideStateById = async (id, stateRequest) => {
     const responseData = await response.json();
     return responseData;
   } catch (error) {
-    // toast.error(error.message)
-    console.log(error.message);
+    toast.error(error.message)
   }
 };

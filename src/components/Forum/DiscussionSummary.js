@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { createSummary, updateSummaryById } from "@/api/forum";
+import { createSummary, updateSummaryById } from "@/api/forum-api";
 import { useRouter } from "next/router";
 
 export default function DiscussionSummary({ content, id }) {
@@ -15,10 +15,10 @@ export default function DiscussionSummary({ content, id }) {
     event.preventDefault();
     const requestBody = { id: id, content: summaryContent, thread: pid };
     if (id == null || id == ''){
-      createSummary(requestBody).then(() => window.alert("Berhasil Menyimpan Ringkasan Diskusi"))
+      createSummary(requestBody)
     }
     else {
-      updateSummaryById(id, requestBody).then(() => window.alert('Berhasil Menambahkan Ringkasan Diskusi'));
+      updateSummaryById(id, requestBody);
     }
   };
 

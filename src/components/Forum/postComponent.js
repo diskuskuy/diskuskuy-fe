@@ -3,7 +3,7 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { formatDate, formatTime } from "@/utils/util";
 import { useState } from "react";
 import { useRouter } from "next/router";
-import { addOrRemoveLikePost } from "@/api/forum";
+import { addOrRemoveLikePost } from "@/api/forum-api";
 
 export default function PostComponent({ post, type, parentId, parent, threadId }) {
   const userId = parseInt(localStorage.getItem("userId"))
@@ -48,8 +48,6 @@ export default function PostComponent({ post, type, parentId, parent, threadId }
     addOrRemoveLikePost(post.id)
     setisLoading(false)
   }
-
-  console.log(post)
 
   return (
     <div className={styles.postSection} style={{ marginLeft: marginLeft }}>

@@ -166,7 +166,6 @@ export default function Home() {
                               <h6 className="tracking-tight text-gray-900">
                                 {thread.title}
                               </h6>
-                              {console.log(thread)}
                               <p className="text-xs w-full m-0 p-0">
                                 {thread?.initial_post?.post?.creator_name} |{" "}
                                 {moment(

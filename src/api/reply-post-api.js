@@ -20,8 +20,7 @@ export const replyPost = async (requestBody) => {
       const responseData = await response.json();
       return responseData;
     } catch (error) {
-      // toast.error(error.message)
-      console.log(error.message);
+      toast.error(error.message)
     }
   };
 
@@ -48,8 +47,7 @@ export const replyPost = async (requestBody) => {
       const responseData = await response.json();
       return responseData;
     } catch (error) {
-      // toast.error(error.message)
-      console.log(error.message);
+      toast.error(error.message)
     }
   };
   
