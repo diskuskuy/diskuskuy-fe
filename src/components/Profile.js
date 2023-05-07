@@ -4,6 +4,8 @@ import {
   deleteCookie,
 } from 'cookies-next'
 import { useRouter } from "next/router";
+import firebase from "@/utils/firebase";
+import axios from "axios";
 
 export default function Profile() {
   const router = useRouter()
@@ -24,14 +26,10 @@ export default function Profile() {
       <div className="flex flex-row items-center gap-2">
         <a
           onClick={() => {}}
-          className="cursor-pointer"
-          style={{
-            position: "relative",
-            width: "50px",
-            height: "50px",
-          }}
+          className="cursor-pointer h-12 w-12 relative"
         >
-          <img src="/default-prof-pic.png" alt="prof-pic" className="rounded-full"/>
+          <img src={profileData.photo_url} alt="prof-pic" className="rounded-full object-cover h-12 w-12"
+          />
           <img
             src="/edit-profile-pic.png"
             alt="edit-profile-picture"
@@ -50,12 +48,31 @@ export default function Profile() {
           onClick={() => {
             var input = document.createElement("input");
             input.setAttribute("type", "file");
-            input.setAttribute("accept", "image/png, image/jpeg")
+            input.setAttribute("accept", "image/png, image/jpeg, image/jpg ")
 
             input.onchange = function () {
               var file = this.files[0];
-              console.log(file)
-              // TODO: integrate with be
+              const upload = firebase
+              .storage()
+              .ref(`/photo_profile/${localStorage.getItem('userId')}/`)
+              .child(file.name)
+              .put(file)
+
+              upload.then(() => {
+                upload.snapshot.ref.getDownloadURL().then((url) => {
+                  axios.put(`${process.env.NEXT_PUBLIC_BE_URL}/auth/profile/`, {
+                    photo_url: url,
+                  }, {headers: {
+                    "Authorization": `Token ${localStorage.getItem("token")}`,
+                  }},
+                  ).then(() => {
+                    localStorage.setItem('photoUrl', url)
+                    window.alert("Berhasil Mengubah Foto Profil")
+                    window.location.reload()
+                  })
+                })
+                })
+              
             };
             input.click();
           }}>
@@ -66,6 +83,9 @@ export default function Profile() {
       <div className="h-[0.5px] bg-grey"></div>
       <a onClick={() => {
         deleteCookie('auth');
+        localStorage.removeItem('token');
+        localStorage.removeItem('userId');
+        localStorage.removeItem('role');
         router.replace("/login");
       }} className="text-xs cursor-pointer">
         Logout

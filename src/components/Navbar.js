@@ -14,7 +14,7 @@ export default function Navbar() {
 
 
   useEffect(() => {
-    setIsAuth(hasCookie("auth"))
+    setIsAuth(localStorage.getItem('token') != null)
   }, [])
 
   return (
@@ -35,12 +35,11 @@ export default function Navbar() {
         ) : (
         <Dropdown>
           <Dropdown.Button light>
-            <div className="rounded-full ml-2">
+          <div className="rounded-full h-10 w-10">
               <img
-                className="rounded-full"
-                src="/default-prof-pic.png"
+                className="rounded-full object-cover h-10 w-10"
+                src={localStorage.getItem('photoUrl')}
                 alt="profile-picture"
-                width={"35px"}
               />
             </div>
           </Dropdown.Button>

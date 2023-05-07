@@ -18,6 +18,7 @@ import {
   fetchSummary,
   fetchNestedReply,
   fetchReferences,
+  fetchAnalytics,
 } from "@/api/forum";
 import { initialPost, replyPost, fase } from "@/api/dummy/forum";
 import CircularProgress from "@mui/material/CircularProgress";
@@ -45,6 +46,7 @@ export default function Forum() {
   const [initialNested, setInitialNested] = useState([]);
   const [references, setReferences] = useState([]);
   const [isLecturer, setIsLecture] = useState(false)
+  const [analytics , setAnalytics] = useState({})
 
   const handleNestedReply = () => {
     router.push("/create-post");
@@ -55,7 +57,12 @@ export default function Forum() {
     const pathArray = path.split("/");
     const threadId = pathArray[pathArray.length - 1];
 
-    
+    fetchAnalytics(threadId).then((data) => {
+      setAnalytics(data);
+      console.log(data)
+    }); 
+
+
     setIsLecture(getCookie("auth") ? JSON.parse(getCookie("auth"))?.role === "lecturer" : false)
 
     fetchThreadDataById(threadId).then((data) => {
@@ -152,6 +159,7 @@ export default function Forum() {
                   }}
                 />
                 <DiscussionAnalytics
+                  analytics={analytics}
                   reply={initialPost}
                   nestedReply={initialNested}
                 />

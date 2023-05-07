@@ -3,7 +3,7 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import styles from "@/styles/Forum.module.css";
 
-export default function DiscussionAnalytics({ reply, nestedReply }) {
+export default function DiscussionAnalytics({ reply, nestedReply, analytics }) {
   const [showExpansion, setShowExpansion] = useState(false);
 
   const toggleShowExpansion = () => {
@@ -11,9 +11,9 @@ export default function DiscussionAnalytics({ reply, nestedReply }) {
   };
 
   const data = {
-    replies: 7,
-    participants: 5,
-    not_particapated: 3,
+    replies: analytics.replies,
+    participants: analytics.participants,
+    not_particapated: analytics.non_participants,
     tags: {
       pendapat:
         (reply?.reply_post?.filter((res) => res.post.tag === "Pendapat" || res.post.tag.includes("Pendapat"))?.length ??
