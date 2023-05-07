@@ -20,6 +20,7 @@ export const login = async (requestBody) => {
       localStorage.setItem('token', responseData.token)
       localStorage.setItem('userId', responseData.user_id)
       localStorage.setItem('role', responseData.role);
+      localStorage.setItem('photoUrl', responseData.photo_url)
       return responseData;
     } catch (error) {
       // toast.error(error.message)

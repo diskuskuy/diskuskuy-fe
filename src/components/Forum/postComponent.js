@@ -54,8 +54,8 @@ export default function PostComponent({ post, type, parentId, parent, threadId }
   return (
     <div className={styles.postSection} style={{ marginLeft: marginLeft }}>
       <div className="flex flex-col basis-1/12 gap-2 items-center">
-        <div className="rounded-full">
-          <img src="/teacher-img.png" />
+        <div className="rounded-full w-20 h-20" >
+          <img src={post.creator_photo_url} className="rounded-full w-20 h-20 object-cover" />
         </div>
         <div className="bg-blue px-2">{post.creator_role}</div>
       </div>

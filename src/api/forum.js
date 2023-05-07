@@ -180,3 +180,25 @@ export const addOrRemoveLikePost = async (postId) => {
     console.log(error.message);
   }
 };
+
+export const fetchAnalytics = async (threadId) => {
+  try {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_BE_URL}/forum/analytics/${threadId}` , {
+      method: "GET",
+      headers: {
+        "Authorization": `Token ${localStorage.getItem("token")}`,
+      }
+    });
+
+    if (!response.ok) {
+      const responseError = await response.json();
+      const message = `${responseError.errors.error_message}`;
+      throw new Error(message);
+    }
+    const responseData = await response.json();
+    return responseData;
+  } catch (error) {
+    // toast.error(error.message)
+    console.log(error.message);
+  }
+};
