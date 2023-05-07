@@ -28,7 +28,7 @@ export default function Profile() {
           onClick={() => {}}
           className="cursor-pointer h-12 w-12 relative"
         >
-          <img src={profileData.photo_url} alt="prof-pic" className="rounded-full object-cover h-12 w-12"
+          <img src={profileData?.photo_url ?? "/default-prof-pic.png"} alt="prof-pic" className="rounded-full object-cover h-12 w-12"
           />
           <img
             src="/edit-profile-pic.png"

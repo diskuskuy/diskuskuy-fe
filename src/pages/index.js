@@ -158,7 +158,7 @@ export default function Home() {
                           <div className="group flex items-center">
                             <img
                               className="h-12 w-12 rounded-full object-cover"
-                              src={thread.initial_post.post.creator_photo_url}
+                              src={thread?.initial_post?.post?.creator_photo_url ?? "/default-prof-pic.png"}
                               alt=""
                             />
                             <div className="rtl:mr-3 ml-3">

@@ -38,7 +38,7 @@ export default function Navbar() {
           <div className="rounded-full h-10 w-10">
               <img
                 className="rounded-full object-cover h-10 w-10"
-                src={localStorage.getItem('photoUrl')}
+                src={localStorage.getItem('photoUrl') ? localStorage.getItem('photoUrl') : "/default-prof-pic.png"}
                 alt="profile-picture"
               />
             </div>
