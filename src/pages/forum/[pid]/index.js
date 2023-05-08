@@ -131,6 +131,7 @@ export default function Forum() {
                             parent
                             parentId={_res?.id}
                             type="nestedReply"
+                            threadId={pid}
                           />
                         ))}
                     </React.Fragment>

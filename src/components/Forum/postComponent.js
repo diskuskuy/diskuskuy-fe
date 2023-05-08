@@ -36,6 +36,10 @@ export default function PostComponent({ post, type, parentId, parent, threadId }
     router.push(`/reply/${threadId}/create-post?parent=${parentId}&type=nested`)
   }
 
+  const handleEditReply = () => {
+    router.push(`/forum/${threadId}/edit-reply/${post.id}`)
+  }
+
   const handleLikePost = () => {
     setisLoading(true)
     if (isLiked) {
@@ -83,6 +87,11 @@ export default function PostComponent({ post, type, parentId, parent, threadId }
           {type !== "nestedReply" && (
             <a className="cursor-pointer text-xs" onClick={parent ? type === "reply" ? handleNestedParentReply : handleParentReply : handleReply}>
               Balas <ExpandMoreIcon />
+            </a>
+          )}
+          {post.creator == userId && (
+          <a className="cursor-pointer text-xs" onClick={ handleEditReply }>
+              Edit
             </a>
           )}
           <button onClick={handleLikePost} className="rounded-full border border-grey p-2 cursor-pointer flex flex-row gap-2 justify-center" style={{

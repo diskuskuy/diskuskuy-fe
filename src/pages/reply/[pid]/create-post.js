@@ -60,7 +60,7 @@ export default function CreatePost() {
       typeof value === "string" ? value.split(",") : value
     );
   };
-  const tagOptions = ["Pertanyaan", "Pendapat", "Bingung"];
+  const tagOptions = ["pertanyaan", "pendapat", "bingung"];
 
   return (
     <>
