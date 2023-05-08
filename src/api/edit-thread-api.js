@@ -1,26 +1,23 @@
+import axios from "axios";
+import { toast } from "react-hot-toast";
+
 export const editThread = async (threadId, requestBody) => {
+  const headers = {
+    Authorization: `Token ${localStorage.getItem("token")}`,
+  };
+  console.log(requestBody)
   try {
-    const response = await fetch(
+    const response = await axios.put(
       `${process.env.NEXT_PUBLIC_BE_URL}/forum/Thread/${threadId}/`,
+      requestBody,
       {
-        method: "PUT",
-        headers: {
-          "Authorization": `Token ${localStorage.getItem("token")}`,
-          "Content-Type": "application/json",
-        },
-        body: requestBody,
+        headers: headers,
       }
     );
 
-    if (!response.ok) {
-      const responseError = await response.json();
-      const message = `${responseError.errors.error_message}`;
-      throw new Error(message);
-    }
-    const responseData = await response.json();
+    const responseData = response;
     return responseData;
   } catch (error) {
-    // toast.error(error.message)
-    console.log(error.message);
+    toast.error(error.message)
   }
 };

@@ -8,6 +8,7 @@ import Select, { SelectChangeEvent } from "@mui/material/Select";
 import { useRouter } from "next/router";
 import Navbar from "@/components/Navbar";
 import { editPost, fetchPost } from "@/api/edit-reply-api";
+import { toast } from "react-hot-toast";
 import { fetchBreadcrumbByThreadId } from "@/api/forum";
 
 export default function EditPost() {
@@ -54,13 +55,13 @@ export default function EditPost() {
 
     editPost(requestBody, postId)
       .then(data => {
-        window.alert("Berhasil Mengedit Post")
+        toast.success("Berhasil mengedit post")
         router.push(`/forum/${threadId}`);
       })
       
       
     } else {
-      window.alert("Gak boleh kosong bos")
+      toast.error("Harap isi konten")
     }
   };
   const handleChangeTag = (event) => {

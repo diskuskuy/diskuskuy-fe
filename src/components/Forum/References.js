@@ -3,6 +3,7 @@ import firebase from "@/utils/firebase";
 import axios from "axios";
 import { Button } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
+import { toast } from "react-hot-toast";
 
 export default function References({pid, references, refresh}) {
   return (
@@ -36,7 +37,7 @@ export default function References({pid, references, refresh}) {
                       "Authorization": `Token ${localStorage.getItem("token")}`,
                     }},
                     ).then(() => {
-                      window.alert("Berhasil Menambahkan Referensi Diskusi")
+                      toast.success("Berhasil menambahkan referensi diskusi")
                       refresh()
                     })
                   })

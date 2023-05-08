@@ -212,7 +212,7 @@ export default function CreateThread() {
                     <div className="h-1 w-5 bg-grey"></div>
                     <label>Konten</label>
                     {isInitialPostEmpty && (
-                      <p className="text-amber-500 text-xs">
+                      <p className="text-amber text-xs">
                         <ErrorIcon />{" "}
                         <span className="text-black">
                           Please fill out this field.

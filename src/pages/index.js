@@ -163,7 +163,7 @@ export default function Home() {
                           <div className="group flex items-center">
                             <img
                               className="h-12 w-12 rounded-full object-cover"
-                              src={thread?.initial_post?.post.creator_photo_url ?? ""}
+                              src={thread?.initial_post?.post?.creator_photo_url ?? "/default-prof-pic.png"}
                               alt=""
                             />
                             <div className="rtl:mr-3 ml-3">
@@ -171,7 +171,6 @@ export default function Home() {
                               <h6 className="tracking-tight text-gray-900">
                                 {thread.title}
                               </h6>
-                              {console.log(thread)}
                               <p className="text-xs w-full m-0 p-0">
                                 {thread?.initial_post?.post?.creator_name} |{" "}
                                 {moment(

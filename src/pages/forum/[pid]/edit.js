@@ -7,8 +7,9 @@ import { CircularProgress, MenuItem, Select } from "@mui/material";
 import { useRouter } from "next/router";
 import ErrorIcon from "@mui/icons-material/Error";
 import Navbar from "@/components/Navbar";
-import { fetchBreadcrumbByThreadId, fetchThreadDataById } from "@/api/forum";
+import { fetchThreadDataById, fetchBreadcrumbByThreadId } from "@/api/forum-api";
 import { editThread } from "@/api/edit-thread-api";
+import { createReferenceFile } from "@/api/create-thread-api";
 
 export default function EditThread() {
   const router = useRouter();
@@ -84,11 +85,9 @@ export default function EditThread() {
       editorRef.current.getContent().length > 0
     ) {
       setIsRequesting(true);
-      // TODO: reference file
-      const requestBody = JSON.stringify({
+      setIsInitialPostEmpty(false);
+      const requestBody = {
         initial_post: {
-          tag: tags.join(),
-          content: editorRef.current.getContent(),
           post: {
             tag: tags.join(),
             content: editorRef.current.getContent(),
@@ -102,9 +101,14 @@ export default function EditThread() {
         },
         title: title,
         week: forumData.week,
-      });
+      };
       editThread(forumData.id, requestBody).then((data) => {
-        if (data) router.push(`/forum/${data.id}`);
+        // masih error di bagian upload file
+        if (data.status === 200) {
+          referenceFileList.forEach((file) => {
+            createReferenceFile(file, forumData.id);
+          });
+        };
       });
       setIsRequesting(false);
     } else {
@@ -212,7 +216,7 @@ export default function EditThread() {
                     <div className="h-1 w-5 bg-[#C4C4C4]"></div>
                     <label>Konten</label>
                     {isInitialPostEmpty && (
-                      <p className="text-amber-500 text-xs">
+                      <p className="text-amber text-xs">
                         <ErrorIcon />{" "}
                         <span className="text-black">
                           Please fill out this field.

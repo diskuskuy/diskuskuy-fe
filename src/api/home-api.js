@@ -1,3 +1,5 @@
+import { toast } from "react-hot-toast";
+
 export const fetchWeeksData = async () => {
   try {
     const response = await fetch(
@@ -18,15 +20,14 @@ export const fetchWeeksData = async () => {
     const responseData = await response.json();
     return responseData;
   } catch (error) {
-    // toast.error(error.message)
-    console.log(error.message);
+    toast.error(error.message)
   }
 };
 
 export const fetchWeekDataById = async (weekId) => {
   try {
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_BE_URL}/forum/Week/${weekId}`,
+      `${process.env.NEXT_PUBLIC_BE_URL}/forum/Week/${weekId}/`,
       {
         method: "GET",
         headers: {
@@ -43,8 +44,7 @@ export const fetchWeekDataById = async (weekId) => {
     const responseData = await response.json();
     return responseData;
   } catch (error) {
-    // toast.error(error.message)
-    console.log(error.message);
+    toast.error(error.message)
   }
 };
 
@@ -72,8 +72,7 @@ export const createWeek = async (nameRequest) => {
     const responseData = await response.json();
     return responseData;
   } catch (error) {
-    // toast.error(error.message)
-    console.log(error.message);
+    toast.error(error.message)
   }
 };
 

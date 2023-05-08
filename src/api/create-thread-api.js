@@ -1,5 +1,6 @@
 import axios from "axios";
 import firebase from "@/utils/firebase";
+import { toast } from "react-hot-toast";
 
 export const createThread = async (requestBody) => {
   const headers = {
@@ -17,8 +18,7 @@ export const createThread = async (requestBody) => {
     const responseData = response;
     return responseData;
   } catch (error) {
-    // toast.error(error.message)
-    console.log(error.message);
+    toast.error(error.message)
   }
 };
 
@@ -49,8 +49,7 @@ export const createReferenceFile = async (file, threadId) => {
           }, 10000);
         })
         .catch((error) => {
-          // toast.error(error.message)
-          console.log(error.message);
+          toast.error(error.message)
         });
     });
   });

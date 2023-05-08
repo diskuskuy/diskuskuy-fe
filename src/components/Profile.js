@@ -6,6 +6,7 @@ import {
 import { useRouter } from "next/router";
 import firebase from "@/utils/firebase";
 import axios from "axios";
+import { toast } from "react-hot-toast";
 
 export default function Profile() {
   const router = useRouter()
@@ -28,7 +29,7 @@ export default function Profile() {
           onClick={() => {}}
           className="cursor-pointer h-12 w-12 relative"
         >
-          <img src={profileData.photo_url} alt="prof-pic" className="rounded-full object-cover h-12 w-12"
+          <img src={profileData?.photo_url ?? "/default-prof-pic.png"} alt="prof-pic" className="rounded-full object-cover h-12 w-12"
           />
           <img
             src="/edit-profile-pic.png"
@@ -67,7 +68,7 @@ export default function Profile() {
                   }},
                   ).then(() => {
                     localStorage.setItem('photoUrl', url)
-                    window.alert("Berhasil Mengubah Foto Profil")
+                    toast.success("Berhasil mengubah foto profil")
                     window.location.reload()
                   })
                 })

@@ -1,4 +1,5 @@
 import axios from "axios";
+import { toast } from "react-hot-toast";
 
 export const fetchThreadDataById = async (threadId) => {
   try {
@@ -20,8 +21,7 @@ export const fetchThreadDataById = async (threadId) => {
     const responseData = await response.json();
     return responseData;
   } catch (error) {
-    // toast.error(error.message)
-    console.log(error.message);
+    toast.error(error.message)
   }
 };
 
@@ -45,8 +45,7 @@ export const fetchReplyDataById = async (threadId) => {
     const responseData = await response.json();
     return responseData;
   } catch (error) {
-    // toast.error(error.message)
-    console.log(error.message);
+    toast.error(error.message)
   }
 };
 
@@ -67,8 +66,7 @@ export const fetchSummary = async () => {
     const responseData = await response.json();
     return responseData;
   } catch (error) {
-    // toast.error(error.message)
-    console.log(error.message);
+    toast.error(error.message)
   }
 };
 
@@ -83,11 +81,13 @@ export const updateSummaryById = async (id, requestBody) => {
       headers : headers
     })
     .then((response) => {
-      if (response) window.location.reload();
+      if (response) {
+        toast.success("Berhasil menambahkan ringkasan diskusi")
+        window.location.reload()
+      };
     })
     .catch((error) => {
-      // toast.error(error.message)
-      console.log(error.message);
+      toast.error(error.message)
     });
 };
 
@@ -100,11 +100,13 @@ export const createSummary = async (requestBody) => {
       headers : headers
     })
     .then((response) => {
-      if (response) window.location.reload();
+      if (response) {
+        toast.success("Berhasil menyimpan ringkasan diskusi")
+        window.location.reload()
+      };
     })
     .catch((error) => {
-      // toast.error(error.message)
-      console.log(error.message);
+      toast.error(error.message)
     });
 };
 
@@ -128,8 +130,7 @@ export const fetchNestedReply = async () => {
     const responseData = await response.json();
     return responseData;
   } catch (error) {
-    // toast.error(error.message)
-    console.log(error.message);
+    toast.error(error.message)
   }
 };
 
@@ -150,8 +151,7 @@ export const fetchReferences = async () => {
     const responseData = await response.json();
     return responseData;
   } catch (error) {
-    // toast.error(error.message)
-    console.log(error.message);
+    toast.error(error.message)
   }
 };
 
@@ -176,8 +176,7 @@ export const addOrRemoveLikePost = async (postId) => {
     const responseData = await response.json();
     return responseData;
   } catch (error) {
-    // toast.error(error.message)
-    console.log(error.message);
+    toast.error(error.message)
   }
 };
 
@@ -198,8 +197,7 @@ export const fetchAnalytics = async (threadId) => {
     const responseData = await response.json();
     return responseData;
   } catch (error) {
-    // toast.error(error.message)
-    console.log(error.message);
+    toast.error(error.message)
   }
 };
 

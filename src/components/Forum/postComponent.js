@@ -3,7 +3,7 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { formatDate, formatTime } from "@/utils/util";
 import { useState } from "react";
 import { useRouter } from "next/router";
-import { addOrRemoveLikePost } from "@/api/forum";
+import { addOrRemoveLikePost } from "@/api/forum-api";
 
 export default function PostComponent({ post, type, parentId, parent, threadId }) {
   const userId = parseInt(localStorage.getItem("userId"))
@@ -53,13 +53,11 @@ export default function PostComponent({ post, type, parentId, parent, threadId }
     setisLoading(false)
   }
 
-  console.log(post)
-
   return (
     <div className={styles.postSection} style={{ marginLeft: marginLeft }}>
       <div className="flex flex-col basis-1/12 gap-2 items-center">
         <div className="rounded-full w-20 h-20" >
-          <img src={post.creator_photo_url} className="rounded-full w-20 h-20 object-cover" />
+          <img src={post?.creator_photo_url ?? "/default-prof-pic.png"} className="rounded-full w-20 h-20 object-cover" />
         </div>
         <div className="bg-blue px-2">{post.creator_role}</div>
       </div>
