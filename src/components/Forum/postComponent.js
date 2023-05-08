@@ -85,14 +85,14 @@ export default function PostComponent({ post, type, parentId, parent, threadId }
         <div className="h-[0.5px] bg-grey"></div>
         <div className="flex flex-row gap-2 items-center">
           {type !== "nestedReply" && (
-            <a className="cursor-pointer text-xs" onClick={parent ? type === "reply" ? handleNestedParentReply : handleParentReply : handleReply}>
-              Balas <ExpandMoreIcon />
-            </a>
+            <button className="bg-transparent hover:bg-green text-green hover:text-white p-2 border border-green hover:border-transparent rounded-full" onClick={parent ? type === "reply" ? handleNestedParentReply : handleParentReply : handleReply}>
+              Balas
+            </button>
           )}
           {post.creator == userId && (
-          <a className="cursor-pointer text-xs" onClick={ handleEditReply }>
+          <button className="bg-transparent hover:bg-green text-green hover:text-white p-2 border border-green hover:border-transparent rounded-full" onClick={ handleEditReply }>
               Edit
-            </a>
+            </button>
           )}
           <button onClick={handleLikePost} className="rounded-full border border-grey p-2 cursor-pointer flex flex-row gap-2 justify-center" style={{
             background: isLiked ? '#ef4444': 'white',

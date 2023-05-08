@@ -75,3 +75,28 @@ export const createWeek = async (nameRequest) => {
     toast.error(error.message)
   }
 };
+
+export const fetchDosenData = async () => {
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_BE_URL}/auth/lecturers/`,
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Token ${localStorage.getItem("token")}`,
+        },
+      }
+    );
+
+    if (!response.ok) {
+      const responseError = await response.json();
+      const message = `${responseError.errors.error_message}`;
+      throw new Error(message);
+    }
+    const responseData = await response.json();
+    return responseData;
+  } catch (error) {
+    // toast.error(error.message)
+    console.log(error.message);
+  }
+};

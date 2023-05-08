@@ -9,7 +9,7 @@ import {
   term,
   dosenInfo,
 } from "@/api/dummy/home";
-import { createWeek, fetchWeeksData } from "@/api/home-api";
+import { createWeek, fetchDosenData, fetchWeeksData } from "@/api/home-api";
 import CircularProgress from "@mui/material/CircularProgress";
 import { Button } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
@@ -24,22 +24,27 @@ import { hasCookie } from 'cookies-next'
 export default function Home() {
   const router = useRouter();
   const [weeksData, setWeeksData] = useState([]);
+  const [dosenData, setDosenData] = useState([]);
   const [showCreateWeekPopUp, setShowCreateWeekPopUp] = useState(false);
   const [weekNameInput, setWeekNameInput] = useState("");
   const [isLecturer, setIsLecture] = useState(false);
   const [isAuth, setIsAuth] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
 
   // const role = typeof window !== 'undefined' ? localStorage.getItem('role') : null
   // const isLecturer = role == 'lecturer' ? true : false;
 
   useEffect(() => {
+    setIsLoading(true)
     fetchWeeksData().then((data) => setWeeksData(data));
+    fetchDosenData().then((dosenData) => setDosenData(dosenData));
     setIsAuth(localStorage.getItem('token') != null)
     setIsLecture(
       getCookie("auth")
         ? JSON.parse(getCookie("auth"))?.role === "lecturer"
         : false
     );
+    setIsLoading(false)
   }, []);
 
   const handleShowCreateWeekPopUp = () => {
@@ -88,12 +93,12 @@ export default function Home() {
                     Tim Pengajar
                   </h1>
                   <div className="flex flex-row flex-wrap gap-2">
-                    {dosenInfo.map((object, i) => (
+                    {dosenData.map((dosen, i) => (
                       <DosenInfo
                         key={i}
-                        photoUrl={object.photoUrl}
-                        name={object.name}
-                        teachingClass={object.teachingClass}
+                        photoUrl={dosen?.lecturer.photo_url}
+                        name={dosen?.lecturer.name}
+                        nim={dosen?.nim}
                       />
                     ))}
                   </div>
@@ -120,13 +125,13 @@ export default function Home() {
                 />
               </>
             )}
-            {!(weeksData && weeksData.length > 0) && (
+            {isLoading && (
               <div className="flex flex-row justify-center">
                 <CircularProgress color="inherit" />
               </div>
             )}
             {/* TODO: tambahin id pake week keberapa*/}
-            {weeksData &&
+            {!isLoading && weeksData &&
               weeksData.length > 0 &&
               weeksData.map((week, i) => (
                 <div className="section" key={week.id} id={week.id}>

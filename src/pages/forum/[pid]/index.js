@@ -8,10 +8,7 @@ import DiscussionGuide from "@/components/Forum/DiscussionGuide";
 import PostComponent from "@/components/Forum/postComponent";
 import References from "@/components/Forum/References";
 import Onboarding from "@/components/Forum/Onboarding";
-import dataObd1 from "@/constants/obd-1";
-import dataObd2 from "@/constants/obd-2";
-import dataObd3 from "@/constants/obd-3";
-import dataObd4 from "@/constants/obd-4";
+import { dataObd1, dataObd2, dataObd3, dataObd4 } from "@/constants/OnboardingConstants";
 import {
   fetchThreadDataById,
   fetchReplyDataById,
@@ -31,22 +28,16 @@ export default function Forum() {
   const router = useRouter();
   const { pid } = router.query;
 
-  const inquiry =
-    fase == 1
-      ? dataObd1
-      : fase == 2
-      ? dataObd2
-      : fase == 3
-      ? dataObd3
-      : dataObd4;
-
   const [forumData, setForumData] = useState({});
   const [initialPost, setInitialPost] = useState({});
   const [initialSummary, setInitialSummary] = useState({});
   const [initialNested, setInitialNested] = useState([]);
   const [references, setReferences] = useState([]);
+  const [onboardingData, setOnboardingData] = useState([]);
   const [isLecturer, setIsLecture] = useState(false)
   const [analytics , setAnalytics] = useState({})
+  const [showOnboarding, setShowOnboarding] = useState(true)
+  const [breadcrumb, setBreadcrumb] = useState("");
 
   const handleNestedReply = () => {
     router.push("/create-post");
@@ -66,8 +57,20 @@ export default function Forum() {
 
     fetchThreadDataById(threadId).then((data) => {
       setForumData(data);
+      setOnboardingData(
+        data?.discussion_guide?.state == 1
+          ? dataObd1
+          : data?.discussion_guide?.state == 2
+          ? dataObd2
+          : data?.discussion_guide?.state == 3
+          ? dataObd3
+          : dataObd4
+      );
+      if (data?.discussion_guide?.state > 4) {
+        setShowOnboarding(false)
+      }
       setReferences(data?.reference_file ?? []);
-      setInitialSummary(data?.summary ?? {});
+      setInitialSummary(data?.summary?.content ?? "");
 
       fetchReplyDataById(data?.initial_post?.id).then((data) => {
         setInitialPost(data);
@@ -76,6 +79,11 @@ export default function Forum() {
     fetchNestedReply().then((data) => {
       setInitialNested(data);
     });
+
+    fetchBreadcrumbByThreadId(threadId).then(data => {
+      setBreadcrumb(data)
+      console.log(data)
+    })
   }, [pid]);
 
   return (
@@ -96,7 +104,7 @@ export default function Forum() {
               <ChevronRightIcon />
               {/* TODO: replace #{num} pake week keberapa & nama week*/}
               <a className="cursor-pointer" href={"/#"+forumData.week}>
-                Forum Diskusi {forumData.week_name}
+                Forum Diskusi {breadcrumb.week_name}
               </a>
               <ChevronRightIcon />
               <a className="font-bold">Thread: {forumData.title}</a>
@@ -169,7 +177,9 @@ export default function Forum() {
                 />
               </div>
             </div>
-            <Onboarding data={inquiry} />
+            {showOnboarding &&
+              <Onboarding data={onboardingData} />
+            }
           </>
         )}
       </main>

@@ -43,7 +43,7 @@ export default function Onboarding({ data }) {
           >
             {data.map((obj, i) => (
               <SwiperSlide key={i}>
-                <div className="flex flex-col justify-center mb-12">
+                <div className="flex flex-col justify-center items-center text-justify mb-12">
                   {/* {" "} */}
                   {/* <img
                   src="/images/onboarding-app/first-step.png"
@@ -54,8 +54,22 @@ export default function Onboarding({ data }) {
                     {/* {" "} */}
                     {obj.title}
                   </Dialog.Title>
-                  <Dialog.Description className="text-center text-[17px] font-medium mt-4 mx-16">
+                  <Dialog.Description className="text-sm font-medium mt-4 mx-16">
                     {obj.description}
+                  </Dialog.Description>
+                  <Dialog.Description className="text-sm font-medium mt-4 mx-16">
+                    {obj.more_description}
+                  </Dialog.Description>
+                  {obj.hint &&
+                  <p className="font-bold text-center text-sm mt-4 mx-16">
+                    Hints
+                  </p>
+                  }
+                  <Dialog.Description className="text-sm font-medium mt-4 mx-16">
+                    {obj.hint}
+                  </Dialog.Description>
+                  <Dialog.Description className="text-sm font-medium mt-4 mx-16">
+                    {obj.more_hint}
                   </Dialog.Description>
                   {i == data.length - 1 && (
                     <Dialog.Description
