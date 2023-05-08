@@ -2,8 +2,7 @@ import React, { useState } from "react";
 import defaultMoment from "moment/min/moment-with-locales";
 import { formatDate, formatTime } from "@/utils/util";
 
-export default function DiscussionGuide({ data, onSeeDiscussionGuide }) {
-  console.log(data)
+export default function DiscussionGuide({ data, onSeeDiscussionGuide, isLecturer }) {
   const deadline =
     formatDate(data.deadline) + " | " + formatTime(data.deadline);
 

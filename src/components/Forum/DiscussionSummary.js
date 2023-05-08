@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import { addReplyDataById } from "@/api/forum";
-import { useRouter } from 'next/router';
+import { createSummary, updateSummaryById } from "@/api/forum";
+import { useRouter } from "next/router";
 
-export default function DiscussionSummary({ content }) {
+export default function DiscussionSummary({ content, id }) {
   const router = useRouter();
-  const { pid } = router.query
+  const { pid } = router.query;
   const [summaryContent, setSummaryContent] = useState(content ? content : "");
 
   const handleChange = (event) => {
@@ -13,8 +13,13 @@ export default function DiscussionSummary({ content }) {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-
-    addReplyDataById({content: summaryContent, thread: pid }).then(() => window.alert("sip"))
+    const requestBody = { id: id, content: summaryContent, thread: pid };
+    if (id == null || id == ''){
+      createSummary(requestBody).then(() => window.alert("Berhasil Menyimpan Ringkasan Diskusi"))
+    }
+    else {
+      updateSummaryById(id, requestBody).then(() => window.alert('Berhasil Menambahkan Ringkasan Diskusi'));
+    }
   };
 
   return (

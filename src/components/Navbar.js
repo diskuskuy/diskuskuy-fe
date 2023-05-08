@@ -2,8 +2,21 @@ import Link from "next/link";
 import Image from "next/image";
 import { Dropdown } from "@nextui-org/react";
 import ProfileComponent from "./Profile";
+import { hasCookie } from 'cookies-next'
+import { Button } from "@mui/material";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 
 export default function Navbar() {
+  const router = useRouter()
+
+  const [isAuth, setIsAuth] = useState(false)
+
+
+  useEffect(() => {
+    setIsAuth(localStorage.getItem('token') != null)
+  }, [])
+
   return (
     <div className="flex flex-wrap justify-between items-center gap-2 bg-green w-full p-2 text-white">
       <div className="flex items-center">
@@ -17,13 +30,16 @@ export default function Navbar() {
         </Link>
       </div>
       <div className="flex items-center mx-5">
+        {!isAuth ? (
+          <Button sx={{color: '#fff', }} onClick={() => router.push("/login")}>Login</Button>
+        ) : (
         <Dropdown>
           <Dropdown.Button light>
-            <div className="rounded-full ml-2">
+          <div className="rounded-full h-10 w-10">
               <img
-                src="/teacher-img.png"
+                className="rounded-full object-cover h-10 w-10"
+                src={localStorage.getItem('photoUrl')}
                 alt="profile-picture"
-                width={"35px"}
               />
             </div>
           </Dropdown.Button>
@@ -36,6 +52,7 @@ export default function Navbar() {
             </Dropdown.Item>
           </Dropdown.Menu>
         </Dropdown>
+        )}
       </div>
     </div>
   );

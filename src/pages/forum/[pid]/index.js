@@ -15,12 +15,14 @@ import {
   fetchSummary,
   fetchNestedReply,
   fetchReferences,
+  fetchAnalytics,
 } from "@/api/forum";
 import { initialPost, replyPost, fase } from "@/api/dummy/forum";
 import CircularProgress from "@mui/material/CircularProgress";
 import { isObjectEmpty } from "@/utils/util";
 import { useRouter } from "next/router";
 import Navbar from "@/components/Navbar";
+import { getCookie } from 'cookies-next'
 
 export default function Forum() {
   const router = useRouter();
@@ -28,11 +30,13 @@ export default function Forum() {
 
   const [forumData, setForumData] = useState({});
   const [initialPost, setInitialPost] = useState({});
-  const [initialSummary, setInitialSummary] = useState([]);
+  const [initialSummary, setInitialSummary] = useState({});
   const [initialNested, setInitialNested] = useState([]);
   const [references, setReferences] = useState([]);
   const [phase, setPhase] = useState(1);
   const [inquiry, setInquiry] = useState([]);
+  const [isLecturer, setIsLecture] = useState(false)
+  const [analytics , setAnalytics] = useState({})
 
   const handleNestedReply = () => {
     router.push("/create-post");
@@ -42,6 +46,14 @@ export default function Forum() {
     const path = location.pathname;
     const pathArray = path.split("/");
     const threadId = pathArray[pathArray.length - 1];
+
+    fetchAnalytics(threadId).then((data) => {
+      setAnalytics(data);
+      console.log(data)
+    }); 
+
+
+    setIsLecture(getCookie("auth") ? JSON.parse(getCookie("auth"))?.role === "lecturer" : false)
 
     fetchThreadDataById(threadId).then((data) => {
       setForumData(data);
@@ -80,12 +92,12 @@ export default function Forum() {
           <>
             <div className="flex flex-row items-center text-xs pb-10">
               <a className="cursor-pointer" href="/">
-                Sistem Interaksi - Gasal 2020/2021
+                Home
               </a>
               <ChevronRightIcon />
               {/* TODO: replace #{num} pake week keberapa & nama week*/}
-              <a className="cursor-pointer" href="/#4">
-                Forum Diskusi Minggu ke-1
+              <a className="cursor-pointer" href={"/#"+forumData.week}>
+                Forum Diskusi {forumData.week_name}
               </a>
               <ChevronRightIcon />
               <a className="font-bold">Thread: {forumData.title}</a>
@@ -95,7 +107,7 @@ export default function Forum() {
                 <PostComponent
                   parent
                   parentId={pid}
-                  post={forumData.initial_post}
+                  post={forumData.initial_post?.post}
                   threadId={forumData?.initial_post?.id}
                   type="initial"
                 />
@@ -104,7 +116,7 @@ export default function Forum() {
                   .map((object, i) => (
                     <React.Fragment key={i}>
                       <PostComponent
-                        post={object}
+                        post={object.post}
                         parent
                         parentId={object?.id}
                         threadId={pid}
@@ -116,22 +128,26 @@ export default function Forum() {
                         ?.map((_res, key) => (
                           <PostComponent
                             key={key}
-                            post={{ ...object, ..._res }}
+                            post={{ ...object.post, ..._res.post }}
                             parent
                             parentId={_res?.id}
                             type="nestedReply"
+                            threadId={pid}
                           />
                         ))}
                     </React.Fragment>
                   ))}
               </div>
               <div className="flex flex-col basis-1/3 gap-5">
-                <DiscussionGuide
-                  data={forumData.discussion_guide}
-                  onSeeDiscussionGuide={() =>
-                    router.push(forumData.id + "/discussion-guide")
-                  }
-                />
+                {forumData.discussion_guide &&
+                  <DiscussionGuide
+                    data={forumData.discussion_guide}
+                    onSeeDiscussionGuide={() =>
+                      router.push(forumData.id + "/discussion-guide")
+                    }
+                    isLecturer={isLecturer}
+                  />
+                }
                 <References
                   references={references}
                   pid={pid}
@@ -144,10 +160,14 @@ export default function Forum() {
                   }}
                 />
                 <DiscussionAnalytics
+                  analytics={analytics}
                   reply={initialPost}
                   nestedReply={initialNested}
                 />
-                <DiscussionSummary content={initialSummary} />
+                <DiscussionSummary
+                  content={initialSummary?.content ?? ""}
+                  id={initialSummary?.id ?? ""}
+                />
               </div>
             </div>
             <Onboarding data={inquiry} />

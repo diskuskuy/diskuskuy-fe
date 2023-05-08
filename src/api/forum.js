@@ -1,130 +1,204 @@
-import axios from 'axios'
+import axios from "axios";
 
 export const fetchThreadDataById = async (threadId) => {
-    try {
-      const response = await fetch(
-        'http://localhost:8000/forum/Thread/' + threadId,
-        {
-          method: 'GET'
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_BE_URL}/forum/Thread/` + threadId,
+      {
+        method: "GET",
+        headers: {
+          "Authorization": `Token ${localStorage.getItem("token")}`,
         }
-      );
+      }
+    );
 
-      if (!response.ok) {
-        const responseError = await response.json()
-        const message = `${responseError.errors.error_message}`
-        throw new Error(message)
-      };
-      const responseData = await response.json()
-      return responseData;
-    } catch (error) {
-      // toast.error(error.message)
-      console.log(error.message)
+    if (!response.ok) {
+      const responseError = await response.json();
+      const message = `${responseError.errors.error_message}`;
+      throw new Error(message);
     }
+    const responseData = await response.json();
+    return responseData;
+  } catch (error) {
+    // toast.error(error.message)
+    console.log(error.message);
   }
+};
 
 export const fetchReplyDataById = async (threadId) => {
   try {
     const response = await fetch(
-      'http://localhost:8000/post/initialpost/' + threadId,
+      `${process.env.NEXT_PUBLIC_BE_URL}/post/initialpost/` + threadId,
       {
-        method: 'GET'
+        method: "GET",
+        headers: {
+          "Authorization": `Token ${localStorage.getItem("token")}`,
+        }
       }
     );
 
     if (!response.ok) {
-      const responseError = await response.json()
-      const message = `${responseError.errors.error_message}`
-      throw new Error(message)
-    };
-    const responseData = await response.json()
+      const responseError = await response.json();
+      const message = `${responseError.errors.error_message}`;
+      throw new Error(message);
+    }
+    const responseData = await response.json();
     return responseData;
   } catch (error) {
     // toast.error(error.message)
-    console.log(error.message)
+    console.log(error.message);
   }
-}
+};
 
 export const fetchSummary = async () => {
   try {
-    const response = await fetch(
-      'http://localhost:8000/forum/Summary',
-      {
-        method: 'GET'
+    const response = await fetch(`${process.env.NEXT_PUBLIC_BE_URL}/forum/Summary`, {
+      method: "GET",
+      headers: {
+        "Authorization": `Token ${localStorage.getItem("token")}`,
       }
-    );
+    });
 
     if (!response.ok) {
-      const responseError = await response.json()
-      const message = `${responseError.errors.error_message}`
-      throw new Error(message)
-    };
-    const responseData = await response.json()
+      const responseError = await response.json();
+      const message = `${responseError.errors.error_message}`;
+      throw new Error(message);
+    }
+    const responseData = await response.json();
     return responseData;
   } catch (error) {
     // toast.error(error.message)
-    console.log(error.message)
+    console.log(error.message);
   }
-}
+};
 
-export const addReplyDataById = async (_response) => {
-  try {
-    const response = await axios.post(
-      'http://localhost:8000/forum/Summary/', _response
-    );
 
-    if (!response.ok) {
-      const responseError = await response.json()
-      const message = `${response.response.errors.error_message}`
-      throw new Error(message)
-    };
-    return response;
-  } catch (error) {
-    // toast.error(error.message)
-    console.log(error.message)
+
+export const updateSummaryById = async (id, requestBody) => {
+  const headers = {
+    "Authorization": `Token ${localStorage.getItem("token")}`,
   }
-}
+  axios
+    .put(`${process.env.NEXT_PUBLIC_BE_URL}/forum/Summary/${id}/`, requestBody, {
+      headers : headers
+    })
+    .then((response) => {
+      if (response) window.location.reload();
+    })
+    .catch((error) => {
+      // toast.error(error.message)
+      console.log(error.message);
+    });
+};
+
+export const createSummary = async (requestBody) => {
+  const headers = {
+    "Authorization": `Token ${localStorage.getItem("token")}`,
+  }
+  axios
+    .post(`${process.env.NEXT_PUBLIC_BE_URL}/forum/Summary/`, requestBody, {
+      headers : headers
+    })
+    .then((response) => {
+      if (response) window.location.reload();
+    })
+    .catch((error) => {
+      // toast.error(error.message)
+      console.log(error.message);
+    });
+};
 
 export const fetchNestedReply = async () => {
   try {
     const response = await fetch(
-      'http://localhost:8000/post/nestedreplypost/',
+      `${process.env.NEXT_PUBLIC_BE_URL}/post/nestedreplypost/`,
       {
-        method: 'GET'
+        method: "GET",
+        headers: {
+          "Authorization": `Token ${localStorage.getItem("token")}`,
+        }
       }
     );
 
     if (!response.ok) {
-      const responseError = await response.json()
-      const message = `${responseError.errors.error_message}`
-      throw new Error(message)
-    };
-    const responseData = await response.json()
+      const responseError = await response.json();
+      const message = `${responseError.errors.error_message}`;
+      throw new Error(message);
+    }
+    const responseData = await response.json();
     return responseData;
   } catch (error) {
     // toast.error(error.message)
-    console.log(error.message)
+    console.log(error.message);
   }
-}
-
+};
 
 export const fetchReferences = async () => {
   try {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_BE_URL}/forum/ReferenceFile`, {
+      method: "GET",
+      headers: {
+        "Authorization": `Token ${localStorage.getItem("token")}`,
+      }
+    });
+
+    if (!response.ok) {
+      const responseError = await response.json();
+      const message = `${responseError.errors.error_message}`;
+      throw new Error(message);
+    }
+    const responseData = await response.json();
+    return responseData;
+  } catch (error) {
+    // toast.error(error.message)
+    console.log(error.message);
+  }
+};
+
+export const addOrRemoveLikePost = async (postId) => {
+  try {
     const response = await fetch(
-      'http://localhost:8000/forum/ReferenceFile',
+      `${process.env.NEXT_PUBLIC_BE_URL}/post/reaction/${postId}/`,
       {
-        method: 'GET'
+        method: "POST",
+        headers: {
+          "Authorization": `Token ${localStorage.getItem("token")}`,
+          "Content-Type": "application/json",
+        },
       }
     );
 
     if (!response.ok) {
-      const responseError = await response.json()
-      const message = `${responseError.errors.error_message}`
-      throw new Error(message)
-    };
-    const responseData = await response.json()
+      const responseError = await response.json();
+      const message = `${responseError.errors.error_message}`;
+      throw new Error(message);
+    }
+    const responseData = await response.json();
     return responseData;
   } catch (error) {
     // toast.error(error.message)
-    console.log(error.message)
+    console.log(error.message);
   }
-}
+};
+
+export const fetchAnalytics = async (threadId) => {
+  try {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_BE_URL}/forum/analytics/${threadId}` , {
+      method: "GET",
+      headers: {
+        "Authorization": `Token ${localStorage.getItem("token")}`,
+      }
+    });
+
+    if (!response.ok) {
+      const responseError = await response.json();
+      const message = `${responseError.errors.error_message}`;
+      throw new Error(message);
+    }
+    const responseData = await response.json();
+    return responseData;
+  } catch (error) {
+    // toast.error(error.message)
+    console.log(error.message);
+  }
+};

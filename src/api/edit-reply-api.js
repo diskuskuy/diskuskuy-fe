@@ -1,9 +1,9 @@
-export const replyPost = async (requestBody) => {
+export const editPost = async (requestBody, id) => {
     try {
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_BE_URL}/post/replypost/`,
+        `${process.env.NEXT_PUBLIC_BE_URL}/post/post/${id}/`,
         {
-          method: "POST",
+          method: "PUT",
           headers: {
             "Authorization": `Token ${localStorage.getItem("token")}`,
             "Content-Type": "application/json",
@@ -25,18 +25,16 @@ export const replyPost = async (requestBody) => {
     }
   };
 
-  export const replyNestedPost = async (requestBody) => {
+  
+  export const fetchPost = async (id) => {
     try {
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_BE_URL}/post/nestedreplypost/`,
+        `${process.env.NEXT_PUBLIC_BE_URL}/post/post/${id}/`,
         {
-          method: "POST",
+          method: "GET",
           headers: {
             "Authorization": `Token ${localStorage.getItem("token")}`,
-            "Content-Type": "application/json",
-          },
-          
-          body: requestBody,
+          }
         }
       );
   
@@ -52,4 +50,5 @@ export const replyPost = async (requestBody) => {
       console.log(error.message);
     }
   };
+
   
