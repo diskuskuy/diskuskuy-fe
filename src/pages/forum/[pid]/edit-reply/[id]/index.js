@@ -1,20 +1,34 @@
 import TextEditor from "@/components/Forum/TextEditor";
-import React, { useRef, useState, ChangeEvent } from "react";
+import React, { useRef, useState, ChangeEvent, useEffect } from "react";
 import styles from "@/styles/CreateForum.module.css";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import { useRouter } from "next/router";
 import Navbar from "@/components/Navbar";
-import { replyPost, replyNestedPost } from "@/api/reply-post-api";
+import { editPost, fetchPost } from "@/api/edit-reply-api";
 
-export default function CreatePost() {
+export default function EditPost() {
   const editorRef = useRef(null);
   const router = useRouter();
   const [tags, setTags] = React.useState([]);
+  const [content, setContent] = useState("");
   const { pid, parent, type } = router.query;
+
+  useEffect(() => {
+    const path = location.pathname;
+    const pathArray = path.split('/');
+    const postId = pathArray[pathArray.length - 1];
+    fetchPost(postId)
+    .then(data => {
+      setContent(data?.content ?? "")
+      const tagData = data.tag.toLowerCase()
+      setTags(tagData.split(","))
+      console.log(data)
+
+    })
+  }, [editorRef])
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -25,30 +39,20 @@ export default function CreatePost() {
     if (editorRef.current.getContent().length > 0 && tags.length > 0) {
       const path = location.pathname;
       const pathArray = path.split("/");
-      const initialPostId = pathArray[pathArray.length - 2];
+      const threadId = pathArray[pathArray.length - 3];
+      const postId = pathArray[pathArray.length - 1];
       const requestBody = JSON.stringify({
-        post: {
-          tag: tags.join(),
-          content: editorRef.current.getContent(),
-          creator: localStorage.getItem("userId")
-        },
-        initial_post: parseInt(initialPostId),
-        reply_post: parseInt(parent)
+        tag: tags.join(),
+        content: editorRef.current.getContent()
       })
 
-      if(type === "nested") {
-        replyNestedPost(requestBody)
-        .then(data => {
-          window.alert("Berhasil Membuat Nested Reply Post")
-          router.push(`/forum/${pid}`);
-        })
-      } else {
-        replyPost(requestBody)
-        .then(data => {
-          window.alert("Berhasil Membuat Reply Post")
-          router.push(`/forum/${parent}`);
-        })
-      }
+    editPost(requestBody, postId)
+      .then(data => {
+        window.alert("Berhasil Mengedit Post")
+        router.push(`/forum/${threadId}`);
+      })
+      
+      
     } else {
       window.alert("Gak boleh kosong bos")
     }
@@ -79,13 +83,13 @@ export default function CreatePost() {
             Forum Diskusi Minggu ke-1
           </a>
           <ChevronRightIcon />
-          <a className="font-bold">Buat Postingan</a>
+          <a className="font-bold">Edit Postingan</a>
         </div>
         <div className="text-center font-bold">
           <h1>Tulis Postingan</h1>
         </div>
         <form onSubmit={handleSubmit} className="flex flex-col gap-2">
-          <TextEditor editorRef={editorRef}></TextEditor>
+          <TextEditor editorRef={editorRef} defaultValue={content}></TextEditor>
           <InputLabel id="demo-multiple-name-label">Tags</InputLabel>
           <Select
             className="bg-white w-1/2 text-sm"
@@ -95,7 +99,7 @@ export default function CreatePost() {
             onChange={handleChangeTag}
           >
             {tagOptions.map((name) => (
-              <MenuItem key={name} value={name} className="text-sm">
+              <MenuItem key={name} value={name} className="text-sm" selected={tags.includes(name)}>
                 {name}
               </MenuItem>
             ))}
