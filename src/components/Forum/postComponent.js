@@ -85,17 +85,17 @@ export default function PostComponent({ post, type, parentId, parent, threadId }
         <div className="h-[0.5px] bg-grey"></div>
         <div className="flex flex-row gap-2 items-center">
           {type !== "nestedReply" && (
-            <button className="bg-transparent hover:bg-green text-green hover:text-white p-2 border border-green hover:border-transparent rounded-full" onClick={parent ? type === "reply" ? handleNestedParentReply : handleParentReply : handleReply}>
+            <button className="bg-transparent hover:bg-green text-green hover:text-white px-4 py-1 border border-green hover:border-transparent rounded-xl" onClick={parent ? type === "reply" ? handleNestedParentReply : handleParentReply : handleReply}>
               Balas
             </button>
           )}
           {post.creator == userId && (
-          <button className="bg-transparent hover:bg-green text-green hover:text-white p-2 border border-green hover:border-transparent rounded-full" onClick={ handleEditReply }>
+          <button className="bg-transparent hover:bg-green text-green hover:text-white px-4 py-1 border border-green hover:border-transparent rounded-xl" onClick={ handleEditReply }>
               Edit
             </button>
           )}
-          <button onClick={handleLikePost} className="rounded-full border border-grey p-2 cursor-pointer flex flex-row gap-2 justify-center" style={{
-            background: isLiked ? '#ef4444': 'white',
+          <button onClick={handleLikePost} className="rounded-xl py-2 px-3 cursor-pointer flex flex-row gap-2 justify-center" style={{
+            border: isLiked ? '1.5px solid #22c55e': '1.5px solid #C4C4C4',
           }} disabled={isLoading}>
             <img src="/like.png"></img>
           </button>
