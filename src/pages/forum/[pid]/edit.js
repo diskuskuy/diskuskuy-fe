@@ -9,7 +9,7 @@ import ErrorIcon from "@mui/icons-material/Error";
 import Navbar from "@/components/Navbar";
 import { fetchThreadDataById } from "@/api/forum-api";
 import { editThread } from "@/api/edit-thread-api";
-import { toast } from "react-hot-toast";
+import { createReferenceFile } from "@/api/create-thread-api";
 
 export default function EditThread() {
   const router = useRouter();
@@ -80,8 +80,8 @@ export default function EditThread() {
       editorRef.current.getContent().length > 0
     ) {
       setIsRequesting(true);
-      // TODO: reference file
-      const requestBody = JSON.stringify({
+      setIsInitialPostEmpty(false);
+      const requestBody = {
         initial_post: {
           post: {
             tag: tags.join(),
@@ -96,9 +96,14 @@ export default function EditThread() {
         },
         title: title,
         week: forumData.week,
-      });
+      };
       editThread(forumData.id, requestBody).then((data) => {
-        if (data) router.push(`/forum/${data.id}`);
+        // masih error di bagian upload file
+        if (data.status === 200) {
+          referenceFileList.forEach((file) => {
+            createReferenceFile(file, forumData.id);
+          });
+        };
       });
       setIsRequesting(false);
     } else {

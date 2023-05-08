@@ -1,3 +1,5 @@
+import { toast } from "react-hot-toast";
+
 export const fetchWeeksData = async () => {
   try {
     const response = await fetch(
@@ -25,7 +27,7 @@ export const fetchWeeksData = async () => {
 export const fetchWeekDataById = async (weekId) => {
   try {
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_BE_URL}/forum/Week/${weekId}`,
+      `${process.env.NEXT_PUBLIC_BE_URL}/forum/Week/${weekId}/`,
       {
         method: "GET",
         headers: {
