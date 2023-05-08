@@ -1,3 +1,5 @@
+import { toast } from "react-hot-toast";
+
 export const editPost = async (requestBody, id) => {
     try {
       const response = await fetch(
@@ -20,8 +22,7 @@ export const editPost = async (requestBody, id) => {
       const responseData = await response.json();
       return responseData;
     } catch (error) {
-      // toast.error(error.message)
-      console.log(error.message);
+      toast.error(error.message)
     }
   };
 
@@ -46,8 +47,7 @@ export const editPost = async (requestBody, id) => {
       const responseData = await response.json();
       return responseData;
     } catch (error) {
-      // toast.error(error.message)
-      console.log(error.message);
+      toast.error(error.message)
     }
   };
 

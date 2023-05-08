@@ -1,3 +1,5 @@
+import { toast } from "react-hot-toast";
+
 export const fetchDiscussionGuideDataByThreadId = async () => {
   try {
     const path = location.pathname;
