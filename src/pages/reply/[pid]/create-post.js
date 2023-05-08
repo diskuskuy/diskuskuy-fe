@@ -1,5 +1,5 @@
 import TextEditor from "@/components/Forum/TextEditor";
-import React, { useRef, useState, ChangeEvent } from "react";
+import React, { useRef, useState, ChangeEvent, useEffect } from "react";
 import styles from "@/styles/CreateForum.module.css";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import InputLabel from "@mui/material/InputLabel";
@@ -9,12 +9,25 @@ import Select, { SelectChangeEvent } from "@mui/material/Select";
 import { useRouter } from "next/router";
 import Navbar from "@/components/Navbar";
 import { replyPost, replyNestedPost } from "@/api/reply-post-api";
+import { fetchBreadcrumbByThreadId } from "@/api/forum";
 
 export default function CreatePost() {
   const editorRef = useRef(null);
   const router = useRouter();
   const [tags, setTags] = React.useState([]);
   const { pid, parent, type } = router.query;
+  const [breadcrumb, setBreadcrumb] = useState("");
+
+  useEffect(() => {
+    const path = location.pathname;
+    const pathArray = path.split('/');
+    const threadId = pathArray[pathArray.length - 2];
+
+    fetchBreadcrumbByThreadId(threadId).then(data => {
+      setBreadcrumb(data)
+      console.log(data)
+    })
+  }, [editorRef])
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -76,7 +89,7 @@ export default function CreatePost() {
           <ChevronRightIcon />
           {/* TODO: replace #{num} pake week keberapa & nama week*/}
           <a className="cursor-pointer" href="/#4">
-            Forum Diskusi Minggu ke-1
+            Forum Diskusi {breadcrumb.week_name}
           </a>
           <ChevronRightIcon />
           <a className="font-bold">Buat Postingan</a>

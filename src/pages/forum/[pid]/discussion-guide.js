@@ -12,12 +12,24 @@ import {
 import { formatDate, formatTime } from "@/utils/util";
 import DiscussionGuideUpdateConfirmationPopUp from "@/components/Forum/DiscussionGuideUpdateConfirmationPopUp";
 import Navbar from '@/components/Navbar';
+import { fetchBreadcrumbByThreadId } from '@/api/forum';
 
 export default function DiscussionGuide() {
+  const [breadcrumb, setBreadcrumb] = useState("");
+
   useEffect(() => {
+    const path = location.pathname;
+    const pathArray = path.split('/');
+    const threadId = pathArray[pathArray.length - 2];
+
     fetchDiscussionGuideDataByThreadId().then((data) => {
       setDiscussionGuideData(data);
     });
+
+    fetchBreadcrumbByThreadId(threadId).then(data => {
+      setBreadcrumb(data)
+      console.log(data)
+    })
   }, []);
 
   const router = useRouter()
@@ -65,7 +77,7 @@ export default function DiscussionGuide() {
       <div className='flex flex-row items-center text-xs pb-10'>
         <a className='cursor-pointer' href='/'>Home</a>
         <ChevronRightIcon />
-        <a className='cursor-pointer' href='/'>Forum Diskusi {discussionGuideData.week_name}</a>
+        <a className='cursor-pointer' href='/'>Forum Diskusi {breadcrumb.week_name}</a>
         <ChevronRightIcon />
         <a className='cursor-pointer' href={`/forum/${pid}`}>Thread: {discussionGuideData.thread_title}</a>
         <ChevronRightIcon />
