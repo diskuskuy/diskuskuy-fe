@@ -28,11 +28,13 @@ export default function Home() {
   const [weekNameInput, setWeekNameInput] = useState("");
   const [isLecturer, setIsLecture] = useState(false);
   const [isAuth, setIsAuth] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
 
   // const role = typeof window !== 'undefined' ? localStorage.getItem('role') : null
   // const isLecturer = role == 'lecturer' ? true : false;
 
   useEffect(() => {
+    setIsLoading(true)
     fetchWeeksData().then((data) => setWeeksData(data));
     setIsAuth(localStorage.getItem('token') != null)
     setIsLecture(
@@ -40,6 +42,7 @@ export default function Home() {
         ? JSON.parse(getCookie("auth"))?.role === "lecturer"
         : false
     );
+    setIsLoading(false)
   }, []);
 
   const handleShowCreateWeekPopUp = () => {
@@ -120,13 +123,13 @@ export default function Home() {
                 />
               </>
             )}
-            {!(weeksData && weeksData.length > 0) && (
+            {isLoading && (
               <div className="flex flex-row justify-center">
                 <CircularProgress color="inherit" />
               </div>
             )}
             {/* TODO: tambahin id pake week keberapa*/}
-            {weeksData &&
+            {!isLoading && weeksData &&
               weeksData.length > 0 &&
               weeksData.map((week, i) => (
                 <div className="section" key={week.id} id={week.id}>
@@ -158,7 +161,7 @@ export default function Home() {
                           <div className="group flex items-center">
                             <img
                               className="h-12 w-12 rounded-full object-cover"
-                              src={thread.initial_post.post.creator_photo_url}
+                              src={thread?.initial_post?.post.creator_photo_url ?? ""}
                               alt=""
                             />
                             <div className="rtl:mr-3 ml-3">

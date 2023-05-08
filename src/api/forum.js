@@ -202,3 +202,28 @@ export const fetchAnalytics = async (threadId) => {
     console.log(error.message);
   }
 };
+
+// export const fetchShowOnboardingData = async (threadId, state) => {
+//   try {
+//     const response = await fetch(
+//       `${process.env.NEXT_PUBLIC_BE_URL}/forum/onboarding?threadId=${threadId}&state=${state}`,
+//       {
+//         method: "GET",
+//         headers: {
+//           "Authorization": `Token ${localStorage.getItem("token")}`,
+//         }
+//       }
+//     );
+
+//     if (!response.ok) {
+//       const responseError = await response.json();
+//       const message = `${responseError.errors.error_message}`;
+//       throw new Error(message);
+//     }
+//     const responseData = await response.json();
+//     return responseData;
+//   } catch (error) {
+//     // toast.error(error.message)
+//     console.log(error.message);
+//   }
+// };

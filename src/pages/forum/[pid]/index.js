@@ -33,10 +33,10 @@ export default function Forum() {
   const [initialSummary, setInitialSummary] = useState({});
   const [initialNested, setInitialNested] = useState([]);
   const [references, setReferences] = useState([]);
-  const [phase, setPhase] = useState(1);
-  const [inquiry, setInquiry] = useState([]);
+  const [onboardingData, setOnboardingData] = useState([]);
   const [isLecturer, setIsLecture] = useState(false)
   const [analytics , setAnalytics] = useState({})
+  const [showOnboarding, setShowOnboarding] = useState(true)
 
   const handleNestedReply = () => {
     router.push("/create-post");
@@ -57,16 +57,18 @@ export default function Forum() {
 
     fetchThreadDataById(threadId).then((data) => {
       setForumData(data);
-      setPhase(data?.discussion_guide?.state ?? 1);
-      setInquiry(
-        phase == 1
+      setOnboardingData(
+        data?.discussion_guide?.state == 1
           ? dataObd1
-          : phase == 2
+          : data?.discussion_guide?.state == 2
           ? dataObd2
-          : phase == 3
+          : data?.discussion_guide?.state == 3
           ? dataObd3
           : dataObd4
       );
+      if (data?.discussion_guide?.state > 4) {
+        setShowOnboarding(false)
+      }
       setReferences(data?.reference_file ?? []);
       setInitialSummary(data?.summary?.content ?? "");
 
@@ -170,7 +172,9 @@ export default function Forum() {
                 />
               </div>
             </div>
-            <Onboarding data={inquiry} />
+            {showOnboarding &&
+              <Onboarding data={onboardingData} />
+            }
           </>
         )}
       </main>
