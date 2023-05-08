@@ -7,7 +7,7 @@ import { CircularProgress, MenuItem, Select } from "@mui/material";
 import { useRouter } from "next/router";
 import ErrorIcon from "@mui/icons-material/Error";
 import Navbar from "@/components/Navbar";
-import { fetchThreadDataById } from "@/api/forum";
+import { fetchBreadcrumbByThreadId, fetchThreadDataById } from "@/api/forum";
 import { editThread } from "@/api/edit-thread-api";
 
 export default function EditThread() {
@@ -27,6 +27,7 @@ export default function EditThread() {
   const tagOptions = ["pertanyaan", "pendapat", "bingung"];
 
   const [forumData, setForumData] = useState({});
+  const [breadcrumb, setBreadcrumb] = useState("");
 
   useEffect(() => {
     const path = location.pathname;
@@ -44,6 +45,10 @@ export default function EditThread() {
       const tagData = data.initial_post.post.tag.toLowerCase()
       setTags(tagData.split(","))
       setReferenceFileList(data?.reference_file ?? [])
+    })
+    fetchBreadcrumbByThreadId(threadId).then(data => {
+      setBreadcrumb(data)
+      console.log(data)
     })
   }, [editorRef])
 
@@ -127,7 +132,7 @@ export default function EditThread() {
               <ChevronRightIcon />
               {/* TODO: replace #{num} pake week keberapa & nama week*/}
               <a className="cursor-pointer" href="/#4">
-                Forum Diskusi {forumData.week_name}
+                Forum Diskusi {breadcrumb.week_name}
               </a>
               <ChevronRightIcon />
               <a className="font-bold">Edit Thread</a>

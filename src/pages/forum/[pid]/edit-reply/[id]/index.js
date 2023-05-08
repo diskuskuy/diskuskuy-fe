@@ -8,6 +8,7 @@ import Select, { SelectChangeEvent } from "@mui/material/Select";
 import { useRouter } from "next/router";
 import Navbar from "@/components/Navbar";
 import { editPost, fetchPost } from "@/api/edit-reply-api";
+import { fetchBreadcrumbByThreadId } from "@/api/forum";
 
 export default function EditPost() {
   const editorRef = useRef(null);
@@ -15,18 +16,23 @@ export default function EditPost() {
   const [tags, setTags] = React.useState([]);
   const [content, setContent] = useState("");
   const { pid, parent, type } = router.query;
+  const [breadcrumb, setBreadcrumb] = useState("");
 
   useEffect(() => {
     const path = location.pathname;
     const pathArray = path.split('/');
     const postId = pathArray[pathArray.length - 1];
+    const threadId = pathArray[pathArray.length - 3];
     fetchPost(postId)
     .then(data => {
       setContent(data?.content ?? "")
       const tagData = data.tag.toLowerCase()
       setTags(tagData.split(","))
       console.log(data)
-
+    })
+    fetchBreadcrumbByThreadId(threadId).then(data => {
+      setBreadcrumb(data)
+      console.log(data)
     })
   }, [editorRef])
 
@@ -80,7 +86,7 @@ export default function EditPost() {
           <ChevronRightIcon />
           {/* TODO: replace #{num} pake week keberapa & nama week*/}
           <a className="cursor-pointer" href="/#4">
-            Forum Diskusi Minggu ke-1
+            Forum Diskusi {breadcrumb.week_name}
           </a>
           <ChevronRightIcon />
           <a className="font-bold">Edit Postingan</a>

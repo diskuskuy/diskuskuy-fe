@@ -19,6 +19,7 @@ import {
   fetchNestedReply,
   fetchReferences,
   fetchAnalytics,
+  fetchBreadcrumbByThreadId,
 } from "@/api/forum";
 import { initialPost, replyPost, fase } from "@/api/dummy/forum";
 import CircularProgress from "@mui/material/CircularProgress";
@@ -47,6 +48,7 @@ export default function Forum() {
   const [references, setReferences] = useState([]);
   const [isLecturer, setIsLecture] = useState(false)
   const [analytics , setAnalytics] = useState({})
+  const [breadcrumb, setBreadcrumb] = useState("");
 
   const handleNestedReply = () => {
     router.push("/create-post");
@@ -77,6 +79,11 @@ export default function Forum() {
     fetchNestedReply().then((data) => {
       setInitialNested(data);
     });
+
+    fetchBreadcrumbByThreadId(threadId).then(data => {
+      setBreadcrumb(data)
+      console.log(data)
+    })
   }, [pid]);
 
   return (
@@ -97,7 +104,7 @@ export default function Forum() {
               <ChevronRightIcon />
               {/* TODO: replace #{num} pake week keberapa & nama week*/}
               <a className="cursor-pointer" href={"/#"+forumData.week}>
-                Forum Diskusi {forumData.week_name}
+                Forum Diskusi {breadcrumb.week_name}
               </a>
               <ChevronRightIcon />
               <a className="font-bold">Thread: {forumData.title}</a>
