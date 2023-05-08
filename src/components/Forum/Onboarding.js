@@ -5,10 +5,11 @@ import SwiperCore, { Navigation, Pagination, A11y } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/pagination";
+import { formatDate, formatTime } from "@/utils/util";
 
 SwiperCore.use([Navigation, Pagination, A11y]);
 
-export default function Onboarding({ data }) {
+export default function Onboarding({ data, deadline }) {
   const [isOpen, setIsOpen] = useState(true);
 
   return (
@@ -44,36 +45,40 @@ export default function Onboarding({ data }) {
             {data.map((obj, i) => (
               <SwiperSlide key={i}>
                 <div className="flex flex-col justify-center items-center text-justify mb-12">
-                  {/* {" "} */}
-                  {/* <img
-                  src="/images/onboarding-app/first-step.png"
-                  className="h-[250px]"
-                  alt=""
-                />{" "} */}
+                  <img
+                    src={obj.picUrl}
+                    className="h-[150px]"
+                    alt=""
+                  />{" "}
                   <Dialog.Title className="font-bold text-center text-lg mt-6 mx-16">
-                    {/* {" "} */}
                     {obj.title}
                   </Dialog.Title>
                   <Dialog.Description className="text-sm font-medium mt-4 mx-16">
-                    {obj.description}
+                    {i == 2 ? formatDate(deadline) + " | " + formatTime(deadline) : obj.description}
                   </Dialog.Description>
-                  <Dialog.Description className="text-sm font-medium mt-4 mx-16">
-                    {obj.more_description}
-                  </Dialog.Description>
-                  {obj.hint &&
-                  <p className="font-bold text-center text-sm mt-4 mx-16">
-                    Hints
-                  </p>
+                  {obj.moreDescription &&
+                    <Dialog.Description className="text-sm font-medium mt-4 mx-16">
+                      {obj.moreDescription}
+                    </Dialog.Description>
                   }
-                  <Dialog.Description className="text-sm font-medium mt-4 mx-16">
-                    {obj.hint}
-                  </Dialog.Description>
-                  <Dialog.Description className="text-sm font-medium mt-4 mx-16">
-                    {obj.more_hint}
-                  </Dialog.Description>
+                  {obj.hint &&
+                    <>
+                      <p className="font-bold text-center text-sm mt-4 mx-16">
+                        Hints
+                      </p>
+                      <Dialog.Description className="text-sm font-medium mt-4 mx-16">
+                        {obj.hint}
+                      </Dialog.Description>
+                    </>
+                  }
+                  {obj.moreHint &&
+                    <Dialog.Description className="text-sm font-medium mt-4 mx-16">
+                      {obj.moreHint}
+                    </Dialog.Description>
+                  }
                   {i == data.length - 1 && (
                     <Dialog.Description
-                      className="text-black underline text-center text-[16px] font-medium font-bold mt-12 mx-14 cursor-pointer"
+                      className="text-black underline text-center mt-4 font-medium cursor-pointer"
                       onClick={() => setIsOpen(false)}
                     >
                       Close

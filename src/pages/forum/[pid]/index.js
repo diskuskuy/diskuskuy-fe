@@ -180,7 +180,7 @@ export default function Forum() {
               </div>
             </div>
             {showOnboarding &&
-              <Onboarding data={onboardingData} />
+              <Onboarding data={onboardingData} deadline={forumData?.discussion_guide?.deadline} />
             }
           </>
         )}
