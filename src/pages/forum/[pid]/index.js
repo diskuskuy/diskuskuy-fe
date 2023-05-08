@@ -16,6 +16,7 @@ import {
   fetchNestedReply,
   fetchReferences,
   fetchAnalytics,
+  fetchBreadcrumbByThreadId,
 } from "@/api/forum-api";
 import { initialPost, replyPost, fase } from "@/api/dummy/forum";
 import CircularProgress from "@mui/material/CircularProgress";
