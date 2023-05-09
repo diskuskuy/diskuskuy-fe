@@ -9,7 +9,7 @@ import { useRouter } from "next/router";
 import Navbar from "@/components/Navbar";
 import { editPost, fetchPost } from "@/api/edit-reply-api";
 import { toast } from "react-hot-toast";
-import { fetchBreadcrumbByThreadId } from "@/api/forum";
+import { fetchBreadcrumbByThreadId } from "@/api/forum-api";
 
 export default function EditPost() {
   const editorRef = useRef(null);

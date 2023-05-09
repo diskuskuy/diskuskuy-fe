@@ -12,7 +12,7 @@ import {
 import { formatDate, formatTime } from "@/utils/util";
 import DiscussionGuideUpdateConfirmationPopUp from "@/components/Forum/DiscussionGuideUpdateConfirmationPopUp";
 import Navbar from '@/components/Navbar';
-import { fetchBreadcrumbByThreadId } from '@/api/forum';
+import { fetchBreadcrumbByThreadId } from '@/api/forum-api';
 
 export default function DiscussionGuide() {
   const [breadcrumb, setBreadcrumb] = useState("");
