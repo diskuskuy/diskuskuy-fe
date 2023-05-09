@@ -1,14 +1,27 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import styles from "@/styles/Forum.module.css";
+import axios from "axios";
+import { useRouter } from "next/router";
 
 export default function DiscussionAnalytics({ reply, nestedReply, analytics }) {
+  const router = useRouter()
   const [showExpansion, setShowExpansion] = useState(false);
+  const [datas, setDatas] = useState(null)
 
   const toggleShowExpansion = () => {
     setShowExpansion((prevShowExpansion) => !prevShowExpansion);
   };
+
+  useEffect(() => {
+    axios.get(`${process.env.NEXT_PUBLIC_BE_URL}/forum/analytics/${router.query.pid}`,  {
+      headers: {
+        Authorization: `Token ${localStorage.getItem("token")}`,
+      },
+    }).then((result) => setDatas(result?.data))
+  }, [])
+
 
   const data = {
     replies: analytics.replies,
@@ -16,29 +29,11 @@ export default function DiscussionAnalytics({ reply, nestedReply, analytics }) {
     not_particapated: analytics.non_participants,
     tags: {
       pendapat:
-        (reply?.reply_post?.filter((res) => res.post.tag === "Pendapat" || res.post.tag.includes("Pendapat"))?.length ??
-          0) +
-        (nestedReply
-          ?.filter((res) =>
-            reply?.reply_post?.find((_res) => _res.id === res?.reply_post)
-          )
-          ?.filter((res) => res.post === "Pendapat" || res.post.tag.includes("Pendapat"))?.length ?? 0),
+      datas?.tags?.pendapat ?? 0,
       pertanyaan:
-        (reply?.reply_post?.filter((res) => res.post === "Pertanyaan" || res.post.tag.includes("Pertanyaan"))?.length ??
-          0) +
-        (nestedReply
-          ?.filter((res) =>
-            reply?.reply_post?.find((_res) => _res.id === res?.reply_post)
-          )
-          ?.filter((res) => res.post.tag === "Pertanyaan" || res.post.tag.includes("Pertanyaan"))?.length ?? 0),
+      datas?.tags?.pertanyaan ?? 0,
       bingung:
-        (reply?.reply_post?.filter((res) => res.post.tag === "Bingung" || res.post.tag.includes("Bingung"))?.length ??
-          0) +
-        (nestedReply
-          ?.filter((res) =>
-            reply?.reply_post?.find((_res) => _res.id === res?.reply_post)
-          )
-          ?.filter((res) => res.post.tag === "Bingung" || res.post.tag.includes("Bingung"))?.length ?? 0),
+      datas?.tags?.bingung ?? 0,
     },
   };
 

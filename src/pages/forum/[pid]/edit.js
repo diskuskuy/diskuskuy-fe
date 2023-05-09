@@ -9,7 +9,10 @@ import ErrorIcon from "@mui/icons-material/Error";
 import Navbar from "@/components/Navbar";
 import { fetchThreadDataById, fetchBreadcrumbByThreadId } from "@/api/forum-api";
 import { editThread } from "@/api/edit-thread-api";
-import { createReferenceFile } from "@/api/create-thread-api";
+import firebase from "@/utils/firebase";
+import axios from 'axios'
+import { toast } from "react-hot-toast";
+// import { createReferenceFile } from "@/api/create-thread-api";
 
 export default function EditThread() {
   const router = useRouter();
@@ -20,6 +23,7 @@ export default function EditThread() {
   const [description, setDescription] = useState("");
   const [mechAndExp, setMechAndExp] = useState("");
   const [referenceFileList, setReferenceFileList] = useState([]);
+  const [referenceFile, setReferenceFile] = useState(null)
   const [tags, setTags] = useState([]);
   const [isInitialPostEmpty, setIsInitialPostEmpty] = useState(false);
   const [content, setContent] = useState("")
@@ -70,14 +74,15 @@ export default function EditThread() {
   };
 
   const handleReferenceFileChange = (e) => {
-    setReferenceFileList([...e.target.files, ...referenceFileList]);
+    setReferenceFile(e.target.files)
+    setReferenceFileList([...referenceFileList]);
   };
 
   const handleChangeTag = (event) => {
     setTags(event.target.value);
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     if (
       editorRef.current &&
@@ -86,30 +91,77 @@ export default function EditThread() {
     ) {
       setIsRequesting(true);
       setIsInitialPostEmpty(false);
-      const requestBody = {
-        initial_post: {
-          post: {
-            tag: tags.join(),
-            content: editorRef.current.getContent(),
-          }
-        },
-        reference_file: [],
-        discussion_guide: {
-          deadline: deadline,
-          description: description,
-          mechanism_expectation: mechAndExp,
-        },
-        title: title,
-        week: forumData.week,
-      };
-      editThread(forumData.id, requestBody).then((data) => {
-        // masih error di bagian upload file
-        if (data.status === 200) {
-          referenceFileList.forEach((file) => {
-            createReferenceFile(file, forumData.id);
-          });
+
+      if(referenceFile) {
+        const upload = await firebase?.storage()?.ref("/")?.child(referenceFile[0]?.name)?.put(referenceFile[0]);
+        const uploadUrl = await upload?.ref?.getDownloadURL();
+
+        const request = {
+          title: referenceFile[0]?.name,
+          url: uploadUrl,
+          thread: forumData.id,
         };
-      });
+        
+        axios
+          .post(
+            `${process.env.NEXT_PUBLIC_BE_URL}/forum/ReferenceFile/`,
+            request,
+            {
+              headers: {
+                Authorization: `Token ${localStorage.getItem("token")}`,
+              },
+            }
+          ).then(() => {
+            const requestBody = {
+              initial_post: {
+                post: {
+                  tag: tags.join(),
+                  content: editorRef.current.getContent() ? editorRef.current.getContent() : content,
+                }
+              },
+              reference_file: [],
+              discussion_guide: {
+                deadline: deadline,
+                description: description,
+                mechanism_expectation: mechAndExp,
+              },
+              title: title,
+              week: forumData.week,
+            };
+            editThread(forumData.id, requestBody).then((data) => {
+              // masih error di bagian upload file
+              if (data.status === 200) {
+                toast.success("Edit thread success")
+                router.push(`/forum/${forumData.id}`)
+              };
+            });
+          }).catch((error) => console.log(error))
+      } else {
+        const requestBody = {
+          initial_post: {
+            post: {
+              tag: tags.join(),
+              content: editorRef.current.getContent(),
+            }
+          },
+          reference_file: referenceFileList,
+          discussion_guide: {
+            deadline: deadline,
+            description: description,
+            mechanism_expectation: mechAndExp,
+          },
+          title: title,
+          week: forumData.week,
+        };
+        editThread(forumData.id, requestBody).then((data) => {
+          // masih error di bagian upload file
+          if (data.status === 200) {
+            toast.success("Edit thread success")
+            router.push(`/forum/${forumData.id}`)
+          };
+        });
+      }
+
       setIsRequesting(false);
     } else {
       setIsInitialPostEmpty(true);
