@@ -3,7 +3,7 @@ export const dataObd1 = [
         "id" : "1",
         "title" : "Selamat Datang di Thread Diskusi Fase 1",
         "description" : `Pada tahapan ini Anda sebagai peserta diskusi sedang memasuki tahap memahami pemicu yang diberikan.`,
-        "moreDescription": `Pada aktivitas forum diskusi kali ini, kita akan mendiskusikan good design vs bad design.`,
+        "moreDescription": ``,
         "picUrl": "/pahami-pemicu.png"
     },
     {

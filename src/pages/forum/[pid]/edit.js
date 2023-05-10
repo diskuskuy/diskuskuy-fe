@@ -131,7 +131,7 @@ export default function EditThread() {
             editThread(forumData.id, requestBody).then((data) => {
               // masih error di bagian upload file
               if (data.status === 200) {
-                toast.success("Edit thread success")
+                toast.success("Berhasil Mengedit Thread")
                 router.push(`/forum/${forumData.id}`)
               };
             });
@@ -156,7 +156,7 @@ export default function EditThread() {
         editThread(forumData.id, requestBody).then((data) => {
           // masih error di bagian upload file
           if (data.status === 200) {
-            toast.success("Edit thread success")
+            toast.success("Berhasil Mengedit Thread")
             router.push(`/forum/${forumData.id}`)
           };
         });
