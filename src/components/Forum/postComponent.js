@@ -59,7 +59,7 @@ export default function PostComponent({ post, type, parentId, parent, threadId }
         <div className="rounded-full w-20 h-20" >
           <img src={post?.creator_photo_url ?? "/default-prof-pic.png"} className="rounded-full w-20 h-20 object-cover" />
         </div>
-        <div className="bg-blue px-2">{post.creator_role}</div>
+        <div className="px-2 text-white" style={{background: post.creator_role == 'lecturer' ? '#667DF8' : '#4CBFAC'}}>{post.creator_role == 'lecturer' ? 'Dosen' : 'Mahasiswa'}</div>
       </div>
       <div className="flex flex-col basis-11/12 gap-2">
         <div className="flex flex-col gap-1">

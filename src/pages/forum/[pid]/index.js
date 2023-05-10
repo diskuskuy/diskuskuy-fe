@@ -98,7 +98,7 @@ export default function Forum() {
         )}
         {!isObjectEmpty(forumData) && (
           <>
-            <div className="flex flex-row items-center text-xs pb-10">
+            <div className="flex flex-row items-center text-xs pb-5">
               <a className="cursor-pointer" href="/">
                 Home
               </a>
