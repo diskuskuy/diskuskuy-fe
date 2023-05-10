@@ -125,7 +125,6 @@ export default function DiscussionGuide() {
                 <Checkbox
                   checked={i + 1 < discussionGuideData.state}
                   disabled={ 
-                    !isLecturer ||
                     i + 1 < discussionGuideData.state ||
                     i + 1 > discussionGuideData.state
                   }

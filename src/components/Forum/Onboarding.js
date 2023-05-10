@@ -29,7 +29,7 @@ export default function Onboarding({ data, deadline }) {
             width: "100%",
           }}
         />
-        <div className="bg-white p-2 z-10 box-content rounded-[30px] w-[70%] max-w-[430px] border-white py-4">
+        <div className="bg-white z-10 box-content rounded-[30px] w-[70%] max-w-[430px] border-white py-4 px-10">
           <Swiper
             style={{
               width: "100%",
@@ -44,35 +44,35 @@ export default function Onboarding({ data, deadline }) {
           >
             {data.map((obj, i) => (
               <SwiperSlide key={i}>
-                <div className="flex flex-col justify-center items-center text-justify mb-12">
+                <div className="flex flex-col justify-center text-xs items-center text-justify mb-12">
                   <img
                     src={obj.picUrl}
                     className="h-[150px]"
                     alt=""
                   />{" "}
-                  <Dialog.Title className="font-bold text-center text-lg mt-6 mx-16">
+                  <Dialog.Title className="font-bold text-center text-lg mt-6">
                     {obj.title}
                   </Dialog.Title>
-                  <Dialog.Description className="text-sm font-medium mt-4 mx-16">
+                  <Dialog.Description className="font-medium mt-4">
                     {i == 2 ? formatDate(deadline) + " | " + formatTime(deadline) : obj.description}
                   </Dialog.Description>
                   {obj.moreDescription &&
-                    <Dialog.Description className="text-sm font-medium mt-4 mx-16">
+                    <Dialog.Description className="font-medium mt-4">
                       {obj.moreDescription}
                     </Dialog.Description>
                   }
                   {obj.hint &&
                     <>
-                      <p className="font-bold text-center text-sm mt-4 mx-16">
+                      <p className="font-bold text-center mt-4">
                         Hints
                       </p>
-                      <Dialog.Description className="text-sm font-medium mt-4 mx-16">
+                      <Dialog.Description className="font-medium mt-4">
                         {obj.hint}
                       </Dialog.Description>
                     </>
                   }
                   {obj.moreHint &&
-                    <Dialog.Description className="text-sm font-medium mt-4 mx-16">
+                    <Dialog.Description className="font-medium mt-4">
                       {obj.moreHint}
                     </Dialog.Description>
                   }
