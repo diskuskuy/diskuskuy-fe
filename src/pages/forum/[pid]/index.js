@@ -71,7 +71,7 @@ export default function Forum() {
         setShowOnboarding(false)
       }
       setReferences(data?.reference_file ?? []);
-      setInitialSummary(data?.summary?.content ?? "");
+      setInitialSummary(data?.summary);
 
       fetchReplyDataById(data?.initial_post?.id).then((data) => {
         setInitialPost(data);

@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import { createSummary, updateSummaryById } from "@/api/forum-api";
 import { useRouter } from "next/router";
+import { toast } from "react-hot-toast";
 
 export default function DiscussionSummary({ content, id }) {
   const router = useRouter();
   const { pid } = router.query;
   const [summaryContent, setSummaryContent] = useState(content ? content : "");
+  const [initialSummaryContent, setInitialSummaryContent] = useState(content ? content : "");
 
   const handleChange = (event) => {
     setSummaryContent(event.target.value);
@@ -14,11 +16,18 @@ export default function DiscussionSummary({ content, id }) {
   const handleSubmit = (event) => {
     event.preventDefault();
     const requestBody = { id: id, content: summaryContent, thread: pid };
-    if (id == null || id == ''){
-      createSummary(requestBody)
-    }
-    else {
-      updateSummaryById(id, requestBody);
+    console.log("ini"+summaryContent+"ini")
+    console.log(typeof(summaryContent))
+    if (summaryContent) {
+      if (id == null || id == ''){
+        createSummary(requestBody)
+      }
+      else {
+        updateSummaryById(id, requestBody);
+      }
+    } else {
+      toast.error("Ringkasan tidak boleh kosong")
+      setSummaryContent(initialSummaryContent)
     }
   };
 
