@@ -1,10 +1,11 @@
 import axios from "axios";
 import firebase from "@/utils/firebase";
 import { toast } from "react-hot-toast";
+import { getCookie } from "cookies-next";
 
 export const createThread = async (requestBody) => {
   const headers = {
-    Authorization: `Token ${localStorage.getItem("token")}`,
+    Authorization: `Token ${JSON.parse(getCookie("auth"))?.token}`,
   };
   try {
     const response = await axios.post(
@@ -38,7 +39,7 @@ export const createReferenceFile = async (file, threadId) => {
           requestBody,
           {
             headers: {
-              Authorization: `Token ${localStorage.getItem("token")}`,
+              Authorization: `Token ${JSON.parse(getCookie("auth"))?.token}`,
             },
           }
         )

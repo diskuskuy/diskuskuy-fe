@@ -1,3 +1,4 @@
+import { getCookie } from "cookies-next";
 import { toast } from "react-hot-toast";
 
 export const fetchDiscussionGuideDataByThreadId = async () => {
@@ -10,7 +11,7 @@ export const fetchDiscussionGuideDataByThreadId = async () => {
       {
         method: "GET",
         headers: {
-          "Authorization": `Token ${localStorage.getItem("token")}`, 
+          "Authorization": `Token ${JSON.parse(getCookie("auth"))?.token}`, 
         }
       }
     );
@@ -34,7 +35,7 @@ export const updateDiscussionGuideStateById = async (id, stateRequest) => {
       {
         method: "PATCH",
         headers: {
-          "Authorization": `Token ${localStorage.getItem("token")}`,
+          "Authorization": `Token ${JSON.parse(getCookie("auth"))?.token}`,
           "Content-Type": "application/json",
         },
         body: JSON.stringify({

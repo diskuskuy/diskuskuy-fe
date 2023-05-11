@@ -4,6 +4,7 @@ import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import styles from "@/styles/Forum.module.css";
 import axios from "axios";
 import { useRouter } from "next/router";
+import { getCookie } from "cookies-next";
 
 export default function DiscussionAnalytics({ reply, nestedReply, analytics }) {
   const router = useRouter()
@@ -17,7 +18,7 @@ export default function DiscussionAnalytics({ reply, nestedReply, analytics }) {
   useEffect(() => {
     axios.get(`${process.env.NEXT_PUBLIC_BE_URL}/forum/analytics/${router.query.pid}`,  {
       headers: {
-        Authorization: `Token ${localStorage.getItem("token")}`,
+        Authorization: `Token ${JSON.parse(getCookie("auth"))?.token}`,
       },
     }).then((result) => setDatas(result?.data))
   }, [])
@@ -39,7 +40,7 @@ export default function DiscussionAnalytics({ reply, nestedReply, analytics }) {
 
   return (
     <div className="section">
-      <h5 className="font-bold text-gray">Statistik Diskusi</h5>
+      <h3 className="font-bold text-gray">Statistik Diskusi</h3>
       <div className="h-1 w-5 bg-grey"></div>
       <div className="flex flex-row">
         <div className="flex flex-col basis-1/3 items-center">
@@ -76,20 +77,20 @@ export default function DiscussionAnalytics({ reply, nestedReply, analytics }) {
       </a>
       {showExpansion && (
         <>
-          <h5 className="font-bold text-gray">Jumlah Tag Posting</h5>
+          <h3 className="font-bold text-gray">Jumlah Tag Posting</h3>
           <div className="h-1 w-5 bg-grey"></div>
           <div className="flex flex-col text-xs">
             <div className="flex flex-row justify-between text-green">
-              <p>Pendapat</p>
-              <p>{data["tags"]["pendapat"]}</p>
+              <p className="text-xs">Pendapat</p>
+              <p className="text-xs">{data["tags"]["pendapat"]}</p>
             </div>
             <div className="flex flex-row justify-between text-green">
-              <p>Pertanyaan</p>
-              <p>{data["tags"]["pertanyaan"]}</p>
+              <p className="text-xs">Pertanyaan</p>
+              <p className="text-xs">{data["tags"]["pertanyaan"]}</p>
             </div>
             <div className="flex flex-row justify-between text-green">
-              <p>Bingung</p>
-              <p>{data["tags"]["bingung"]}</p>
+              <p className="text-xs">Bingung</p>
+              <p className="text-xs">{data["tags"]["bingung"]}</p>
             </div>
           </div>
         </>

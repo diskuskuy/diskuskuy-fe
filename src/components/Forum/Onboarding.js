@@ -40,7 +40,6 @@ export default function Onboarding({ data, deadline }) {
               clickable: true,
             }}
             modules={[Pagination]}
-            className="mySwiper"
           >
             {data.map((obj, i) => (
               <SwiperSlide key={i}>
@@ -50,11 +49,11 @@ export default function Onboarding({ data, deadline }) {
                     className="h-[150px]"
                     alt=""
                   />{" "}
-                  <Dialog.Title className="font-bold text-center text-lg mt-6">
+                  <Dialog.Title className="font-bold text-lg mt-6">
                     {obj.title}
                   </Dialog.Title>
                   <Dialog.Description className="font-medium mt-4">
-                    {i == 2 ? formatDate(deadline) + " | " + formatTime(deadline) : obj.description}
+                    {i == 2 ? formatDate(deadline) + " | " + formatTime(deadline) + " WIB" : obj.description}
                   </Dialog.Description>
                   {obj.moreDescription &&
                     <Dialog.Description className="font-medium mt-4">

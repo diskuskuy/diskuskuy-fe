@@ -1,3 +1,4 @@
+import { getCookie } from "cookies-next";
 import { toast } from "react-hot-toast";
 
 export const fetchWeeksData = async () => {
@@ -7,7 +8,7 @@ export const fetchWeeksData = async () => {
       {
         method: "GET",
         headers: {
-          Authorization: `Token ${localStorage.getItem("token")}`,
+          Authorization: `Token ${JSON.parse(getCookie("auth"))?.token}`,
         },
       }
     );
@@ -20,7 +21,7 @@ export const fetchWeeksData = async () => {
     const responseData = await response.json();
     return responseData;
   } catch (error) {
-    toast.error(error.message)
+    toast.error(error.message);
   }
 };
 
@@ -31,7 +32,7 @@ export const fetchWeekDataById = async (weekId) => {
       {
         method: "GET",
         headers: {
-          Authorization: `Token ${localStorage.getItem("token")}`,
+          Authorization: `Token ${JSON.parse(getCookie("auth"))?.token}`,
         },
       }
     );
@@ -44,7 +45,7 @@ export const fetchWeekDataById = async (weekId) => {
     const responseData = await response.json();
     return responseData;
   } catch (error) {
-    toast.error(error.message)
+    toast.error(error.message);
   }
 };
 
@@ -55,7 +56,7 @@ export const createWeek = async (nameRequest) => {
       {
         method: "POST",
         headers: {
-          Authorization: `Token ${localStorage.getItem("token")}`,
+          Authorization: `Token ${JSON.parse(getCookie("auth"))?.token}`,
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
@@ -72,7 +73,7 @@ export const createWeek = async (nameRequest) => {
     const responseData = await response.json();
     return responseData;
   } catch (error) {
-    toast.error(error.message)
+    toast.error(error.message);
   }
 };
 
@@ -83,7 +84,7 @@ export const fetchDosenData = async () => {
       {
         method: "GET",
         headers: {
-          Authorization: `Token ${localStorage.getItem("token")}`,
+          Authorization: `Token ${JSON.parse(getCookie("auth"))?.token}`,
         },
       }
     );
@@ -96,7 +97,6 @@ export const fetchDosenData = async () => {
     const responseData = await response.json();
     return responseData;
   } catch (error) {
-    // toast.error(error.message)
-    console.log(error.message);
+    toast.error(error.message)
   }
 };

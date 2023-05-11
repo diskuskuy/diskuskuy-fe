@@ -1,6 +1,6 @@
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import React, { useEffect, useRef, useState } from "react";
-import styles from "@/styles/CreateForum.module.css";
+import styles from "@/styles/CreateThread.module.css";
 import moment from "moment/moment";
 import TextEditor from "@/components/Forum/TextEditor";
 import { CircularProgress, MenuItem, Select } from "@mui/material";
@@ -12,6 +12,8 @@ import { editThread } from "@/api/edit-thread-api";
 import firebase from "@/utils/firebase";
 import axios from 'axios'
 import { toast } from "react-hot-toast";
+import { getCookie, getCookies } from "cookies-next";
+import Head from "next/head";
 // import { createReferenceFile } from "@/api/create-thread-api";
 
 export default function EditThread() {
@@ -53,7 +55,6 @@ export default function EditThread() {
     })
     fetchBreadcrumbByThreadId(threadId).then(data => {
       setBreadcrumb(data)
-      console.log(data)
     })
   }, [editorRef])
 
@@ -108,7 +109,7 @@ export default function EditThread() {
             request,
             {
               headers: {
-                Authorization: `Token ${localStorage.getItem("token")}`,
+                Authorization: `Token ${JSON.parse(getCookie("auth"))?.token}`,
               },
             }
           ).then(() => {
@@ -135,7 +136,7 @@ export default function EditThread() {
                 router.push(`/forum/${forumData.id}`)
               };
             });
-          }).catch((error) => console.log(error))
+          }).catch((error) => toast.error(error.message))
       } else {
         const requestBody = {
           initial_post: {
@@ -172,8 +173,13 @@ export default function EditThread() {
 
   return (
     <>
-    <Navbar />
+      <Head>
+        <title>Edit Thread</title>
+      </Head>
       <main className={styles.main}>
+      <Navbar />
+      <div className={styles.mainContent}>
+
         {isRequesting && (
           <div className="flex flex-row justify-center">
             <CircularProgress color="inherit" />
@@ -181,9 +187,9 @@ export default function EditThread() {
         )}
         {!isRequesting && (
           <>
-            <div className="flex flex-row items-center text-xs pb-10">
+            <div className="flex flex-row items-center text-xs pb-5">
               <a className="cursor-pointer" href="/">
-                Home
+                Sistem Interaksi Genap 2022/2023
               </a>
               <ChevronRightIcon />
               {/* TODO: replace #{num} pake week keberapa & nama week*/}
@@ -247,14 +253,14 @@ export default function EditThread() {
                           key={i}
                         >
                           {(file.url ?? file.name).includes(".pdf") && (
-                            <img src="/pdf-icon.png" width={"30px"} />
+                            <img src="/images/pdf-icon.png" width={"30px"} />
                           )}
                           {(file.url ?? file.name).includes(".png") && (
-                            <img src="/png-icon.png" width={"30px"} />
+                            <img src="/images/png-icon.png" width={"30px"} />
                           )}
                           {!(file.url ?? file.name).includes(".pdf") &&
                             !(file.url ?? file.name).includes(".png") && (
-                              <img src="/url-icon.png" width={"30px"} />
+                              <img src="/images/url-icon.png" width={"30px"} />
                             )}
                           <div className="flex flex-col">
                             <p>{file.name || file.title}</p>
@@ -311,7 +317,23 @@ export default function EditThread() {
             </div>
           </>
         )}
+        </div>
       </main>
     </>
   );
+}
+
+export async function getServerSideProps({ req, res }) {
+  if (!getCookies({ req, res })?.auth) {
+    return {
+      redirect: {
+        permanent: false,
+        destination: "/login",
+      },
+    };
+  }
+
+  return {
+    props: {},
+  };
 }

@@ -1,4 +1,5 @@
 import axios from "axios";
+import { getCookie } from "cookies-next";
 import { toast } from "react-hot-toast";
 
 export const fetchThreadDataById = async (threadId) => {
@@ -8,7 +9,7 @@ export const fetchThreadDataById = async (threadId) => {
       {
         method: "GET",
         headers: {
-          "Authorization": `Token ${localStorage.getItem("token")}`,
+          "Authorization": `Token ${JSON.parse(getCookie("auth"))?.token}`,
         }
       }
     );
@@ -32,7 +33,7 @@ export const fetchReplyDataById = async (threadId) => {
       {
         method: "GET",
         headers: {
-          "Authorization": `Token ${localStorage.getItem("token")}`,
+          "Authorization": `Token ${JSON.parse(getCookie("auth"))?.token}`,
         }
       }
     );
@@ -54,7 +55,7 @@ export const fetchSummary = async () => {
     const response = await fetch(`${process.env.NEXT_PUBLIC_BE_URL}/forum/Summary`, {
       method: "GET",
       headers: {
-        "Authorization": `Token ${localStorage.getItem("token")}`,
+        "Authorization": `Token ${JSON.parse(getCookie("auth"))?.token}`,
       }
     });
 
@@ -74,7 +75,7 @@ export const fetchSummary = async () => {
 
 export const updateSummaryById = async (id, requestBody) => {
   const headers = {
-    "Authorization": `Token ${localStorage.getItem("token")}`,
+    "Authorization": `Token ${JSON.parse(getCookie("auth"))?.token}`,
   }
   axios
     .put(`${process.env.NEXT_PUBLIC_BE_URL}/forum/Summary/${id}/`, requestBody, {
@@ -93,7 +94,7 @@ export const updateSummaryById = async (id, requestBody) => {
 
 export const createSummary = async (requestBody) => {
   const headers = {
-    "Authorization": `Token ${localStorage.getItem("token")}`,
+    "Authorization": `Token ${JSON.parse(getCookie("auth"))?.token}`,
   }
   axios
     .post(`${process.env.NEXT_PUBLIC_BE_URL}/forum/Summary/`, requestBody, {
@@ -117,7 +118,7 @@ export const fetchNestedReply = async () => {
       {
         method: "GET",
         headers: {
-          "Authorization": `Token ${localStorage.getItem("token")}`,
+          "Authorization": `Token ${JSON.parse(getCookie("auth"))?.token}`,
         }
       }
     );
@@ -139,7 +140,7 @@ export const fetchReferences = async () => {
     const response = await fetch(`${process.env.NEXT_PUBLIC_BE_URL}/forum/ReferenceFile`, {
       method: "GET",
       headers: {
-        "Authorization": `Token ${localStorage.getItem("token")}`,
+        "Authorization": `Token ${JSON.parse(getCookie("auth"))?.token}`,
       }
     });
 
@@ -162,7 +163,7 @@ export const addOrRemoveLikePost = async (postId) => {
       {
         method: "POST",
         headers: {
-          "Authorization": `Token ${localStorage.getItem("token")}`,
+          "Authorization": `Token ${JSON.parse(getCookie("auth"))?.token}`,
           "Content-Type": "application/json",
         },
       }
@@ -185,7 +186,7 @@ export const fetchAnalytics = async (threadId) => {
     const response = await fetch(`${process.env.NEXT_PUBLIC_BE_URL}/forum/analytics/${threadId}` , {
       method: "GET",
       headers: {
-        "Authorization": `Token ${localStorage.getItem("token")}`,
+        "Authorization": `Token ${JSON.parse(getCookie("auth"))?.token}`,
       }
     });
 
@@ -208,7 +209,7 @@ export const fetchAnalytics = async (threadId) => {
 //       {
 //         method: "GET",
 //         headers: {
-//           "Authorization": `Token ${localStorage.getItem("token")}`,
+//           "Authorization": `Token ${JSON.parse(getCookie("auth"))?.token}`,
 //         }
 //       }
 //     );
@@ -222,7 +223,6 @@ export const fetchAnalytics = async (threadId) => {
 //     return responseData;
 //   } catch (error) {
 //     // toast.error(error.message)
-//     console.log(error.message);
 //   }
 // };
 export const fetchBreadcrumbByThreadId = async (threadId) => {
@@ -232,7 +232,7 @@ export const fetchBreadcrumbByThreadId = async (threadId) => {
       {
         method: "GET",
         headers: {
-          "Authorization": `Token ${localStorage.getItem("token")}`,
+          "Authorization": `Token ${JSON.parse(getCookie("auth"))?.token}`,
         }
       }
     );
@@ -245,7 +245,6 @@ export const fetchBreadcrumbByThreadId = async (threadId) => {
     const responseData = await response.json();
     return responseData;
   } catch (error) {
-    // toast.error(error.message)
-    console.log(error.message);
+    toast.error(error.message)
   }
 };
