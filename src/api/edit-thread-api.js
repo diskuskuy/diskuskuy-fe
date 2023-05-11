@@ -1,11 +1,11 @@
 import axios from "axios";
+import { getCookie } from "cookies-next";
 import { toast } from "react-hot-toast";
 
 export const editThread = async (threadId, requestBody) => {
   const headers = {
-    Authorization: `Token ${localStorage.getItem("token")}`,
+    Authorization: `Token ${JSON.parse(getCookie("auth"))?.token}`,
   };
-  console.log(requestBody)
   try {
     const response = await axios.put(
       `${process.env.NEXT_PUBLIC_BE_URL}/forum/Thread/${threadId}/`,

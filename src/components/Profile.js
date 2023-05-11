@@ -1,7 +1,7 @@
-import { fetchProfileData } from "@/api/auth";
+import { fetchProfileData } from "@/api/auth-api";
 import { useEffect, useState } from "react";
 import {
-  deleteCookie,
+  deleteCookie, getCookie, setCookies,
 } from 'cookies-next'
 import { useRouter } from "next/router";
 import firebase from "@/utils/firebase";
@@ -16,23 +16,23 @@ export default function Profile() {
     fetchProfileData().then((data) => setProfileData(data));
   }, []);
 
+  const handleEditProfilePhoto = () => {
+    
+  }
+
   return (
     <div
-      className="section"
-      style={{
-        width: "300px",
-        height: "150px",
-      }}
+      className="profileSection"
     >
       <div className="flex flex-row items-center gap-2">
         <a
           onClick={() => {}}
-          className="cursor-pointer h-12 w-12 relative"
+          className="cursor-pointer h-16 w-16 relative"
         >
-          <img src={profileData?.photo_url ?? "/default-prof-pic.png"} alt="prof-pic" className="rounded-full object-cover h-12 w-12"
+          <img src={profileData?.photo_url ?? "/images/default-prof-pic.png"} alt="prof-pic" className="rounded-full object-cover h-16 w-16"
           />
           <img
-            src="/edit-profile-pic.png"
+            src="/images/edit-profile-pic.png"
             alt="edit-profile-picture"
             style={{
               position: "absolute",
@@ -45,7 +45,7 @@ export default function Profile() {
         <div className="flex flex-col">
           <p className="font-bold text-lg">{profileData.name}</p>
           <p className="text-xs">{profileData.nim}</p>
-          <a className="text-xs text-blue cursor-pointer"
+          <a className="text-xs text-blue cursor-pointer mt-2"
           onClick={() => {
             var input = document.createElement("input");
             input.setAttribute("type", "file");
@@ -55,7 +55,7 @@ export default function Profile() {
               var file = this.files[0];
               const upload = firebase
               .storage()
-              .ref(`/photo_profile/${localStorage.getItem('userId')}/`)
+              .ref(`/photo_profile/${JSON.parse(getCookie("auth"))?.user_id}/`)
               .child(file.name)
               .put(file)
 
@@ -64,10 +64,13 @@ export default function Profile() {
                   axios.put(`${process.env.NEXT_PUBLIC_BE_URL}/auth/profile/`, {
                     photo_url: url,
                   }, {headers: {
-                    "Authorization": `Token ${localStorage.getItem("token")}`,
+                    "Authorization": `Token ${JSON.parse(getCookie("auth"))?.token}`,
                   }},
                   ).then(() => {
-                    localStorage.setItem('photoUrl', url)
+                    // localStorage.setItem('photoUrl', url)
+                    const oldAuthCookies = JSON.parse(getCookie("auth"))
+                    oldAuthCookies.photo_url = url
+                    setCookies("auth", JSON.stringify(oldAuthCookies));
                     toast.success("Berhasil mengubah foto profil")
                     window.location.reload()
                   })
@@ -84,9 +87,10 @@ export default function Profile() {
       <div className="h-[0.5px] bg-grey"></div>
       <a onClick={() => {
         deleteCookie('auth');
-        localStorage.removeItem('token');
-        localStorage.removeItem('userId');
-        localStorage.removeItem('role');
+        // localStorage.removeItem('token');
+        // localStorage.removeItem('userId');
+        // localStorage.removeItem('role');
+        // localStorage.removeItem('photoUrl');
         router.replace("/login");
       }} className="text-xs cursor-pointer">
         Logout

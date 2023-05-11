@@ -1,3 +1,4 @@
+import { getCookie } from "cookies-next";
 import { toast } from "react-hot-toast";
 
 export const replyPost = async (requestBody) => {
@@ -7,7 +8,7 @@ export const replyPost = async (requestBody) => {
         {
           method: "POST",
           headers: {
-            "Authorization": `Token ${localStorage.getItem("token")}`,
+            "Authorization": `Token ${JSON.parse(getCookie("auth"))?.token}`,
             "Content-Type": "application/json",
           },
           body: requestBody,
@@ -33,7 +34,7 @@ export const replyPost = async (requestBody) => {
         {
           method: "POST",
           headers: {
-            "Authorization": `Token ${localStorage.getItem("token")}`,
+            "Authorization": `Token ${JSON.parse(getCookie("auth"))?.token}`,
             "Content-Type": "application/json",
           },
           

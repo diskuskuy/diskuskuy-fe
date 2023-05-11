@@ -8,18 +8,18 @@ export default function DiscussionGuide({ data, onSeeDiscussionGuide, isLecturer
 
   return (
     <div className="section">
-      <h5 className="font-bold text-gray">Panduan Diskusi</h5>
+      <h3 className="font-bold text-gray">Panduan Diskusi</h3>
       <div className="h-1 w-5 bg-grey"></div>
       <p>
-        <strong>Deadline:</strong> {deadline}
+        <strong>Deadline:</strong> {deadline} WIB
       </p>
-      <strong>Deskripsi:</strong>
+      <p><strong>Deskripsi:</strong></p>
       <p>{data.description}</p>
-      <strong>Mekanisme dan Ekspektasi:</strong>
+      <p><strong>Mekanisme dan Ekspektasi:</strong></p>
       <p>{data.mechanism_expectation}</p>
       <a
         onClick={onSeeDiscussionGuide}
-        className="text-blue cursor-pointer text-xs"
+        className="text-blue cursor-pointer text-xs font-bold"
       >
         Lihat panduan diskusi
       </a>

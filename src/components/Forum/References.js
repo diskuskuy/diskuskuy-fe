@@ -4,13 +4,14 @@ import axios from "axios";
 import { Button } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import { toast } from "react-hot-toast";
+import { getCookie } from "cookies-next";
 
 export default function References({pid, references, refresh}) {
   return (
     <div className="section">
       <div className="flex justify-between items-center">
-        <h5 className="font-bold text-gray">Referensi Diskusi</h5>
-        {localStorage.getItem("role") == "lecturer" && 
+        <h3 className="font-bold text-gray">Referensi Diskusi</h3>
+        {JSON.parse(getCookie("auth"))?.role == "lecturer" && 
           <Button
             startIcon={<AddIcon />}
             variant="outlined"
@@ -34,7 +35,7 @@ export default function References({pid, references, refresh}) {
                       url: url,
                       thread: pid
                     }, {headers: {
-                      "Authorization": `Token ${localStorage.getItem("token")}`,
+                      "Authorization": `Token ${JSON.parse(getCookie("auth"))?.token}`,
                     }},
                     ).then(() => {
                       toast.success("Berhasil menambahkan referensi diskusi")
@@ -53,10 +54,10 @@ export default function References({pid, references, refresh}) {
       </div>
       <div className="h-1 w-5 bg-grey"></div>
       {references.map((object, i) => (
-        <div key={i} className="flex flex-row items-center gap-2 text-sm cursor-pointer" onClick={() => window.open(object.url, "_blank")}>
-          {object.url.includes(".pdf") && <img src="/pdf-icon.png" width={"30px"} />}
-          {object.url.includes(".png") && <img src="/png-icon.png" width={"30px"} />}
-          {!object.url.includes(".pdf") && !object.url.includes(".png") && <img src="/url-icon.png" width={"30px"} />}
+        <div key={i} className="flex flex-row items-center gap-2 cursor-pointer" onClick={() => window.open(object.url, "_blank")}>
+          {object.url.includes(".pdf") && <img src="/images/pdf-icon.png" width={"30px"} />}
+          {object.url.includes(".png") && <img src="/images/png-icon.png" width={"30px"} />}
+          {!object.url.includes(".pdf") && !object.url.includes(".png") && <img src="/images/url-icon.png" width={"30px"} />}
           <div className="flex flex-col">
             <p>{object.title}</p>
           </div>

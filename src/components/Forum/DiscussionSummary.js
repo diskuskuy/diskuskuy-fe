@@ -16,8 +16,6 @@ export default function DiscussionSummary({ content, id }) {
   const handleSubmit = (event) => {
     event.preventDefault();
     const requestBody = { id: id, content: summaryContent, thread: pid };
-    console.log("ini"+summaryContent+"ini")
-    console.log(typeof(summaryContent))
     if (summaryContent) {
       if (id == null || id == ''){
         createSummary(requestBody)
@@ -33,7 +31,7 @@ export default function DiscussionSummary({ content, id }) {
 
   return (
     <div className="section">
-      <h5 className="font-bold text-gray">Ringkasan Diskusi</h5>
+      <h3 className="font-bold text-gray">Ringkasan Diskusi</h3>
       <div className="h-1 w-5 bg-grey"></div>
       <form onSubmit={handleSubmit}>
         <textarea
@@ -45,7 +43,7 @@ export default function DiscussionSummary({ content, id }) {
           <input
             type="submit"
             value="Submit"
-            className="bg-green text-white text-xs p-2 w-1/3 right rounded cursor-pointer"
+            className="bg-green text-white p-2 w-1/3 right rounded cursor-pointer"
           />
         </div>
       </form>

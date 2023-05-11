@@ -120,6 +120,17 @@ a {
   gap: 0.5rem;
 }
 
+.profileSection {
+  padding: 1rem;
+  background-color: white;
+  border-radius: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  width: 250px;
+  height: 140px;
+}
+
 h1 {
   font-size: 1.5rem;
   line-height: 2rem;
@@ -130,7 +141,12 @@ h2 {
   line-height: 1.75rem;
 }
 
-p {
+h3 {
+  font-size: 1rem;
+  line-height: 1.5rem;
+}
+
+p, label, input {
   font-size: 0.875rem;
   line-height: 1.35rem;
 }

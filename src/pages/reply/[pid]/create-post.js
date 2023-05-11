@@ -1,6 +1,6 @@
 import TextEditor from "@/components/Forum/TextEditor";
 import React, { useRef, useState, ChangeEvent, useEffect } from "react";
-import styles from "@/styles/CreateForum.module.css";
+import styles from "@/styles/CreateThread.module.css";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
@@ -10,6 +10,8 @@ import { replyPost, replyNestedPost } from "@/api/reply-post-api";
 import { toast } from "react-hot-toast";
 import ErrorIcon from "@mui/icons-material/Error";
 import { fetchBreadcrumbByThreadId } from "@/api/forum-api";
+import { getCookie, getCookies } from "cookies-next";
+import Head from "next/head";
 
 export default function CreatePost() {
   const editorRef = useRef(null);
@@ -21,19 +23,18 @@ export default function CreatePost() {
 
   useEffect(() => {
     const path = location.pathname;
-    const pathArray = path.split('/');
+    const pathArray = path.split("/");
     const threadId = pathArray[pathArray.length - 2];
 
-    fetchBreadcrumbByThreadId(threadId).then(data => {
-      setBreadcrumb(data)
-      console.log(data)
-    })
-  }, [editorRef])
+    fetchBreadcrumbByThreadId(threadId).then((data) => {
+      setBreadcrumb(data);
+    });
+  }, [editorRef]);
 
   const handleSubmit = (event) => {
     event.preventDefault();
     if (editorRef.current.getContent().length > 0 && tags.length > 0) {
-      setIsContentEmpty(false)
+      setIsContentEmpty(false);
       const path = location.pathname;
       const pathArray = path.split("/");
       const initialPostId = pathArray[pathArray.length - 2];
@@ -41,27 +42,25 @@ export default function CreatePost() {
         post: {
           tag: tags.join(),
           content: editorRef.current.getContent(),
-          creator: localStorage.getItem("userId")
+          creator: JSON.parse(getCookie("auth"))?.user_id,
         },
         initial_post: parseInt(initialPostId),
-        reply_post: parseInt(parent)
-      })
+        reply_post: parseInt(parent),
+      });
 
-      if(type === "nested") {
-        replyNestedPost(requestBody)
-        .then(data => {
-          toast.success("Berhasil membuat nested reply post")
+      if (type === "nested") {
+        replyNestedPost(requestBody).then((data) => {
+          toast.success("Berhasil membuat nested reply post");
           router.push(`/forum/${pid}`);
-        })
+        });
       } else {
-        replyPost(requestBody)
-        .then(() => {
-          toast.success("Berhasil membuat reply post")
+        replyPost(requestBody).then(() => {
+          toast.success("Berhasil membuat reply post");
           router.push(`/forum/${parent}`);
-        })
+        });
       }
     } else {
-      setIsContentEmpty(true)
+      setIsContentEmpty(true);
     }
   };
   const handleChangeTag = (event) => {
@@ -77,62 +76,88 @@ export default function CreatePost() {
 
   return (
     <>
-    <Navbar />
+      <Head>
+        <title>Balas Postingan</title>
+      </Head>
       <main className={styles.main}>
-        <div className="flex flex-row items-center text-xs pb-10">
-          <a className="cursor-pointer" href="/">
-            Home
-          </a>
-          <ChevronRightIcon />
-          {/* TODO: replace #{num} pake week keberapa & nama week*/}
-          <a className="cursor-pointer" href="/#4">
-            Forum Diskusi {breadcrumb.week_name}
-          </a>
-          <ChevronRightIcon />
-          <a className="font-bold">Balas Postingan</a>
-        </div>
-        <div className="section">
-        <h2 className="font-bold text-center">Balas Postingan</h2>
-        <form onSubmit={handleSubmit} className="flex flex-col gap-2 text-sm">
-          <label className="font-bold">Konten</label>
-          <div className="h-1 w-5 bg-grey"></div>
-          <TextEditor editorRef={editorRef}></TextEditor>
-          {isContentEmpty && (
-            <p className="text-amber text-xs">
-              <ErrorIcon />{" "}
-              <span className="text-black">
-                Please fill out this field.
-              </span>
-            </p>
-          )}
-          <label className="font-bold">Tag</label>
-          <div className="h-1 w-5 bg-grey"></div>
-          <Select
-            className="bg-white w-1/2 text-sm"
-            multiple
-            required
-            value={tags}
-            onChange={handleChangeTag}
-          >
-            {tagOptions.map((name) => (
-              <MenuItem key={name} value={name} className="text-sm">
-                {name}
-              </MenuItem>
-            ))}
-          </Select>
-          <div className="flex flex-row gap-5 mt-10 justify-end">
-            <button className="w-1/4 bg-white border text-black p-2 rounded cursor-pointer" onClick={() => router.push(`/forum/${pid}`)}>
-              Batal
-            </button>
-            <input
-              type="submit"
-              value="Simpan"
-              className="w-1/4 bg-green text-white p-2 rounded cursor-pointer"
-            />
+        <Navbar />
+        <div className={styles.mainContent}>
+          <div className="flex flex-row items-center text-xs pb-5">
+            <a className="cursor-pointer" href="/">
+              Sistem Interaksi Genap 2022/2023
+            </a>
+            <ChevronRightIcon />
+            {/* TODO: replace #{num} pake week keberapa & nama week*/}
+            <a className="cursor-pointer" href="/#4">
+              Forum Diskusi {breadcrumb.week_name}
+            </a>
+            <ChevronRightIcon />
+            <a className="font-bold">Balas Postingan</a>
           </div>
-        </form>
+          <div className="section">
+            <h2 className="font-bold text-center">Balas Postingan</h2>
+            <form
+              onSubmit={handleSubmit}
+              className="flex flex-col gap-2 text-sm"
+            >
+              <label className="font-bold">Konten</label>
+              <div className="h-1 w-5 bg-grey"></div>
+              <TextEditor editorRef={editorRef}></TextEditor>
+              {isContentEmpty && (
+                <p className="text-amber text-xs">
+                  <ErrorIcon />{" "}
+                  <span className="text-black">
+                    Please fill out this field.
+                  </span>
+                </p>
+              )}
+              <label className="font-bold">Tag</label>
+              <div className="h-1 w-5 bg-grey"></div>
+              <Select
+                className="bg-white w-1/2 text-sm"
+                multiple
+                required
+                value={tags}
+                onChange={handleChangeTag}
+              >
+                {tagOptions.map((name) => (
+                  <MenuItem key={name} value={name} className="text-sm">
+                    {name}
+                  </MenuItem>
+                ))}
+              </Select>
+              <div className="flex flex-row gap-5 mt-10 justify-end">
+                <button
+                  className="w-1/4 bg-white border text-black p-2 rounded cursor-pointer"
+                  onClick={() => router.push(`/forum/${pid}`)}
+                >
+                  Batal
+                </button>
+                <input
+                  type="submit"
+                  value="Simpan"
+                  className="w-1/4 bg-green text-white p-2 rounded cursor-pointer"
+                />
+              </div>
+            </form>
+          </div>
         </div>
       </main>
     </>
   );
+}
+
+export async function getServerSideProps({ req, res }) {
+  if (!getCookies({ req, res })?.auth) {
+    return {
+      redirect: {
+        permanent: false,
+        destination: "/login",
+      },
+    };
+  }
+
+  return {
+    props: {},
+  };
 }
