@@ -5,7 +5,7 @@ import styles from "@/styles/Forum.module.css";
 import DiscussionAnalytics from "@/components/Forum/DiscussionAnalytics";
 import DiscussionSummary from "@/components/Forum/DiscussionSummary";
 import DiscussionGuide from "@/components/Forum/DiscussionGuide";
-import PostComponent from "@/components/Forum/PostComponent";
+import PostComponent from "@/components/Forum/postComponent";
 import References from "@/components/Forum/References";
 import Onboarding from "@/components/Forum/Onboarding";
 import {
