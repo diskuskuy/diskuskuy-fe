@@ -1,0 +1,25 @@
+.main {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  min-height: 100vh;
+  background: #e5e5e5;
+  overflow: hidden;
+}
+
+.mainContent {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  /* align-items: center; */
+  padding: 1.5rem 3rem;
+  min-height: 100vh;
+  background: #e5e5e5;
+  width: 100%;
+}
+
+.title {
+  font-weight: 800;
+  color: 'red';
+}
