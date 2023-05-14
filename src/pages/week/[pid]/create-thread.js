@@ -112,6 +112,11 @@ export default function CreateThread() {
 
   const files = referenceFileList ? [...referenceFileList] : [];
 
+  const handleCancel = () => {
+    router.push(`/`)
+  }
+
+
   return (
     <>
       <Head>
@@ -251,6 +256,7 @@ export default function CreateThread() {
                   <div className="flex flex-row gap-5 mt-10 justify-end">
                     <input
                       value="Batal"
+                      onClick={handleCancel}
                       className="bg-white text-black p-2 rounded cursor-pointer w-1/4 text-center border"
                     />
                     <input
