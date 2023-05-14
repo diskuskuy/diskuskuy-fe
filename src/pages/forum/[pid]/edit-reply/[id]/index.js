@@ -20,6 +20,7 @@ export default function EditPost() {
   const [content, setContent] = useState("");
   const { pid, parent, type } = router.query;
   const [breadcrumb, setBreadcrumb] = useState("");
+  const [isSubmit, setIsSubmit] = useState(true);
 
   useEffect(() => {
     const path = location.pathname;
@@ -38,22 +39,24 @@ export default function EditPost() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    if (editorRef.current.getContent().length > 0 && tags.length > 0) {
-      const path = location.pathname;
-      const pathArray = path.split("/");
-      const threadId = pathArray[pathArray.length - 3];
-      const postId = pathArray[pathArray.length - 1];
-      const requestBody = JSON.stringify({
-        tag: tags.join(),
-        content: editorRef.current.getContent(),
-      });
+    if (isSubmit) {
+      if (editorRef.current.getContent().length > 0 && tags.length > 0) {
+        const path = location.pathname;
+        const pathArray = path.split("/");
+        const threadId = pathArray[pathArray.length - 3];
+        const postId = pathArray[pathArray.length - 1];
+        const requestBody = JSON.stringify({
+          tag: tags.join(),
+          content: editorRef.current.getContent(),
+        });
 
-      editPost(requestBody, postId).then((data) => {
-        toast.success("Berhasil mengedit post");
-        router.push(`/forum/${threadId}`);
-      });
-    } else {
-      toast.error("Harap isi konten");
+        editPost(requestBody, postId).then((data) => {
+          toast.success("Berhasil mengedit post");
+          router.push(`/forum/${threadId}`);
+        });
+      } else {
+        toast.error("Harap isi konten");
+      }
     }
   };
   const handleChangeTag = (event) => {
@@ -66,6 +69,11 @@ export default function EditPost() {
     );
   };
   const tagOptions = ["pertanyaan", "pendapat", "bingung"];
+
+  const handleCancel = () => {
+    setIsSubmit(false);
+    router.push(`/forum/${pid}`)
+  }
 
   return (
     <>
@@ -119,7 +127,7 @@ export default function EditPost() {
               <div className="flex flex-row gap-5 mt-10 justify-end">
                 <button
                   className="w-1/4 bg-white border text-black p-2 rounded cursor-pointer"
-                  onClick={() => router.push(`/forum/${pid}`)}
+                  onClick={handleCancel}
                 >
                   Batal
                 </button>

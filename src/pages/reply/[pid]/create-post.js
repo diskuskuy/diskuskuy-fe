@@ -20,6 +20,7 @@ export default function CreatePost() {
   const [isContentEmpty, setIsContentEmpty] = useState(false);
   const { pid, parent, type } = router.query;
   const [breadcrumb, setBreadcrumb] = useState("");
+  const [isSubmit, setIsSubmit] = useState(true);
 
   useEffect(() => {
     const path = location.pathname;
@@ -33,34 +34,36 @@ export default function CreatePost() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    if (editorRef.current.getContent().length > 0 && tags.length > 0) {
-      setIsContentEmpty(false);
-      const path = location.pathname;
-      const pathArray = path.split("/");
-      const initialPostId = pathArray[pathArray.length - 2];
-      const requestBody = JSON.stringify({
-        post: {
-          tag: tags.join(),
-          content: editorRef.current.getContent(),
-          creator: JSON.parse(getCookie("auth"))?.user_id,
-        },
-        initial_post: parseInt(initialPostId),
-        reply_post: parseInt(parent),
-      });
+    if (isSubmit) {
+      if (editorRef.current.getContent().length > 0 && tags.length > 0) {
+        setIsContentEmpty(false);
+        const path = location.pathname;
+        const pathArray = path.split("/");
+        const initialPostId = pathArray[pathArray.length - 2];
+        const requestBody = JSON.stringify({
+          post: {
+            tag: tags.join(),
+            content: editorRef.current.getContent(),
+            creator: JSON.parse(getCookie("auth"))?.user_id,
+          },
+          initial_post: parseInt(initialPostId),
+          reply_post: parseInt(parent),
+        });
 
-      if (type === "nested") {
-        replyNestedPost(requestBody).then((data) => {
-          toast.success("Berhasil membuat nested reply post");
-          router.push(`/forum/${pid}`);
-        });
+        if (type === "nested") {
+          replyNestedPost(requestBody).then((data) => {
+            toast.success("Berhasil membuat nested reply post");
+            router.push(`/forum/${pid}`);
+          });
+        } else {
+          replyPost(requestBody).then(() => {
+            toast.success("Berhasil membuat reply post");
+            router.push(`/forum/${parent}`);
+          });
+        }
       } else {
-        replyPost(requestBody).then(() => {
-          toast.success("Berhasil membuat reply post");
-          router.push(`/forum/${parent}`);
-        });
+        setIsContentEmpty(true);
       }
-    } else {
-      setIsContentEmpty(true);
     }
   };
   const handleChangeTag = (event) => {
@@ -73,6 +76,11 @@ export default function CreatePost() {
     );
   };
   const tagOptions = ["pertanyaan", "pendapat", "bingung"];
+
+  const handleCancel = () => {
+    setIsSubmit(false);
+    router.push(`/forum/${pid}`)
+  }
 
   return (
     <>
@@ -129,7 +137,7 @@ export default function CreatePost() {
               <div className="flex flex-row gap-5 mt-10 justify-end">
                 <button
                   className="w-1/4 bg-white border text-black p-2 rounded cursor-pointer"
-                  onClick={() => router.push(`/forum/${pid}`)}
+                  onClick={handleCancel}
                 >
                   Batal
                 </button>
