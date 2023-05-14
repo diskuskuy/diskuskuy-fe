@@ -1,5 +1,4 @@
 import * as React from "react";
-import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
@@ -27,21 +26,18 @@ export default function CreateWeekPopUp({
         />
       </DialogContent>
       <DialogActions>
-        <Button
+        <button
           onClick={onClose}
-          autoFocus
-          variant="text"
-          className="text-black normal-case"
+          className="text-black normal-case p-3 hover:bg-grey2 rounded-lg"
         >
           Batal
-        </Button>
-        <Button
+        </button>
+        <button
           onClick={onSaveAction}
-          variant="filled"
-          className="text-white normal-case bg-[#2ECC71]"
+          className="text-green normal-case p-3 hover:bg-grey2 rounded-lg"
         >
           Simpan
-        </Button>
+        </button>
       </DialogActions>
     </Dialog>
   );

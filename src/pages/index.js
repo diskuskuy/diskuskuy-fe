@@ -5,14 +5,13 @@ import DosenInfo from "@/components/Home/DosenInfo";
 import { courseName, courseDescription, term } from "@/api/dummy/home";
 import { createWeek, fetchDosenData, fetchWeeksData } from "@/api/home-api";
 import CircularProgress from "@mui/material/CircularProgress";
-import { Button } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import CreateWeekPopUp from "@/components/Home/CreateWeekPopUp";
 import { useRouter } from "next/router";
 import Navbar from "@/components/Navbar";
-import moment from "moment";
 import { getCookie, getCookies } from "cookies-next";
 import Head from "next/head";
+import { formatDateDeadline2 } from "@/utils/util";
 
 export default function Home() {
   const router = useRouter();
@@ -178,9 +177,7 @@ export default function Home() {
                               </h3>
                               <p className="text-xs w-full m-0 p-0">
                                 {thread?.initial_post?.post?.creator_name} |{" "}
-                                {moment(
-                                  thread?.discussion_guide?.deadline
-                                )?.format("LLL")} WIB
+                                {formatDateDeadline2(thread?.discussion_guide?.deadline)}
                               </p>
                             </div>
                           </div>
