@@ -8,7 +8,7 @@ import {
   fetchDiscussionGuideDataByThreadId,
   updateDiscussionGuideStateById,
 } from "@/api/discussion-guide-api";
-import { formatDate, formatTime } from "@/utils/util";
+import { formatDate, formatDateDeadline, formatTime } from "@/utils/util";
 import DiscussionGuideUpdateConfirmationPopUp from "@/components/Forum/DiscussionGuideUpdateConfirmationPopUp";
 import Navbar from "@/components/Navbar";
 import { fetchBreadcrumbByThreadId } from "@/api/forum-api";
@@ -43,9 +43,7 @@ export default function DiscussionGuide() {
 
     fetchDiscussionGuideDataByThreadId().then((data) => {
       setDiscussionGuideData(data);
-      setDeadline(
-        formatDate(data.deadline) + " | " + formatTime(data.deadline)
-      );
+      setDeadline(formatDateDeadline(data.deadline));
     });
 
     fetchBreadcrumbByThreadId(threadId).then((data) => {
@@ -174,7 +172,7 @@ export default function DiscussionGuide() {
                 <div className="border-dashed border-2 border-grey rounded-lg flex flex-col p-5">
                   <p className="font-bold">
                     Deadline:{" "}
-                    <span style={{ color: "#FF5023" }}>{deadline} WIB</span>
+                    <span style={{ color: "#FF5023" }}>{deadline}</span>
                   </p>
                   <p className="font-bold">Deskripsi:</p>
                   <p>{discussionGuideData.description}</p>

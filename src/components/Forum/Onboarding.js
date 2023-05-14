@@ -5,7 +5,7 @@ import SwiperCore, { Navigation, Pagination, A11y } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/pagination";
-import { formatDate, formatTime } from "@/utils/util";
+import { formatDateDeadline } from "@/utils/util";
 
 SwiperCore.use([Navigation, Pagination, A11y]);
 
@@ -53,7 +53,7 @@ export default function Onboarding({ data, deadline }) {
                     {obj.title}
                   </Dialog.Title>
                   <Dialog.Description className="font-medium mt-4">
-                    {i == 2 ? formatDate(deadline) + " | " + formatTime(deadline) + " WIB" : obj.description}
+                    {i == 2 ? formatDateDeadline(deadline) : obj.description}
                   </Dialog.Description>
                   {obj.moreDescription &&
                     <Dialog.Description className="font-medium mt-4">

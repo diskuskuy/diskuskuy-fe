@@ -1,7 +1,6 @@
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import React, { useEffect, useRef, useState } from "react";
 import styles from "@/styles/CreateThread.module.css";
-import moment from "moment/moment";
 import TextEditor from "@/components/Forum/TextEditor";
 import { CircularProgress, MenuItem, Select } from "@mui/material";
 import { useRouter } from "next/router";
@@ -14,6 +13,7 @@ import axios from 'axios'
 import { toast } from "react-hot-toast";
 import { getCookie, getCookies } from "cookies-next";
 import Head from "next/head";
+import { format } from 'date-fns'
 // import { createReferenceFile } from "@/api/create-thread-api";
 
 export default function EditThread() {
@@ -29,7 +29,7 @@ export default function EditThread() {
   const [tags, setTags] = useState([]);
   const [isInitialPostEmpty, setIsInitialPostEmpty] = useState(false);
   const [content, setContent] = useState("")
-  const minDate = moment(new Date()).format("YYYY-MM-DDTMM:SS");
+  const minDate = format(new Date(), "yyyy-MM-ddTMM:SS");
 
   const tagOptions = ["pertanyaan", "pendapat", "bingung"];
 
@@ -45,7 +45,7 @@ export default function EditThread() {
       setForumData(data)
       setTitle(data.title)
       const deadlineData = data.discussion_guide.deadline
-      setDeadline(moment(deadlineData).format("YYYY-MM-DDTMM:SS"))
+      setDeadline(deadlineData.substring(0, deadlineData.length-1))
       setDescription(data.discussion_guide.description)
       setMechAndExp(data.discussion_guide.mechanism_expectation)
       setContent(data?.initial_post?.post?.content ?? "")
