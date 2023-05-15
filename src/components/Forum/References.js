@@ -20,7 +20,7 @@ export default function References({pid, references, refresh}) {
                 var file = this.files[0];
                 const upload = firebase
                 .storage()
-                .ref("/")
+                .ref(`/reference_file/${pid}`)
                 .child(file.name)
                 .put(file)
 

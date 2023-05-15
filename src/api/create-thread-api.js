@@ -24,7 +24,7 @@ export const createThread = async (requestBody) => {
 };
 
 export const createReferenceFile = async (file, threadId) => {
-  const upload = firebase?.storage()?.ref("/")?.child(file?.name)?.put(file);
+  const upload = firebase?.storage()?.ref(`/reference_file/${threadId}/`)?.child(file?.name)?.put(file);
 
   upload.then((res) => {
     upload.snapshot.ref.getDownloadURL().then((url) => {

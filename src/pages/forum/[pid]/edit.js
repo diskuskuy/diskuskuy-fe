@@ -120,7 +120,7 @@ export default function EditThread() {
                   content: editorRef.current.getContent() ? editorRef.current.getContent() : content,
                 }
               },
-              reference_file: [],
+              // reference_file: [],
               discussion_guide: {
                 deadline: deadline,
                 description: description,
@@ -145,7 +145,7 @@ export default function EditThread() {
               content: editorRef.current.getContent(),
             }
           },
-          reference_file: referenceFileList,
+          // reference_file: referenceFileList,
           discussion_guide: {
             deadline: deadline,
             description: description,

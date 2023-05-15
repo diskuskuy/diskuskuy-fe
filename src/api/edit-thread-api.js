@@ -7,7 +7,7 @@ export const editThread = async (threadId, requestBody) => {
     Authorization: `Token ${JSON.parse(getCookie("auth"))?.token}`,
   };
   try {
-    const response = await axios.put(
+    const response = await axios.patch(
       `${process.env.NEXT_PUBLIC_BE_URL}/forum/Thread/${threadId}/`,
       requestBody,
       {
