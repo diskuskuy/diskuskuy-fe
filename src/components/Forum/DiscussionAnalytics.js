@@ -49,13 +49,13 @@ export default function DiscussionAnalytics({ reply, nestedReply, analytics }) {
         </div>
         <div className="flex flex-col basis-1/3 items-center">
           <h1 className="font-bold">{data["participants"]}</h1>
-          <p className="text-xs">jumlah</p>
-          <p className="text-xs">peserta diskusi</p>
+          <p className="text-xs">pasrtisipan yang</p>
+          <p className="text-xs">sudah menjawab</p>
         </div>
         <div className="flex flex-col basis-1/3 items-center">
           <h1 className="font-bold">{data["not_particapated"]}</h1>
+          <p className="text-xs">pasrtisipan yang</p>
           <p className="text-xs">belum menjawab</p>
-          <p className="text-xs">sama sekali</p>
         </div>
       </div>
       <a
