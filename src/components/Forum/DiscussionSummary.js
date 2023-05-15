@@ -42,7 +42,7 @@ export default function DiscussionSummary({ content, id }) {
         <div className="flex flex-row justify-end">
           <input
             type="submit"
-            value="Submit"
+            value="Simpan"
             className="bg-green text-white p-2 w-1/3 right rounded cursor-pointer"
           />
         </div>

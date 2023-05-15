@@ -1,7 +1,7 @@
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import React, { useEffect, useRef, useState } from "react";
 import styles from "@/styles/CreateThread.module.css";
-import moment from "moment/moment";
+import { format } from 'date-fns'
 import TextEditor from "@/components/Forum/TextEditor";
 import { createReferenceFile, createThread } from "@/api/create-thread-api";
 import { CircularProgress, MenuItem, Select } from "@mui/material";
@@ -23,7 +23,7 @@ export default function CreateThread() {
   const [referenceFileList, setReferenceFileList] = useState([]);
   const [tags, setTags] = useState([]);
   const [isInitialPostEmpty, setIsInitialPostEmpty] = useState(false);
-  const minDate = moment(new Date()).format("YYYY-MM-DDTMM:SS");
+  const minDate = format(new Date(), "yyyy-MM-ddTMM:ss");
   const [isLoading, setLoading] = useState(false);
   const [weekName, setWeekName] = useState("");
 
