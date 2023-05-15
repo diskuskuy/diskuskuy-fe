@@ -1,7 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 import firebase from "@/utils/firebase";
 import axios from "axios";
-import { Button } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import { toast } from "react-hot-toast";
 import { getCookie } from "cookies-next";
@@ -12,11 +11,8 @@ export default function References({pid, references, refresh}) {
       <div className="flex justify-between items-center">
         <h3 className="font-bold text-gray">Referensi Diskusi</h3>
         {JSON.parse(getCookie("auth"))?.role == "lecturer" && 
-          <Button
-            startIcon={<AddIcon />}
-            variant="outlined"
-            className="normal-case text-black font-bold bg-white rounded-lg border-grey2"
-            onClick={() => {
+          <button
+            className="normal-case text-black font-bold bg-white rounded-lg border border-grey py-2 px-4 text-sm hover:border-green hover:bg-green4"            onClick={() => {
               var input = document.createElement("input");
               input.setAttribute("type", "file");
 
@@ -48,8 +44,8 @@ export default function References({pid, references, refresh}) {
               input.click();
             }}
           >
-            tambah
-          </Button>
+            <AddIcon /> tambah
+          </button>
         }
       </div>
       <div className="h-1 w-5 bg-grey"></div>
