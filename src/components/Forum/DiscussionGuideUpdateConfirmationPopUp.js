@@ -18,21 +18,18 @@ export default function DiscussionGuideUpdateConfirmationPopUp({
         <DialogContentText>Apakah anda yakin?</DialogContentText>
       </DialogContent>
       <DialogActions>
-        <Button
+        <button
           onClick={onClose}
-          autoFocus
-          variant="text"
-          className="text-black normal-case"
+          className="text-black normal-case p-3 text-sm hover:bg-grey2 rounded-lg"
         >
           Tidak
-        </Button>
-        <Button
+        </button>
+        <button
           onClick={onYesAction}
-          variant="filled"
-          className="text-white normal-case bg-[#2ECC71]"
+          className="text-green normal-case p-3 text-sm hover:bg-grey2 rounded-lg"
         >
           Ya
-        </Button>
+        </button>
       </DialogActions>
     </Dialog>
   );

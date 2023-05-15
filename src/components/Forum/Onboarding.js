@@ -80,7 +80,7 @@ export default function Onboarding({ data, deadline }) {
                       className="text-black underline text-center mt-4 font-medium cursor-pointer"
                       onClick={() => setIsOpen(false)}
                     >
-                      Close
+                      Tutup
                     </Dialog.Description>
                   )}
                 </div>

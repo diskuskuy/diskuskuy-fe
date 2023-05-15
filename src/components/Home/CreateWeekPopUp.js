@@ -28,13 +28,13 @@ export default function CreateWeekPopUp({
       <DialogActions>
         <button
           onClick={onClose}
-          className="text-black normal-case p-3 hover:bg-grey2 rounded-lg"
+          className="text-black normal-case p-3 text-sm hover:bg-grey2 rounded-lg"
         >
           Batal
         </button>
         <button
           onClick={onSaveAction}
-          className="text-green normal-case p-3 hover:bg-grey2 rounded-lg"
+          className="text-green normal-case p-3 text-sm hover:bg-grey2 rounded-lg"
         >
           Simpan
         </button>
