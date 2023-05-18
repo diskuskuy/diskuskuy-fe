@@ -17,7 +17,7 @@ export const discussionGuideConstants = [
   },
   {
     id: 3,
-    title: "Eksplorasi Materi dan Referensi",
+    title: "Integrasi Ide",
     description:
       "Pada tahap ini, kamu dan teman-temanmu perlu <span style=\"background-color: #D0FFE4;\">memilah gagasan-gagasan</span> yang relevan. Kamu dapat menilai pendapat mana saja yang relevan untuk menjawab pemicu dan mengelaborasinya menjadi sebuah <span style=\"background-color: #D0FFE4;\">kesatuan gagasan/kesimpulan</span> yang bermakna.",
     hints:

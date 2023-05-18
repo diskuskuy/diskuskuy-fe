@@ -16,7 +16,7 @@ export const dataObd1 = [
     {
         "id" : "3",
         "title" : "Pengingat deadline diskusi",
-        "description" : "Akan ditampilkan deadline dari thread sesuai yang ada di panduan diskusi",
+        // "description" : "Akan ditampilkan deadline dari thread sesuai yang ada di panduan diskusi",
         "picUrl": "/images/deadline.png"
     }
 ]
@@ -39,7 +39,7 @@ export const dataObd2 = [
     {
         "id" : "3",
         "title" : "Pengingat deadline diskusi",
-        "description" : "Akan ditampilkan deadline dari thread sesuai yang ada di panduan diskusi",
+        // "description" : "Akan ditampilkan deadline dari thread sesuai yang ada di panduan diskusi",
         "picUrl": "/images/deadline.png"
     }
 ]
@@ -61,7 +61,7 @@ export const dataObd3 = [
     {
         "id" : "3",
         "title" : "Pengingat deadline diskusi",
-        "description" : "Akan ditampilkan deadline dari thread sesuai yang ada di panduan diskusi",
+        // "description" : "Akan ditampilkan deadline dari thread sesuai yang ada di panduan diskusi",
         "picUrl": "/images/deadline.png"
     }
 ]
@@ -84,7 +84,7 @@ export const dataObd4 = [
     {
         "id" : "3",
         "title" : "Pengingat deadline diskusi",
-        "description" : "Akan ditampilkan deadline dari thread sesuai yang ada di panduan diskusi",
+        // "description" : "Akan ditampilkan deadline dari thread sesuai yang ada di panduan diskusi",
         "picUrl": "/images/deadline.png"
     }
 ]
