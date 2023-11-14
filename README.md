@@ -1,3 +1,7 @@
+## Diskuskuy
+
+Diskuskuy merupakan aplikasi web forum diskusi asinkron berbasis kerangka kerja Community of Inquiry (CoI). Diskuskuy ditujukan sebagai media untuk kegiatan diskusi dalam pembelajaran di kelas, baik sesama siswa maupun dengan pengajar. Fitur-fitur dalam Diskuskuy dirancang agar dapat memunculkan 3 aspek kehadiran yang saling terkait yaitu kehadiran sosial, kognitif, dan pengajaran sehingga dapat mendukung terciptanya pembelajaran kolaboratif yang mendalam dan bermakna. Fitur-fitur tersebut meliputi Profil Pengguna, Thread, Post, Text Editor, Reaction Post, Referensi Diskusi, Analitika Diskusi, Ringkasan Diskusi, Panduan Diskusi, Onboarding, dan Inquiry State.
+
 ## Getting Started
 
 1. Buka command prompt lalu masuk ke direktori yang diinginkan
